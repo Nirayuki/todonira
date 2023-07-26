@@ -1,0 +1,21 @@
+header{ 
+    height: 150px;
+    width: 100%;
+
+    color: black;
+    font-size: 3rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.children{
+    width: 100%;
+
+    display: flex;
+    margin-top: 10px;
+    padding: 0px 30px;
+    justify-content: center;
+}
