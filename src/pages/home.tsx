@@ -1,96 +1,66 @@
 import React, { useState, useEffect } from 'react';
 import '../style/home.css';
 import { Layout } from '../components/layout';
-import { Checkbox, Divider } from 'antd';
+import { Card, Checkbox, Button } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
-import { SmileOutlined, EllipsisOutlined } from '@ant-design/icons';
+import { EyeFilled, EyeInvisibleFilled } from '@ant-design/icons';
+import roomService from '../services/room.service';
+import { useNavigate} from "react-router-dom";
 
-interface TodoItem {
-    id: number;
-    text: string;
-    completed: boolean;
+interface RoomData  {
+    isPrivate: boolean,
+    password?: string
 }
-
 
 function Home() {
 
-    const [data, setData] = useState<TodoItem[]>(() => {
-        // Carrega o estado do 'localStorage' quando o componente for montado
-        const savedData = localStorage.getItem('todoData');
-        return savedData ? JSON.parse(savedData) : [];
-      });
-    
-      useEffect(() => {
-        // Salva o estado 'data' no 'localStorage' sempre que ele for alterado
-        localStorage.setItem('todoData', JSON.stringify(data));
-      }, [data]);
-
+    const [isPrivate, setIsPrivate] = useState<boolean>(false)
     const [dataInput, setDataInput] = useState<string>("");
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const navigate = useNavigate();
 
-
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-        if (e.key === 'Enter' && dataInput !== "") {
-            const newItem: TodoItem = {
-                id: data.length + 1, // Gerando um ID simples; você pode usar outra lógica para IDs únicos
-                text: dataInput,
-                completed: false,
-            };
-
-            setData([...data, newItem]);
-            setDataInput("");
-        }
+    const onChangeBox = (e: CheckboxChangeEvent) => {
+        setIsPrivate(e.target.checked);
     }
-
 
     const onChange = (e: React.FormEvent<HTMLInputElement>) => {
         setDataInput(e.currentTarget.value);
     }
 
-    const onChangeCheckBox = (e: CheckboxChangeEvent, id: number) => {
-        const updatedData = data.map((item) =>
-            item.id === id ? { ...item, completed: e.target.checked } : item
-        );
+    const generateRoom = async () => {
+        const newData: RoomData = {
+            isPrivate: isPrivate
+        }
 
-        // Atualiza o estado 'data' com o item modificado
-        setData(updatedData);
+        const newDataPrivate: RoomData = {
+            isPrivate: isPrivate,
+            password: dataInput,
+        }
+
+        const roomId = await roomService.createRoom(isPrivate ? newDataPrivate : newData);
+        navigate(`/${roomId}`);
     }
 
     return (
         <Layout>
-            <div className="container">
-                <div className="head">
-                    <input type="text" placeholder='Digite aqui...' value={dataInput} onChange={onChange} onKeyDown={handleKeyDown} />
+            <Card bordered={true} style={{ width: 350 }}>
+                <div className='title'>
+                    Criar Todo Room
                 </div>
-                <div className="list-todo">
-                    <span>Lista de Todo's</span>
-                    <Divider style={{margin: "5px"}} />
-                    <div className="list">
-                        {data.length ? (
-                            data.map((item) =>
-                                <>
-                                    <div className="check-list">
-                                        <div className="check">
-                                            <Checkbox checked={item.completed} onChange={(e) => onChangeCheckBox(e, item.id)} key={item.id} />
-                                            <span>{item.text}</span>
-                                        </div>
-                                        <div className="more">
-                                            <EllipsisOutlined className='more' />
-                                        </div>
-                                    </div>
-                                    <Divider style={{margin: "15px"}} />
-                                </>
-                            )
-                        ) : (
-                            <div style={{ textAlign: 'center' }}>
-                                <SmileOutlined style={{ fontSize: 20 }} />
-                                <p>Sem todo's</p>
-                            </div>
-                        )}
-                    </div>
+                <div className="checks">
+                    <Checkbox checked={isPrivate} onChange={onChangeBox}>
+                        Privada
+                    </Checkbox>
                 </div>
-            </div>
+                {isPrivate ? <div className="passw">
+                    <input type={showPassword ? "text" : "password"} placeholder='Senha' onChange={onChange} value={dataInput} />
+                    {showPassword ? <EyeFilled className='icon eye' onClick={(e) => setShowPassword(false)} /> : <EyeInvisibleFilled className='icon eye' onClick={(e) => setShowPassword(true)} />}
+                </div> :
+                    ""}
+                <Button type="primary" onClick={() => generateRoom()}>Criar Room</Button>
+            </Card>
         </Layout>
-    );
+    )
 }
 
 export default Home;
