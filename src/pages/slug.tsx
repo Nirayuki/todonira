@@ -84,13 +84,17 @@ function Slug() {
 
     const handleKeyDown = async (e: React.KeyboardEvent<HTMLDivElement>) => {
         if (e.key === 'Enter' && dataInput.trim() !== "") {
-            const newItem: TodoItem = {
-                text: dataInput,
-                completed: false,
-            };
+            if (dataInput.length > 150) {
+                return
+            } else {
+                const newItem: TodoItem = {
+                    text: dataInput,
+                    completed: false,
+                };
 
-            await todoService.addTodo(newItem);
-            setDataInput("");
+                await todoService.addTodo(newItem);
+                setDataInput("");
+            }
         }
     }
 
@@ -129,9 +133,9 @@ function Slug() {
         const onChange = (e: React.FormEvent<HTMLInputElement>) => {
             setPasswordInput(e.currentTarget.value);
         }
-        
+
         const handleEntrar = () => {
-            if(dataPrivateRoom?.password === passwordInput){
+            if (dataPrivateRoom?.password === passwordInput) {
                 setIsPrivateRoom(false);
             }
         }
@@ -149,8 +153,8 @@ function Slug() {
                         Room Privada
                     </div>
                     <div className="passw">
-                    <input type={showPassword ? "text" : "password"} placeholder='Senha' onChange={onChange} value={passwordInput} onKeyDown={handleKeyEntrar}/>
-                    {showPassword ? <EyeFilled className='icon eye' onClick={(e) => setShowPassword(false)} /> : <EyeInvisibleFilled className='icon eye' onClick={(e) => setShowPassword(true)} />}
+                        <input type={showPassword ? "text" : "password"} placeholder='Senha' onChange={onChange} value={passwordInput} onKeyDown={handleKeyEntrar} />
+                        {showPassword ? <EyeFilled className='icon eye' onClick={(e) => setShowPassword(false)} /> : <EyeInvisibleFilled className='icon eye' onClick={(e) => setShowPassword(true)} />}
                     </div>
                     <Button type="primary" onClick={(e) => handleEntrar()}>Entrar</Button>
                 </Card>
@@ -162,7 +166,8 @@ function Slug() {
                 <div className="container">
 
                     <div className="head">
-                        <input type="text" placeholder='Digite aqui...' value={dataInput} onChange={onChange} onKeyDown={handleKeyDown} />
+                        <input type="text" placeholder='Digite aqui...' value={dataInput} onChange={onChange} onKeyDown={handleKeyDown}/>
+                        <span style={{color: dataInput && dataInput.length > 150 ? "red" : "black"}}>{dataInput ? dataInput.length : "0"}</span>
                     </div>
                     <div className="list-todo">
                         <span>Lista de Todo's</span>

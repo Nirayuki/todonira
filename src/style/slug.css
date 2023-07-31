@@ -10,7 +10,8 @@
 .head{
     width: 100%;
     display: flex;
-
+    flex-direction: column;
+    position: relative;
 }
 
 
@@ -21,8 +22,14 @@
     border: 1px solid #58585a;
 
     padding: 5px 10px;
+    padding-right: 37px;
 }
 
+.head span{
+    position: absolute;
+    right: 10px;
+    top: 6px;
+}
 
 .list-todo{
     display: flex;
@@ -56,6 +63,11 @@
     gap: 10px;
 }
 
+.check span{
+    width: 100%;
+    overflow-wrap: break-word;
+}
+
 .more{
     font-size: 15px;
 
@@ -63,7 +75,9 @@
     padding: 3px;
     border-radius: 5px;
 
-   
+   display: flex;
+   justify-content: center;
+   align-items: center;
 }
 
 .more:hover{
