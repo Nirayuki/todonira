@@ -1,7 +1,5 @@
 import React from 'react';
-import '../style/layout.css';
-import { FloatButton } from 'antd';
-import { SmileOutlined } from '@ant-design/icons';
+import { LayoutDetails } from '../style/layoutDetails';
 
 type Props = {
     children: JSX.Element | JSX.Element[] | string | string[]
@@ -9,13 +7,13 @@ type Props = {
 
 export const Layout = ({ children }: Props) => {
     return (
-        <>
+        <LayoutDetails>
             <header>
                 <div className="logo">Todo</div>
             </header>
             <div className='children'>
                 {children}
             </div>
-        </>
+        </LayoutDetails>
     )
 }

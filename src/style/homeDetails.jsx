@@ -1,3 +1,6 @@
+import { styled } from "styled-components";
+
+export const HomeDetails = styled.div`
 .title{
     font-size: 1rem;
     text-align: center;
@@ -36,3 +39,5 @@
 .icon:hover{
     opacity: 0.7;
 }
+
+`

@@ -1,3 +1,7 @@
+import {styled} from 'styled-components';
+
+export const LayoutDetails = styled.div`
+
 header{ 
     height: 150px;
     width: 100%;
@@ -19,3 +23,5 @@ header{
     padding: 0px 30px;
     justify-content: center;
 }
+
+`
