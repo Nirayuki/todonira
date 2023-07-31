@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
 
 export const SlugDetails = styled.div`
+
     max-width: 900px;
     width: 100%;
     height: 100px;
@@ -8,6 +9,10 @@ export const SlugDetails = styled.div`
     flex-direction: column;
     gap: 30px;
 
+
+.divider{
+    background-color: ${({theme}) => theme.bg_divider}
+}
 
 .head{
     width: 100%;
@@ -33,10 +38,17 @@ export const SlugDetails = styled.div`
     top: 6px;
 }
 
+.theme{
+    cursor: pointer;
+}
+
+
 .list-todo{
     display: flex;
     flex-direction: column;
     gap: 20px;
+
+    color: ${({theme}) => theme.font};
 }
 
 .list{
@@ -111,11 +123,17 @@ export const SlugDetails = styled.div`
 
 export const SlugPass = styled.div`
 
+.card{
+    background: ${({theme}) => theme.bg_card};
+}
+
 .title{
     font-size: 1rem;
     text-align: center;
 
     margin-bottom: 30px;
+
+    color: ${({theme}) => theme.font};
 }
 
 .passw{

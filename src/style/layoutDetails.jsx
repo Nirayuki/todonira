@@ -6,7 +6,7 @@ header{
     height: 150px;
     width: 100%;
 
-    color: black;
+    color: ${({theme}) => theme.font};
     font-size: 3rem;
 
     display: flex;

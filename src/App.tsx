@@ -1,12 +1,16 @@
 import React from 'react';
-import './App.css';
 import { BrowserRouter } from 'react-router-dom';
 import Rotas from './routes';
+import GlobalStyle from './theme/globalStyles';
+import { ThemeProvider } from './theme/ThemeContext';
 
 function App() {
   return (
     <BrowserRouter>
-      <Rotas/>
+      <ThemeProvider>
+        <GlobalStyle />
+        <Rotas />
+      </ThemeProvider>
     </BrowserRouter>
   );
 }

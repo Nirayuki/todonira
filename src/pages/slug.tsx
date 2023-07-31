@@ -1,11 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Layout } from '../components/layout';
 import { Checkbox, Divider, Dropdown, Menu, Card, Button } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { SmileOutlined, EllipsisOutlined, EyeFilled, EyeInvisibleFilled } from '@ant-design/icons';
 import todoService from '../services/todo.service';
 import { DocumentData } from 'firebase/firestore';
-import { SlugDetails, SlugPass} from '../style/slugDetails';
+import { SlugDetails, SlugPass } from '../style/slugDetails';
+import dark from '../assets/dark.svg';
+import light from '../assets/light.svg';
+import { ThemeContext } from '../theme/ThemeContext';
 
 interface TodoItem {
     id?: string | null | number;
@@ -24,6 +27,8 @@ interface RoomData {
 }
 
 function Slug() {
+
+    const { theme, toggleTheme } = useContext(ThemeContext);
 
     const [isPrivateRoom, setIsPrivateRoom] = useState<boolean>(false);
     const [dataPrivateRoom, setDataPrivateRoom] = useState<RoomData | DocumentData>();
@@ -149,7 +154,7 @@ function Slug() {
         return (
             <Layout>
                 <SlugPass>
-                    <Card bordered={true} style={{ width: 350 }}>
+                    <Card className='card' bordered={false} style={{ width: 350 }}>
                         <div className='title'>
                             Room Privada
                         </div>
@@ -172,8 +177,11 @@ function Slug() {
                         <span style={{ color: dataInput && dataInput.length > 150 ? "red" : "black" }}>{dataInput ? dataInput.length : "0"}</span>
                     </div>
                     <div className="list-todo">
-                        <span>Lista de Todo's</span>
-                        <Divider style={{ margin: "0px" }} />
+                        <div style={{display: 'flex', gap: '30px', alignItems: 'center'}}>
+                            <span>Lista de Todo's</span>
+                            <img className='theme' src={theme === 'dark' ? light : dark} onClick={toggleTheme}/>
+                        </div>
+                        <Divider className='divider' style={{ margin: "0px" }} />
                         <div className="list">
                             {data.length ? (
                                 data.map((item, key) =>
@@ -209,7 +217,7 @@ function Slug() {
                                             </div>
 
                                         </div>
-                                        <Divider style={{ margin: "0px" }} />
+                                        <Divider className='divider' style={{ margin: "0px" }} />
                                     </>
                                 )
                             ) : (
