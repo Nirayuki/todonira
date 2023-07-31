@@ -36,24 +36,15 @@ class todoService {
     }
   }
 
-  getDocs = () => {
+  getDocs = async () => {
 
     const currentPath = this.getCurrentPath();
     const roomDocRef = doc(database, "rooms", currentPath);
     const todoCollectionRef = collection(roomDocRef, "todos");
 
-    return getDocs(todoCollectionRef)
-      .then((querySnapshot) => {
-        const todos = [];
-        querySnapshot.forEach((doc) => {
-          todos.push(doc.data());
-        });
-        return todos;
-      })
-      .catch((error) => {
-        console.error("Erro ao obter documentos: ", error);
-        return [];
-      });
+    const todos = await getDocs(todoCollectionRef, orderBy("date", "desc")
+    );
+    return todos;
   };
 
   addTodo = async (todo) => {

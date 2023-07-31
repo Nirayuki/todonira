@@ -136,6 +136,12 @@ function Slug() {
             }
         }
 
+        const handleKeyEntrar = (e: React.KeyboardEvent<HTMLDivElement>) => {
+            if (e.key === 'Enter' && dataPrivateRoom?.password.trim() !== "") {
+                setIsPrivateRoom(false);
+            }
+        }
+
         return (
             <Layout>
                 <Card bordered={true} style={{ width: 350 }}>
@@ -143,7 +149,7 @@ function Slug() {
                         Room Privada
                     </div>
                     <div className="passw">
-                    <input type={showPassword ? "text" : "password"} placeholder='Senha' onChange={onChange} value={passwordInput} />
+                    <input type={showPassword ? "text" : "password"} placeholder='Senha' onChange={onChange} value={passwordInput} onKeyDown={handleKeyEntrar}/>
                     {showPassword ? <EyeFilled className='icon eye' onClick={(e) => setShowPassword(false)} /> : <EyeInvisibleFilled className='icon eye' onClick={(e) => setShowPassword(true)} />}
                     </div>
                     <Button type="primary" onClick={(e) => handleEntrar()}>Entrar</Button>
