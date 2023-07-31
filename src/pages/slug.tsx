@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import '../style/slug.css';
 import { Layout } from '../components/layout';
 import { Checkbox, Divider, Dropdown, Menu, Card, Button } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { SmileOutlined, EllipsisOutlined, EyeFilled, EyeInvisibleFilled } from '@ant-design/icons';
 import todoService from '../services/todo.service';
 import { DocumentData } from 'firebase/firestore';
+import { SlugDetails, SlugPass} from '../style/slugDetails';
 
 interface TodoItem {
     id?: string | null | number;
@@ -148,26 +148,28 @@ function Slug() {
 
         return (
             <Layout>
-                <Card bordered={true} style={{ width: 350 }}>
-                    <div className='title'>
-                        Room Privada
-                    </div>
-                    <div className="passw">
-                        <input type={showPassword ? "text" : "password"} placeholder='Senha' onChange={onChange} value={passwordInput} onKeyDown={handleKeyEntrar} />
-                        {showPassword ? <EyeFilled className='icon eye' onClick={(e) => setShowPassword(false)} /> : <EyeInvisibleFilled className='icon eye' onClick={(e) => setShowPassword(true)} />}
-                    </div>
-                    <Button type="primary" onClick={(e) => handleEntrar()}>Entrar</Button>
-                </Card>
+                <SlugPass>
+                    <Card bordered={true} style={{ width: 350 }}>
+                        <div className='title'>
+                            Room Privada
+                        </div>
+                        <div className="passw">
+                            <input type={showPassword ? "text" : "password"} placeholder='Senha' onChange={onChange} value={passwordInput} onKeyDown={handleKeyEntrar} />
+                            {showPassword ? <EyeFilled className='icon eye' onClick={(e) => setShowPassword(false)} /> : <EyeInvisibleFilled className='icon eye' onClick={(e) => setShowPassword(true)} />}
+                        </div>
+                        <Button type="primary" onClick={(e) => handleEntrar()}>Entrar</Button>
+                    </Card>
+                </SlugPass>
             </Layout>
         )
     } else {
         return (
             <Layout>
-                <div className="container">
+                <SlugDetails>
 
                     <div className="head">
-                        <input type="text" placeholder='Digite aqui...' value={dataInput} onChange={onChange} onKeyDown={handleKeyDown}/>
-                        <span style={{color: dataInput && dataInput.length > 150 ? "red" : "black"}}>{dataInput ? dataInput.length : "0"}</span>
+                        <input type="text" placeholder='Digite aqui...' value={dataInput} onChange={onChange} onKeyDown={handleKeyDown} />
+                        <span style={{ color: dataInput && dataInput.length > 150 ? "red" : "black" }}>{dataInput ? dataInput.length : "0"}</span>
                     </div>
                     <div className="list-todo">
                         <span>Lista de Todo's</span>
@@ -178,7 +180,7 @@ function Slug() {
                                     <>
                                         <div className="check-list" key={key}>
                                             <div className="check">
-                                                <Checkbox checked={item.completed} onChange={(e) => onChangeCheckBox(e, item)} key={item.id} />
+                                                <Checkbox className='checkbox' checked={item.completed} onChange={(e) => onChangeCheckBox(e, item)} key={item.id} />
                                                 {
                                                     isEditing.isEdit && isEditing.isEditingId === item.id ? <input type="text" autoFocus ref={inputRef} defaultValue={item.text} onChange={onChangeEdit} onKeyDown={(e) => handleKeyDownEdit(e, item)} />
 
@@ -218,7 +220,7 @@ function Slug() {
                             )}
                         </div>
                     </div>
-                </div>
+                </SlugDetails>
             </Layout>
         )
     }

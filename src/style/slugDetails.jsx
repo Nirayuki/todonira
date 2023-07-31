@@ -1,11 +1,13 @@
-.container{
+import { styled } from 'styled-components';
+
+export const SlugDetails = styled.div`
     max-width: 900px;
     width: 100%;
     height: 100px;
     display: flex;
     flex-direction: column;
     gap: 30px;
-}
+
 
 .head{
     width: 100%;
@@ -97,15 +99,23 @@
 
 
 
+.checks{
+    margin: 30px 0px;
+}
+
+.checkbox{
+    width: 16px;
+}
+
+`
+
+export const SlugPass = styled.div`
+
 .title{
     font-size: 1rem;
     text-align: center;
 
     margin-bottom: 30px;
-}
-
-.checks{
-    margin: 30px 0px;
 }
 
 .passw{
@@ -135,3 +145,6 @@
 .icon:hover{
     opacity: 0.7;
 }
+
+
+`

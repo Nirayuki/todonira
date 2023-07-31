@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import '../style/home.css';
 import { Layout } from '../components/layout';
 import { Card, Checkbox, Button } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { EyeFilled, EyeInvisibleFilled } from '@ant-design/icons';
 import roomService from '../services/room.service';
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { HomeDetails } from '../style/homeDetails';
 
-interface RoomData  {
+interface RoomData {
     isPrivate: boolean,
     password?: string
 }
@@ -43,22 +43,24 @@ function Home() {
 
     return (
         <Layout>
-            <Card bordered={true} style={{ width: 350 }}>
-                <div className='title'>
-                    Criar Todo Room
-                </div>
-                <div className="checks">
-                    <Checkbox checked={isPrivate} onChange={onChangeBox}>
-                        Privada
-                    </Checkbox>
-                </div>
-                {isPrivate ? <div className="passw">
-                    <input type={showPassword ? "text" : "password"} placeholder='Senha' onChange={onChange} value={dataInput} />
-                    {showPassword ? <EyeFilled className='icon eye' onClick={(e) => setShowPassword(false)} /> : <EyeInvisibleFilled className='icon eye' onClick={(e) => setShowPassword(true)} />}
-                </div> :
-                    ""}
-                <Button type="primary" onClick={() => generateRoom()}>Criar Room</Button>
-            </Card>
+            <HomeDetails>
+                <Card bordered={true} style={{ width: 350 }}>
+                    <div className='title'>
+                        Criar Todo Room
+                    </div>
+                    <div className="checks">
+                        <Checkbox checked={isPrivate} onChange={onChangeBox}>
+                            Privada
+                        </Checkbox>
+                    </div>
+                    {isPrivate ? <div className="passw">
+                        <input type={showPassword ? "text" : "password"} placeholder='Senha' onChange={onChange} value={dataInput} />
+                        {showPassword ? <EyeFilled className='icon eye' onClick={(e) => setShowPassword(false)} /> : <EyeInvisibleFilled className='icon eye' onClick={(e) => setShowPassword(true)} />}
+                    </div> :
+                        ""}
+                    <Button type="primary" onClick={() => generateRoom()}>Criar Room</Button>
+                </Card>
+            </HomeDetails>
         </Layout>
     )
 }
