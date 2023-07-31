@@ -16,7 +16,7 @@ export const lightTheme = {
 export const darkTheme = {
     bg: '#1C1C1C',
     bg_card: '#2C2C2C',
-    bg_divider: 'rgba(5, 5, 5, 0.06)',
+    bg_divider: 'rgba(255, 255, 255, 0.06)',
 
     font: '#e5e5e5',
 
