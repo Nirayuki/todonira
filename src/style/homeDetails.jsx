@@ -1,15 +1,26 @@
 import { styled } from "styled-components";
 
 export const HomeDetails = styled.div`
+
 .title{
     font-size: 1rem;
     text-align: center;
 
     margin-bottom: 15px;
+    color: ${({theme}) => theme.font};
+}
+
+.card{
+    background: ${({theme}) => theme.bg_card};
 }
 
 .checks{
     margin: 30px 0px;
+    
+}
+
+.check{
+    color: ${({theme}) => theme.font};
 }
 
 .passw{

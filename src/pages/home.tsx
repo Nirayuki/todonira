@@ -44,12 +44,12 @@ function Home() {
     return (
         <Layout>
             <HomeDetails>
-                <Card bordered={true} style={{ width: 350 }}>
+                <Card className='card' bordered={false} style={{ width: 350 }}>
                     <div className='title'>
                         Criar Todo Room
                     </div>
                     <div className="checks">
-                        <Checkbox checked={isPrivate} onChange={onChangeBox}>
+                        <Checkbox className='check' checked={isPrivate} onChange={onChangeBox}>
                             Privada
                         </Checkbox>
                     </div>
