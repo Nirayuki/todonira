@@ -130,109 +130,109 @@ function Slug() {
         await todoService.deleteTodo(itemId);
     };
 
+    const onChangePrivateRoom = (e: React.FormEvent<HTMLInputElement>) => {
+        setPasswordInput(e.currentTarget.value);
+    }
+
+    const handleEntrar = () => {
+        if (dataPrivateRoom?.password === passwordInput) {
+            setIsPrivateRoom(false);
+        }
+    }
+
+    const handleKeyEntrar = (e: React.KeyboardEvent<HTMLDivElement>) => {
+        if (e.key === 'Enter' && dataPrivateRoom?.password.trim() !== "") {
+            setIsPrivateRoom(false);
+        }
+    }
+
     if (!roomDataLoaded) {
         return null; // Ou renderize um componente de loading ou simplesmente não renderize nada
     }
 
-    if (isPrivateRoom) {
+    return (
+        <Layout>
+            {
+                isPrivateRoom ?
 
-        const onChange = (e: React.FormEvent<HTMLInputElement>) => {
-            setPasswordInput(e.currentTarget.value);
-        }
+                    <SlugPass>
+                        <Card className='card' bordered={false} style={{ width: 350 }}>
+                            <div className='title'>
+                                Room Privada
+                            </div>
+                            <div className="passw">
+                                <input type={showPassword ? "text" : "password"} placeholder='Senha' onChange={onChangePrivateRoom} value={passwordInput} onKeyDown={handleKeyEntrar} />
+                                {showPassword ? <EyeFilled className='icon eye' onClick={(e) => setShowPassword(false)} /> : <EyeInvisibleFilled className='icon eye' onClick={(e) => setShowPassword(true)} />}
+                            </div>
+                            <Button type="primary" onClick={(e) => handleEntrar()}>Entrar</Button>
+                        </Card>
+                    </SlugPass>
 
-        const handleEntrar = () => {
-            if (dataPrivateRoom?.password === passwordInput) {
-                setIsPrivateRoom(false);
-            }
-        }
+                    :
+                    <SlugDetails>
 
-        const handleKeyEntrar = (e: React.KeyboardEvent<HTMLDivElement>) => {
-            if (e.key === 'Enter' && dataPrivateRoom?.password.trim() !== "") {
-                setIsPrivateRoom(false);
-            }
-        }
-
-        return (
-            <Layout>
-                <SlugPass>
-                    <Card className='card' bordered={false} style={{ width: 350 }}>
-                        <div className='title'>
-                            Room Privada
+                        <div className="head">
+                            <input type="text" placeholder='Digite aqui...' value={dataInput} onChange={onChange} onKeyDown={handleKeyDown} />
+                            <span style={{ color: dataInput && dataInput.length > 150 ? "red" : "black" }}>{dataInput ? dataInput.length : "0"}</span>
                         </div>
-                        <div className="passw">
-                            <input type={showPassword ? "text" : "password"} placeholder='Senha' onChange={onChange} value={passwordInput} onKeyDown={handleKeyEntrar} />
-                            {showPassword ? <EyeFilled className='icon eye' onClick={(e) => setShowPassword(false)} /> : <EyeInvisibleFilled className='icon eye' onClick={(e) => setShowPassword(true)} />}
-                        </div>
-                        <Button type="primary" onClick={(e) => handleEntrar()}>Entrar</Button>
-                    </Card>
-                </SlugPass>
-            </Layout>
-        )
-    } else {
-        return (
-            <Layout>
-                <SlugDetails>
+                        <div className="list-todo">
+                            <div style={{ display: 'flex', gap: '30px', alignItems: 'center' }}>
+                                <span>Lista de Todo's</span>
+                                <img className='theme' src={theme === 'dark' ? light : dark} onClick={toggleTheme} />
+                            </div>
+                            <Divider className='divider' style={{ margin: "0px" }} />
+                            <div className="list">
+                                {data.length ? (
+                                    data.map((item, key) =>
+                                        <>
+                                            <div className="check-list" key={key}>
+                                                <div className="check">
+                                                    <Checkbox className='checkbox' checked={item.completed} onChange={(e) => onChangeCheckBox(e, item)} key={item.id} />
+                                                    {
+                                                        isEditing.isEdit && isEditing.isEditingId === item.id ? <input type="text" autoFocus ref={inputRef} defaultValue={item.text} onChange={onChangeEdit} onKeyDown={(e) => handleKeyDownEdit(e, item)} />
 
-                    <div className="head">
-                        <input type="text" placeholder='Digite aqui...' value={dataInput} onChange={onChange} onKeyDown={handleKeyDown} />
-                        <span style={{ color: dataInput && dataInput.length > 150 ? "red" : "black" }}>{dataInput ? dataInput.length : "0"}</span>
-                    </div>
-                    <div className="list-todo">
-                        <div style={{display: 'flex', gap: '30px', alignItems: 'center'}}>
-                            <span>Lista de Todo's</span>
-                            <img className='theme' src={theme === 'dark' ? light : dark} onClick={toggleTheme}/>
-                        </div>
-                        <Divider className='divider' style={{ margin: "0px" }} />
-                        <div className="list">
-                            {data.length ? (
-                                data.map((item, key) =>
-                                    <>
-                                        <div className="check-list" key={key}>
-                                            <div className="check">
-                                                <Checkbox className='checkbox' checked={item.completed} onChange={(e) => onChangeCheckBox(e, item)} key={item.id} />
-                                                {
-                                                    isEditing.isEdit && isEditing.isEditingId === item.id ? <input type="text" autoFocus ref={inputRef} defaultValue={item.text} onChange={onChangeEdit} onKeyDown={(e) => handleKeyDownEdit(e, item)} />
+                                                            :
 
-                                                        :
-
-                                                        <span>{item.text}</span>
-                                                }
-                                            </div>
-                                            <div className="more">
-                                                <Dropdown
-                                                    overlay={
-                                                        <Menu>
-                                                            <Menu.Item onClick={() => setIsEditing({ isEdit: true, isEditingId: item.id })}>
-                                                                Editar
-                                                            </Menu.Item>
-                                                            <Menu.Item onClick={() => handleDelete(item.id)}>
-                                                                Deletar
-                                                            </Menu.Item>
-                                                        </Menu>
+                                                            <span>{item.text}</span>
                                                     }
-                                                    trigger={["click"]}
-                                                    placement="bottomRight"
-                                                >
-                                                    <EllipsisOutlined className='more' />
-                                                </Dropdown>
-                                            </div>
+                                                </div>
+                                                <div className="more">
+                                                    <Dropdown
+                                                        overlay={
+                                                            <Menu>
+                                                                <Menu.Item onClick={() => setIsEditing({ isEdit: true, isEditingId: item.id })}>
+                                                                    Editar
+                                                                </Menu.Item>
+                                                                <Menu.Item onClick={() => handleDelete(item.id)}>
+                                                                    Deletar
+                                                                </Menu.Item>
+                                                            </Menu>
+                                                        }
+                                                        trigger={["click"]}
+                                                        placement="bottomRight"
+                                                    >
+                                                        <EllipsisOutlined className='more' />
+                                                    </Dropdown>
+                                                </div>
 
-                                        </div>
-                                        <Divider className='divider' style={{ margin: "0px" }} />
-                                    </>
-                                )
-                            ) : (
-                                <div style={{ textAlign: 'center' }}>
-                                    <SmileOutlined style={{ fontSize: 20 }} />
-                                    <p>Sem todo's</p>
-                                </div>
-                            )}
+                                            </div>
+                                            <Divider className='divider' style={{ margin: "0px" }} />
+                                        </>
+                                    )
+                                ) : (
+                                    <div style={{ textAlign: 'center' }}>
+                                        <SmileOutlined style={{ fontSize: 20 }} />
+                                        <p>Sem todo's</p>
+                                    </div>
+                                )}
+                            </div>
                         </div>
-                    </div>
-                </SlugDetails>
-            </Layout>
-        )
-    }
+                    </SlugDetails>
+
+            }
+        </Layout>
+    )
+
 }
 
 export default Slug;
