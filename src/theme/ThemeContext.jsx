@@ -6,19 +6,22 @@ import usePersistedState from '../components/usePersistedState';
 export const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [loading, setLoading] = useState(true);
+  const [themeLoaded, setThemeLoaded] = useState(false);
   const [theme, setTheme] = usePersistedState('themeTodo', 'light');
 
   const toggleTheme = () => {
-    setTheme(prevTheme => (prevTheme === 'dark' ? 'light' : 'dark'));
+    setTheme((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'));
   };
 
-  // Após a restauração do tema, definimos o estado de carregamento como falso.
   useEffect(() => {
-    setLoading(false);
-  }, []);
+    // Verifica se o tema foi carregado do armazenamento persistente
+    // e marca-o como carregado.
+    if (theme) {
+      setThemeLoaded(true);
+    }
+  }, [theme]);
 
-  if (loading) {
+  if (!themeLoaded) {
     return null; // Ou renderize um componente de carregamento ou simplesmente não renderize nada.
   }
 
