@@ -9,6 +9,7 @@ import { SlugDetails, SlugPass } from '../style/slugDetails';
 import dark from '../assets/dark.svg';
 import light from '../assets/light.svg';
 import { ThemeContext } from '../theme/ThemeContext';
+import usePersistedState from '../components/usePersistedState';
 
 interface TodoItem {
     id?: string | null | number;
@@ -30,7 +31,7 @@ function Slug() {
 
     const { theme, toggleTheme } = useContext(ThemeContext);
 
-    const [isPrivateRoom, setIsPrivateRoom] = useState<boolean>(false);
+    const [isPrivateRoom, setIsPrivateRoom] = usePersistedState('isPrivateRoom', false);
     const [dataPrivateRoom, setDataPrivateRoom] = useState<RoomData | DocumentData>();
 
     const [data, setData] = useState<TodoItem[]>([]);
