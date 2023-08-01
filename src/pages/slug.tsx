@@ -32,6 +32,8 @@ function Slug() {
     const { theme, toggleTheme } = useContext(ThemeContext);
 
     const [isPrivateRoom, setIsPrivateRoom] = usePersistedState('isPrivateRoom', false);
+    const [isLoaded, setIsLoaded] = useState(false);
+
     const [dataPrivateRoom, setDataPrivateRoom] = useState<RoomData | DocumentData>();
 
     const [data, setData] = useState<TodoItem[]>([]);
@@ -58,8 +60,10 @@ function Slug() {
                 setRoomDataLoaded(true);
             } catch (error) {
                 console.error("Error getting room data:", error);
-                setIsPrivateRoom(false); // Define como false em caso de erro
+                setIsPrivateRoom(false);
                 setRoomDataLoaded(true);
+            } finally {
+                setIsLoaded(true); // Defina o estado para true após o carregamento dos dados
             }
         };
 
@@ -146,8 +150,8 @@ function Slug() {
         }
     }
 
-    if (!roomDataLoaded) {
-        return null; // Ou renderize um componente de loading ou simplesmente não renderize nada
+    if (!roomDataLoaded || !isLoaded) {
+        return null;
     }
 
     return (
