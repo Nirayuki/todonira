@@ -1,4 +1,34 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+:root{
+  --dark_bg: #1C1C1C;
+  --dark_bg_card: #2C2C2C;
+  --dark_bg_divider: rgba(255, 255, 255, 0.06);
+  --dark_font: #e5e5e5;
+  --dark_title: #fff;
+
+
+  --light_bg: #fff;
+  --light_bg_card: #fff;
+  --light_bg_divider: rgba(5, 5, 5, 0.06);
+  --light_font: #000;
+  --light_title: #000;
+
+  --bg: #fff;
+  --bg_card: #fff;
+  --bg_divider: rgba(5, 5, 5, 0.06);
+  --font: #000;
+  --title: #000;
+}
+
+[data-theme="dark"]{
+  --bg: #1C1C1C;
+  --bg_card: #2C2C2C;
+  --bg_divider: rgba(255, 255, 255, 0.06);
+  --font: #e5e5e5;
+  --title: #fff;
+}
+
 *{
   box-sizing: border-box;
 }
@@ -9,7 +39,7 @@ body {
   font-family: 'Quicksand', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
+  background-color: var(--bg);
 }
 
 code {

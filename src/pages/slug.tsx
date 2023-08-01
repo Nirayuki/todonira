@@ -5,11 +5,11 @@ import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { SmileOutlined, EllipsisOutlined, EyeFilled, EyeInvisibleFilled } from '@ant-design/icons';
 import todoService from '../services/todo.service';
 import { DocumentData } from 'firebase/firestore';
-import { SlugDetails, SlugPass } from '../style/slugDetails';
 import dark from '../assets/dark.svg';
 import light from '../assets/light.svg';
 import { ThemeContext } from '../theme/ThemeContext';
 import usePersistedState from '../components/usePersistedState';
+import '../style/slug.css'
 
 interface TodoItem {
     id?: string | null | number;
@@ -156,24 +156,24 @@ function Slug() {
 
     return (
         <Layout>
+
             {
                 isPrivateRoom ?
 
-                    <SlugPass>
-                        <Card className='card' bordered={false} style={{ width: 350 }}>
-                            <div className='title'>
-                                Room Privada
-                            </div>
-                            <div className="passw">
-                                <input type={showPassword ? "text" : "password"} placeholder='Senha' onChange={onChangePrivateRoom} value={passwordInput} onKeyDown={handleKeyEntrar} />
-                                {showPassword ? <EyeFilled className='icon eye' onClick={(e) => setShowPassword(false)} /> : <EyeInvisibleFilled className='icon eye' onClick={(e) => setShowPassword(true)} />}
-                            </div>
-                            <Button type="primary" onClick={(e) => handleEntrar()}>Entrar</Button>
-                        </Card>
-                    </SlugPass>
+                    <Card className='card' bordered={theme === "light" ? true : false} style={{ width: 350 }}>
+                        <div className='title'>
+                            Room Privada
+                        </div>
+                        <div className="passw">
+                            <input type={showPassword ? "text" : "password"} placeholder='Senha' onChange={onChangePrivateRoom} value={passwordInput} onKeyDown={handleKeyEntrar} />
+                            {showPassword ? <EyeFilled className='icon eye' onClick={(e) => setShowPassword(false)} /> : <EyeInvisibleFilled className='icon eye' onClick={(e) => setShowPassword(true)} />}
+                        </div>
+                        <Button type="primary" onClick={(e) => handleEntrar()}>Entrar</Button>
+                    </Card>
 
                     :
-                    <SlugDetails>
+
+                    <div className="container">
 
                         <div className="head">
                             <input type="text" placeholder='Digite aqui...' value={dataInput} onChange={onChange} onKeyDown={handleKeyDown} />
@@ -231,9 +231,10 @@ function Slug() {
                                 )}
                             </div>
                         </div>
-                    </SlugDetails>
+                    </div>
 
             }
+
         </Layout>
     )
 

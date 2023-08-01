@@ -1,12 +1,8 @@
-import {styled} from 'styled-components';
-
-export const LayoutDetails = styled.div`
-
 header{ 
     height: 150px;
     width: 100%;
 
-    color: ${({theme}) => theme.font};
+    color: var(--title);
     font-size: 3rem;
 
     display: flex;
@@ -23,5 +19,3 @@ header{
     padding: 0px 30px;
     justify-content: center;
 }
-
-`
