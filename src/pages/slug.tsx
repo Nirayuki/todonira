@@ -50,14 +50,17 @@ function Slug() {
 
     const [passwordInput, setPasswordInput] = useState<string>("");
     const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [alwaysLogged, setAlwaysLogged] = useState<boolean>(false);
 
     const [error, setError] = useState<string>("");
 
     useEffect(() => {
+        const path = window.location.pathname.substring(1);
         const fetchData = async () => {
             try {
                 const dataRoom = await todoService.getRoomData();
-                setIsPrivateRoom(dataRoom?.isPrivate ?? false);
+                const alwaysLoggedIn = localStorage.getItem(path);
+                setIsPrivateRoom(alwaysLoggedIn ? false : dataRoom?.isPrivate ?? false);
                 setDataPrivateRoom(dataRoom);
                 setRoomDataLoaded(true);
             } catch (error) {
@@ -142,8 +145,15 @@ function Slug() {
 
     const handleEntrar = () => {
         if (dataPrivateRoom?.password === passwordInput) {
-            setError("");
-            setIsPrivateRoom(false);
+            if(alwaysLogged){
+                const path = window.location.pathname.substring(1);
+                localStorage.setItem(path, passwordInput);
+                setError("");
+                setIsPrivateRoom(false);
+            }else{
+                setError("");
+                setIsPrivateRoom(false);
+            }
         }else{
             setError("Senha inválida!");
         }
@@ -153,6 +163,10 @@ function Slug() {
         if (e.key === 'Enter' && dataPrivateRoom?.password.trim() !== "") {
             setIsPrivateRoom(false);
         }
+    }
+
+    const handleAlwaysLoggedIn = (e: CheckboxChangeEvent) =>{
+        setAlwaysLogged(e.target.checked);
     }
 
     if (!roomDataLoaded || !isLoaded) {
@@ -173,6 +187,10 @@ function Slug() {
                             <input type={showPassword ? "text" : "password"} placeholder='Senha' onChange={onChangePrivateRoom} value={passwordInput} onKeyDown={handleKeyEntrar} />
                             {showPassword ? <EyeFilled className='icon eye' onClick={(e) => setShowPassword(false)} /> : <EyeInvisibleFilled className='icon eye' onClick={(e) => setShowPassword(true)} />}
                             {error ? <p style={{color: "red", margin: '0px', marginTop: "5px"}}>{error}</p> : ""}
+                        </div>
+                        <div className="check">
+                            <Checkbox onChange={(e) => handleAlwaysLoggedIn(e)}/>
+                            <p>Me manter logado</p>
                         </div>
                         <Button type="primary" onClick={(e) => handleEntrar()}>Entrar</Button>
                     </Card>

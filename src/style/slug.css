@@ -126,7 +126,7 @@
 }
 
 .passw{
-    margin-bottom: 30px;
+    margin-bottom: 5px;
     position: relative;
 }
 
@@ -138,6 +138,10 @@
 
     padding: 5px 10px;
     padding-right: 27px;
+}
+
+.check{
+    margin-bottom: 10px;
 }
 
 .icon{
