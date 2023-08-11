@@ -18,7 +18,7 @@ interface TodoItem {
     id?: string | null | number;
     text: string;
     completed: boolean;
-    categoria?: string
+    categoria?: string | []
 }
 
 interface isEdit {
@@ -39,7 +39,7 @@ function Slug() {
     const [isPrivateRoom, setIsPrivateRoom] = usePersistedState('isPrivateRoom', false);
     const [isLoaded, setIsLoaded] = useState(false);
 
-    const [dataPrivateRoom, setDataPrivateRoom] = useState<RoomData | DocumentData>();
+    const [dataPrivateRoom, setDataPrivateRoom] = useState<RoomData | DocumentData | undefined>([]);
 
     const [data, setData] = useState<TodoItem[]>([]);
     const [dataFiltered, setDataFiltered] = useState<TodoItem[]>([]);
@@ -77,17 +77,15 @@ function Slug() {
 
                 const alwaysLoggedIn = localStorage.getItem(path);
                 setIsPrivateRoom(alwaysLoggedIn ? false : dataRoom?.isPrivate ?? false);
+                
 
                 setDataPrivateRoom(dataRoom);
 
-                setDataFiltered(data);
                 setRoomDataLoaded(true);
             } catch (error) {
                 console.error("Error getting room data:", error);
                 setIsPrivateRoom(false);
                 setRoomDataLoaded(true);
-            } finally {
-                setIsLoaded(true); // Defina o estado para true após o carregamento dos dados
             }
         };
 
@@ -121,7 +119,6 @@ function Slug() {
     }, [categoria]);
 
     const handleKeyDown = async (e: React.KeyboardEvent<HTMLDivElement>) => {
-        console.log(categoriaInput)
         if (e.key === 'Enter' && dataInput.trim() !== "") {
             if (dataInput.length > 150) {
                 return
@@ -129,7 +126,7 @@ function Slug() {
                 const newItem: TodoItem = {
                     text: dataInput,
                     completed: false,
-                    categoria: categoriaInput
+                    categoria: categoriaInput ? categoriaInput : []
                 };
 
                 await todoService.addTodo(newItem);
@@ -194,7 +191,7 @@ function Slug() {
         setAlwaysLogged(e.target.checked);
     }
 
-    if (!roomDataLoaded || !isLoaded) {
+    if (!roomDataLoaded) {
         return null;
     }
 
@@ -327,16 +324,22 @@ function Slug() {
 
                                     }}
                                 >
-                                    {dataPrivateRoom?.categoria.map((item: string) => {
-                                        return (
-                                            <Option value={item} label={item}>
-                                                <Space>
-                                                    {item}
-                                                </Space>
-
-                                            </Option>
+                                    {
+                                        dataPrivateRoom?.categoria ? dataPrivateRoom?.categoria.map((item: string) => {
+                                            return (
+                                                <Option value={item} label={item}>
+                                                    <Space>
+                                                        {item}
+                                                    </Space>
+    
+                                                </Option>
+                                            )
+                                        })
+                                        :
+                                        (
+                                            null
                                         )
-                                    })}
+                                    }
                                 </Select>
                                 <SettingOutlined onClick={() => handleSettings()} />
                             </div>
@@ -362,7 +365,7 @@ function Slug() {
                                                 Todos
                                             </Space>
                                         </Option>
-                                        {dataPrivateRoom?.categoria.map((item: string) => {
+                                        {dataPrivateRoom?.categoria ? dataPrivateRoom?.categoria.map((item: string) => {
                                             return (
                                                 <Option value={item} label={item}>
                                                     <Space>
@@ -370,20 +373,20 @@ function Slug() {
                                                     </Space>
                                                 </Option>
                                             )
-                                        })}
+                                        }) : null}
                                     </Select>
                                 </div>
                             </div>
                             <Divider className='divider' style={{ margin: "0px" }} />
                             <div className="list">
-                                {dataFiltered.length ? (
-                                    dataFiltered.map((item, key) =>
+                                {dataFiltered?.length ? (
+                                    dataFiltered?.map((item, key) =>
                                         <>
                                             <div className="check-list" key={key}>
                                                 <div className="check">
                                                     <Checkbox className='checkbox' checked={item.completed} onChange={(e) => onChangeCheckBox(e, item)} key={item.id} />
                                                     {
-                                                        isEditing.isEdit && isEditing.isEditingId === item.id ? <input type="text" autoFocus ref={inputRef} defaultValue={item.text} onChange={onChangeEdit} onKeyDown={(e) => handleKeyDownEdit(e, item)} />
+                                                        isEditing?.isEdit && isEditing?.isEditingId === item.id ? <input type="text" autoFocus ref={inputRef} defaultValue={item.text} onChange={onChangeEdit} onKeyDown={(e) => handleKeyDownEdit(e, item)} />
 
                                                             :
 

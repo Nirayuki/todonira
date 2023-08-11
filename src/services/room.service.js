@@ -26,7 +26,11 @@ class roomService {
     const currentPath = this.getCurrentPath();
     const roomRef = doc(database, "rooms", currentPath);
 
-    await updateDoc(roomRef, {categoria: [...dataRoom.categoria, categoriaData]})
+    if(dataRoom.categoria){
+      await updateDoc(roomRef, {categoria: [...dataRoom.categoria, categoriaData]})
+    }else{
+      await updateDoc(roomRef, {categoria: [categoriaData]});
+    }
   }
 
   updateCategoria = async (categoriaData) => {
