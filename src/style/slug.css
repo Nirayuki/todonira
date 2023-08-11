@@ -19,10 +19,12 @@
     display: flex;
     flex-direction: column;
     position: relative;
+
+    gap: 10px;
 }
 
 
-.head input {
+.input-head {
     width: 100%;
 
     outline: none;
@@ -30,18 +32,46 @@
 
     padding: 5px 10px;
     padding-right: 37px;
+    border-radius: 6px;
+    height: 35px;
 }
 
-.head span {
+.conter {
     position: absolute;
     right: 10px;
-    top: 6px;
+    bottom: 8px;
+}
+
+.select-head{
+    width: 150px;
+}
+
+.select{
+    width: 100%;
+    display: flex;
+    gap: 20px;
+
+    align-items: center;
+
+    font-size: 1.2rem;
+
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.select svg{
+    cursor: pointer;
+}
+
+.select svg:hover{
+    color: rgba(255, 255, 255, 1);
 }
 
 .theme {
     cursor: pointer;
 }
 
+.filter{
+}
 
 .list-todo {
     display: flex;
@@ -51,7 +81,9 @@
     color: var(--font);
 }
 
-
+.input-categoria{
+    width: 90%;
+}
 
 .list {
     width: 100%;

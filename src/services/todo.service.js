@@ -42,8 +42,8 @@ class todoService {
     const roomDocRef = doc(database, "rooms", currentPath);
     const todoCollectionRef = collection(roomDocRef, "todos");
 
-    const todos = await getDocs(todoCollectionRef, orderBy("date", "desc")
-    );
+    const todos = await getDocs(todoCollectionRef, orderBy("date", "desc"));
+
     return todos;
   };
 
