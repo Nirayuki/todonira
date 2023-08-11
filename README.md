@@ -1,46 +1,83 @@
-# Getting Started with Create React App
+<p align="center">
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/Nirayuki/todo-typescript?color=00acff">
+  <a href="https://github.com/Nirayuki/Portifolio/commits/master">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/Nirayuki/todo-typescript?color=00acff">
+  </a>
+  <img alt="License" src="https://img.shields.io/badge/license-MIT-00acff">
+  <img alt="GitHub Pull Requests" src="https://img.shields.io/github/issues-pr/Nirayuki/todo-typescript?color=00acff" />
+  <a href="https://github.com/Nirayuki/Portifolio/stargazers">
+    <img alt="Stargazers" src="https://img.shields.io/github/stars/Nirayuki/todo-typescript?color=00acff&logo=github">
+  </a>
+</p>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<div align="center">
+  <sub>Nirayuki Todo. Built with 💙 by
+    <a href="https://github.com/Nirayuki">Aron "Nirayuki" Kerkhoven</a> and
+    <a href="https://github.com/Nirayuki/Portifolio/graphs/contributors">
+      contributors
+    </a>
+  </sub>
+</div>
 
-## Available Scripts
+# 📌 Table of Contents
 
-In the project directory, you can run:
+- [📌 Table of Contents](#-table-of-contents)
+- [👀 Demo Website](#-demo-website)
+- [💻 Technologies](#-technologies)
+- [🚀 Features](#-features)
+- [🚧 How to run](#-how-to-run)
+- [🐛 Issues](#-issues)
+- [🎉 Contributing](#-contributing)
+- [📕 License](#-license)
 
-### `npm start`
+# 👀 Demo Website
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+👉  Demo: https://todonira.vercel.app/
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+# 💻 Technologies
 
-### `npm test`
+This project was made using the follow technologies:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* ReactJS
+* Typescript
+* JSON
+* Styled Components
+* Firebase
 
-### `npm run build`
+# 🚀 Features
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Website portifólio
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# 🚧 How to run
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+# Clone Repository
+$ git clone https://github.com/Nirayuki/todo-typescript
+$ Go to folder using terminal
+$ npm (needs npm installed)
+$ npm start (run the project)
+```
 
-### `npm run eject`
+If you want something, wait for `npm build` to be obeyed, and after that open a little change decision!
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+# 🐛 Issues
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Feel free to **file a new issue** with a respective title and description on the [NexBoard](https://github.com/Nirayuki/todo-typescript/issues) repository. If you already found a solution to your problem, **i would love to review your pull request**!
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+# 🎉 Contributing
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+First of all, thank you for being interested in helping out, your time is always appreciated in every way. :100:
 
-## Learn More
+Here's some tips:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+* Check the [issues page](https://github.com/Nirayuki/todo-typescript/issues) for already opened issues (or maybe even closed ones) that might already address your question/bug/feature request.
+* Feature requests are welcomed! Provide some details on why it would be helpful for you and others, explain how you're using bull-board and if possible even some screenshots if you are willing to mock something!
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# 📕 License
+
+Released in 2013
+
+Made by [Aron Felippe](https://github.com/Nirayuki).
+This project is under the [MIT license](./LICENSE).
+
+
