@@ -58,7 +58,7 @@ function Home() {
 
     const handleOk = async () => {
         setError(undefined);
-        if(dataInput === ""){
+        if(dataInput === "" && !checks.publica){
             setError("error");
             return
         }else{
