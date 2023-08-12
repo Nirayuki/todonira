@@ -1,21 +1,9 @@
-header{ 
-    height: 150px;
-    width: 100%;
-
-    color: var(--title);
-    font-size: 3rem;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 
 .children{
     width: 100%;
 
     display: flex;
-    margin-top: 10px;
+    margin-top: 100px;
     padding: 0px 30px;
     justify-content: center;
 }

@@ -2,16 +2,14 @@ import React from 'react';
 import '../style/layout.css';
 
 type Props = {
-    children: JSX.Element | JSX.Element[] | string | string[]
+    children: JSX.Element | JSX.Element[] | string | string[],
+    hasChildren: boolean
 }
 
-export const Layout = ({ children }: Props) => {
+export const Layout = ({ children, hasChildren }: Props) => {
     return (
         <>
-            <header>
-                <div className="logo">Todo</div>
-            </header>
-            <div className='children'>
+            <div className={hasChildren ? "children" : undefined}>
                 {children}
             </div>
         </>

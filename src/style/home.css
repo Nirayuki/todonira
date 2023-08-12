@@ -1,4 +1,35 @@
-.title{
+.container{
+    width: 100%;
+}
+
+.home{
+    width: 100vw;
+    height: 100vh;
+
+    background-image: url("../assets/bg_gradiant.png");
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: center center;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px;
+
+    padding: 0px 20px;
+}
+
+.modal-content{
+    width: 100%;
+    padding: 20px 0px;
+
+    display: flex;
+    gap: 30px;
+}
+
+/* .title{
     font-size: 1rem;
     text-align: center;
 
@@ -45,4 +76,5 @@
 
 .icon:hover{
     opacity: 0.7;
-}
+} */
+

@@ -66,7 +66,7 @@ function Slug() {
     const [editCategoria, setEditCategoria] = useState<string | undefined | []>();
     const [editInput, setEditInput] = useState<string | undefined>();
 
-    const [error, setError] = useState<string>("");
+    const [error, setError] = useState<"error" | undefined>(undefined);
 
     useEffect(() => {
         const path = window.location.pathname.substring(1);
@@ -145,14 +145,14 @@ function Slug() {
             if (alwaysLogged) {
                 const path = window.location.pathname.substring(1);
                 localStorage.setItem(path, passwordInput);
-                setError("");
+                setError(undefined);
                 setIsPrivateRoom(false);
             } else {
-                setError("");
+                setError(undefined);
                 setIsPrivateRoom(false);
             }
         } else {
-            setError("Senha inválida!");
+            setError("error");
         }
     }
 
@@ -248,7 +248,7 @@ function Slug() {
 
 
     return (
-        <Layout>
+        <Layout hasChildren={true}>
 
             {
                 isPrivateRoom ?
@@ -258,9 +258,7 @@ function Slug() {
                             Room Privada
                         </div>
                         <div className="passw">
-                            <input type={showPassword ? "text" : "password"} placeholder='Senha' onChange={onChangePrivateRoom} value={passwordInput} onKeyDown={handleKeyEntrar} />
-                            {showPassword ? <EyeFilled className='icon eye' onClick={(e) => setShowPassword(false)} /> : <EyeInvisibleFilled className='icon eye' onClick={(e) => setShowPassword(true)} />}
-                            {error ? <p style={{ color: "red", margin: '0px', marginTop: "5px" }}>{error}</p> : ""}
+                            <Input.Password placeholder='Digite sua senha aqui...' onKeyDown={handleKeyEntrar} status={error} value={passwordInput} onChange={(e) => setPasswordInput(e.currentTarget.value)}/>
                         </div>
                         <div className="check">
                             <Checkbox onChange={(e) => handleAlwaysLoggedIn(e)} />
