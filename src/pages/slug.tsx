@@ -37,7 +37,6 @@ function Slug() {
     const { theme, toggleTheme } = useContext(ThemeContext);
 
     const [isPrivateRoom, setIsPrivateRoom] = usePersistedState('isPrivateRoom', false);
-    const [isLoaded, setIsLoaded] = useState(false);
 
     const [dataPrivateRoom, setDataPrivateRoom] = useState<RoomData | DocumentData | undefined>([]);
 
@@ -46,11 +45,6 @@ function Slug() {
 
     const [dataInput, setDataInput] = useState<string>('');
 
-    const [isEditing, setIsEditing] = useState<isEdit>({ isEdit: false, isEditingId: null });
-
-    const [dataInputEdit, setDataInputEdit] = useState<string>('');
-
-    const inputRef = useRef<HTMLInputElement>(null);
 
     const [roomDataLoaded, setRoomDataLoaded] = useState(false);
 
@@ -67,6 +61,11 @@ function Slug() {
     const [categoria, setCategoria] = useState("all");
     const [categoriaInput, setCategoriaInput] = useState<string | undefined>("");
 
+    const [modalEdit, setModalEdit] = useState<boolean>(false);
+    const [editData, setEditData] = useState<TodoItem>();
+    const [editCategoria, setEditCategoria] = useState<string | undefined | []>();
+    const [editInput, setEditInput] = useState<string | undefined>();
+
     const [error, setError] = useState<string>("");
 
     useEffect(() => {
@@ -77,7 +76,7 @@ function Slug() {
 
                 const alwaysLoggedIn = localStorage.getItem(path);
                 setIsPrivateRoom(alwaysLoggedIn ? false : dataRoom?.isPrivate ?? false);
-                
+
 
                 setDataPrivateRoom(dataRoom);
 
@@ -99,20 +98,10 @@ function Slug() {
             setDataPrivateRoom(room);
         });
 
-        const handleClickOutside = (event: MouseEvent) => {
-            if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
-                // Se o usuário clicou fora do input, encerra o modo de edição
-                setIsEditing({ isEdit: false, isEditingId: null });
-            }
-        };
-
-        document.addEventListener("mousedown", handleClickOutside);
-
         // Cleanup do ouvinte ao desmontar o componente.
         return () => {
             unsubscribe()
             unsubscribeRoom()
-            document.removeEventListener("mousedown", handleClickOutside);
         };
 
 
@@ -135,22 +124,8 @@ function Slug() {
         }
     }
 
-
-    const handleKeyDownEdit = async (e: React.KeyboardEvent<HTMLDivElement>, todo: TodoItem) => {
-        if (e.key === 'Enter' && dataInputEdit.trim() !== "") {
-            await todoService.updateTodo(todo.id, { ...todo, text: dataInputEdit });
-
-            setDataInputEdit("");
-            setIsEditing({ isEdit: false, isEditingId: null });
-        }
-    }
-
     const onChange = (e: React.FormEvent<HTMLInputElement>) => {
         setDataInput(e.currentTarget.value);
-    }
-
-    const onChangeEdit = (e: React.FormEvent<HTMLInputElement>) => {
-        setDataInputEdit(e.currentTarget.value);
     }
 
     const onChangeCheckBox = async (e: CheckboxChangeEvent, todo: TodoItem) => {
@@ -235,21 +210,42 @@ function Slug() {
 
     const handleDeleteSettings = (key: number) => {
         const updatedSettings = settings.filter((_, index) => index !== key);
-        if(categoriaInput === settings[key]){
-            if(categoriaInput === categoria){
+        if (categoriaInput === settings[key]) {
+            if (categoriaInput === categoria) {
                 setCategoria("all");
                 setCategoriaInput(undefined);
-            }else{
+            } else {
                 setCategoriaInput(undefined);
             }
         }
-        setSettings(updatedSettings); 
+        setSettings(updatedSettings);
     }
 
     const handleFilter = (e: string) => {
         setCategoria(e);
         setDataFiltered(e === "all" ? data : data.filter(filter => filter.categoria === e));
     }
+
+    const handleEditOk = async () => {
+        const newItem = {
+            id: editData?.id,
+            completed: editData?.completed,
+            text: editInput ? editInput : editData?.text,
+            categoria: editCategoria ? editCategoria : editData?.categoria ? editData?.categoria : null
+        }
+
+        await todoService.updateTodo(editData?.id, newItem);
+        setEditInput(undefined);
+        setEditCategoria(undefined);
+        setModalEdit(false);
+    }
+
+    const handleEditCancel = () => {
+        setModalEdit(false);
+        setEditInput(undefined);
+        setEditCategoria(undefined);
+    }
+
 
     return (
         <Layout>
@@ -331,14 +327,14 @@ function Slug() {
                                                     <Space>
                                                         {item}
                                                     </Space>
-    
+
                                                 </Option>
                                             )
                                         })
-                                        :
-                                        (
-                                            null
-                                        )
+                                            :
+                                            (
+                                                null
+                                            )
                                     }
                                 </Select>
                                 <SettingOutlined onClick={() => handleSettings()} />
@@ -385,19 +381,17 @@ function Slug() {
                                             <div className="check-list" key={key}>
                                                 <div className="check">
                                                     <Checkbox className='checkbox' checked={item.completed} onChange={(e) => onChangeCheckBox(e, item)} key={item.id} />
-                                                    {
-                                                        isEditing?.isEdit && isEditing?.isEditingId === item.id ? <input type="text" autoFocus ref={inputRef} defaultValue={item.text} onChange={onChangeEdit} onKeyDown={(e) => handleKeyDownEdit(e, item)} />
-
-                                                            :
-
-                                                            <span>{item.text}</span>
-                                                    }
+                                                    <span>{item.text}</span>
                                                 </div>
                                                 <div className="more">
                                                     <Dropdown
                                                         overlay={
                                                             <Menu>
-                                                                <Menu.Item onClick={() => setIsEditing({ isEdit: true, isEditingId: item.id })}>
+                                                                <Menu.Item onClick={() => {
+                                                                    setModalEdit(true);
+                                                                    setEditData(item);
+                                                                    console.log(item);
+                                                                }}>
                                                                     Editar
                                                                 </Menu.Item>
                                                                 <Menu.Item onClick={() => handleDelete(item.id)}>
@@ -424,6 +418,40 @@ function Slug() {
                                 )}
                             </div>
                         </div>
+                        <Modal
+                            open={modalEdit}
+                            title="Editar Todo"
+                            onOk={handleEditOk}
+                            onCancel={handleEditCancel}
+                        >
+                            <Space
+                                direction='vertical'
+                                size="large"
+                                style={{width: "100%", paddingTop: "10px"}}
+                            >
+                                <Input placeholder='Digite todo aqui...' defaultValue={editData?.text} value={editInput ? editInput : editData?.text} onChange={(e) => setEditInput(e.currentTarget.value)} style={{width: "100%"}}/>
+                                <Select
+                                    placeholder="Categoria"
+                                    onChange={(e) => setEditCategoria(e)}
+                                    defaultValue={editData?.categoria ? editData.categoria : null}
+                                    value={editCategoria ? editCategoria : editData?.categoria}
+                                    style={{width: "100px"}}
+                                >
+                                    {
+                                        dataPrivateRoom?.categoria ? dataPrivateRoom?.categoria.map((item: string) => {
+                                            return (
+                                                <Option value={item} label={item}>
+                                                    <Space>
+                                                        {item}
+                                                    </Space>
+
+                                                </Option>
+                                            )
+                                        }) : null
+                                    }
+                                </Select>
+                            </Space>
+                        </Modal>
                     </div>
 
             }

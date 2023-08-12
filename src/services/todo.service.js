@@ -83,7 +83,6 @@ class todoService {
     const todoCollectionRef = collection(roomDocRef, "todos");
 
     return onSnapshot(todoCollectionRef, (querySnapshot) => {
-      console.log(querySnapshot);
       const todos = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       callback(todos);
     });
