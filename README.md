@@ -5,7 +5,7 @@
   </a>
   <img alt="License" src="https://img.shields.io/badge/license-MIT-00acff">
   <img alt="GitHub Pull Requests" src="https://img.shields.io/github/issues-pr/Nirayuki/todo-typescript?color=00acff" />
-  <a href="https://github.com/Nirayuki/Portifolio/stargazers">
+  <a href="https://github.com/Nirayuki/todo-typescript/stargazers">
     <img alt="Stargazers" src="https://img.shields.io/github/stars/Nirayuki/todo-typescript?color=00acff&logo=github">
   </a>
 </p>
