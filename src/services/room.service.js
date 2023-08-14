@@ -33,11 +33,29 @@ class roomService {
     }
   }
 
+  addBadge = async (dataRoom, dataBadge) => {
+    const currentPath = this.getCurrentPath();
+    const roomRef = doc(database, "rooms", currentPath);
+
+    if(dataRoom.badges){
+      await updateDoc(roomRef, {badges: [...dataRoom.badges, dataBadge]})
+    }else{
+      await updateDoc(roomRef, {badges: [dataBadge]});
+    }
+  }
+
   updateCategoria = async (categoriaData) => {
     const currentPath = this.getCurrentPath();
     const roomRef = doc(database, "rooms", currentPath);
 
     await updateDoc(roomRef, {categoria: categoriaData});
+  }
+
+  updateBadge = async (badgeData) => {
+    const currentPath = this.getCurrentPath();
+    const roomRef = doc(database, "rooms", currentPath);
+
+    await updateDoc(roomRef, {badges: badgeData});
   }
 
   subscribeRoom = (callback) => {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 
 import { Layout } from '../components/layout';
-import { CardHomeFancy } from '../components/cardHomeFancy';
+import { CardHomeFancy } from '../components/cards/cardHomeFancy';
 
 import { Card, Checkbox, Button, Modal, Input } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';

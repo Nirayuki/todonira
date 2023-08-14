@@ -1,72 +1,94 @@
-import React, { useState, useEffect, useRef, useContext, ChangeEvent } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import usePersistedState from '../components/usePersistedState';
 import { Layout } from '../components/layout';
-import { Checkbox, Divider, Dropdown, Menu, Card, Button, Select, Modal, Input, Space, List } from 'antd';
+import { ListTodos } from '../components/lists/listTodos';
+
+// Modals Components --------------------------------------------------------
+import { ModalBadges } from '../components/modals/modalBadges';
+import { ModalNewBadge } from '../components/modals/modalNewBadge';
+import { CardIsPrivateRoom } from '../components/cards/cardIsPrivateRoom';
+import { ModalNewCategoria } from '../components/modals/modalNewCategoria';
+
+// Antd Components -------------------------------------------------------------------
+import { Divider, Tooltip } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
-import type { BaseSelectRef } from 'rc-select';
-import { SmileOutlined, EllipsisOutlined, EyeFilled, EyeInvisibleFilled, PlusOutlined, SettingOutlined, DeleteOutlined } from '@ant-design/icons';
+
+// Antd Icons ----------------------------------------------------------------------
+import { SettingOutlined } from '@ant-design/icons';
+
+// Services --------------------------------------------
 import todoService from '../services/todo.service';
+import roomService from '../services/room.service';
 import { DocumentData } from 'firebase/firestore';
+
+// Css/Images -------------------------------------------------
 import dark from '../assets/dark.svg';
 import light from '../assets/light.svg';
 import { ThemeContext } from '../theme/ThemeContext';
-import usePersistedState from '../components/usePersistedState';
 import '../style/slug.css'
-import roomService from '../services/room.service';
-const { Option } = Select;
+import { ModalCategoriaSettings } from '../components/modals/modalCategoriaSettings';
+import { ModalEditTodo } from '../components/modals/modalEditTodo';
+import { SelectCategoria } from '../components/selects/selectCategoria';
+import { SelectBadge } from '../components/selects/selectBadge';
+import { SelectFilter } from '../components/selects/selectFilter';
 
 interface TodoItem {
     id?: string | null | number;
     text: string;
     completed: boolean;
-    categoria?: string | []
-}
-
-interface isEdit {
-    isEdit: boolean,
-    isEditingId: string | number | null | undefined
+    categoria?: string | [],
+    badge?: {
+        title: string,
+        color: string
+    } | null
 }
 
 interface RoomData {
     isPrivate: boolean,
     password: string,
-    categoria: []
+    categoria: [],
+    badges: []
+}
+
+interface ItemBadge {
+    title: string,
+    color: string
 }
 
 function Slug() {
 
     const { theme, toggleTheme } = useContext(ThemeContext);
 
+    // Private Room state -------------------------------------------------------------------------
     const [isPrivateRoom, setIsPrivateRoom] = usePersistedState('isPrivateRoom', false);
 
+    // Datas states --------------------------------------------------------------------------------
     const [dataPrivateRoom, setDataPrivateRoom] = useState<RoomData | DocumentData | undefined>([]);
-
     const [data, setData] = useState<TodoItem[]>([]);
     const [dataFiltered, setDataFiltered] = useState<TodoItem[]>([]);
-
     const [dataInput, setDataInput] = useState<string>('');
 
-
+    // Loaders state -------------------------------------------------------------------------------
     const [roomDataLoaded, setRoomDataLoaded] = useState(false);
 
-    const [passwordInput, setPasswordInput] = useState<string>("");
-    const [showPassword, setShowPassword] = useState<boolean>(false);
-
-    const [alwaysLogged, setAlwaysLogged] = useState<boolean>(false);
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const [inputCategoria, setInputCategoria] = useState<string>("");
+    // Modals states --------------------------------------------------------------------
+    const [modalNewCategoria, setModalNewCategoria] = useState(false);
     const [modalCategoriaSettings, setModalCategoriaSettings] = useState<boolean>(false);
+    const [modalEdit, setModalEdit] = useState<boolean>(false);
+    const [modalBagdes, setModalBadges] = useState<boolean>(false);
+    const [modalNewBadge, setModalNewBadge] = useState<boolean>(false);
+
+    // Settings categoria States ---------------------------------------------------------------
     const [settings, setSettings] = useState<string[]>([]);
     const [categoria, setCategoria] = useState("all");
-    const [categoriaInput, setCategoriaInput] = useState<string | undefined>("");
+    const [categoriaInput, setCategoriaInput] = useState<string>("");
 
-    const [modalEdit, setModalEdit] = useState<boolean>(false);
+    // Edit categoria states -------------------------------------------------------------------
     const [editData, setEditData] = useState<TodoItem>();
-    const [editCategoria, setEditCategoria] = useState<string | undefined | []>();
-    const [editInput, setEditInput] = useState<string | undefined>();
 
-    const [error, setError] = useState<"error" | undefined>(undefined);
+    // Badge states ----------------------------------------------------------------------------
+    const [badge, setBadge] = useState<string | undefined>(dataPrivateRoom?.badges ? dataPrivateRoom?.badges[0].title : undefined);
+    const [dataBadges, setDataBadges] = useState<ItemBadge[]>([]);
 
     useEffect(() => {
         const path = window.location.pathname.substring(1);
@@ -108,6 +130,7 @@ function Slug() {
     }, [categoria]);
 
     const handleKeyDown = async (e: React.KeyboardEvent<HTMLDivElement>) => {
+        const badgeObject: ItemBadge[] = dataPrivateRoom?.badges.filter((filter: { title: string }) => filter.title === badge);
         if (e.key === 'Enter' && dataInput.trim() !== "") {
             if (dataInput.length > 150) {
                 return
@@ -115,7 +138,11 @@ function Slug() {
                 const newItem: TodoItem = {
                     text: dataInput,
                     completed: false,
-                    categoria: categoriaInput ? categoriaInput : []
+                    categoria: categoriaInput ? categoriaInput : [],
+                    badge: badge ? {
+                        title: badgeObject[0].title,
+                        color: badgeObject[0].color
+                    } : null
                 };
 
                 await todoService.addTodo(newItem);
@@ -136,327 +163,99 @@ function Slug() {
         await todoService.deleteTodo(itemId);
     };
 
-    const onChangePrivateRoom = (e: React.FormEvent<HTMLInputElement>) => {
-        setPasswordInput(e.currentTarget.value);
-    }
-
-    const handleEntrar = () => {
-        if (dataPrivateRoom?.password === passwordInput) {
-            if (alwaysLogged) {
-                const path = window.location.pathname.substring(1);
-                localStorage.setItem(path, passwordInput);
-                setError(undefined);
-                setIsPrivateRoom(false);
-            } else {
-                setError(undefined);
-                setIsPrivateRoom(false);
-            }
-        } else {
-            setError("error");
-        }
-    }
-
-    const handleKeyEntrar = (e: React.KeyboardEvent<HTMLDivElement>) => {
-        if (e.key === 'Enter' && dataPrivateRoom?.password.trim() !== "") {
-            setIsPrivateRoom(false);
-        }
-    }
-
-    const handleAlwaysLoggedIn = (e: CheckboxChangeEvent) => {
-        setAlwaysLogged(e.target.checked);
-    }
-
-    if (!roomDataLoaded) {
-        return null;
-    }
-
-    const handleOk = async () => {
-        if (inputCategoria !== "") {
-            await roomService.addRoomCategoria(inputCategoria, dataPrivateRoom);
-            setIsModalOpen(false);
-            setCategoriaInput(inputCategoria);
-            setInputCategoria("");
-        } else {
-            setIsModalOpen(false);
-        }
-
-    };
-
-    const handleCancel = () => {
-        setIsModalOpen(false);
-    };
-
-    const handleCategoriaOk = async () => {
-        await roomService.updateCategoria(settings);
-        setModalCategoriaSettings(false);
-    }
-
-    const hanleCategoriaCancel = () => {
-        setModalCategoriaSettings(false);
-    }
-
     const handleSettings = async () => {
         const newItem = await dataPrivateRoom?.categoria.map((item: any) => { return item });
         setSettings(newItem);
         setModalCategoriaSettings(true);
     }
 
-    const handleChangeSettings = (e: ChangeEvent<HTMLInputElement>, key: number) => {
-        const updateSettings: string[] = [...settings];
-        updateSettings[key] = e.currentTarget.value;
-
-        setSettings(updateSettings);
+    const handleSettingsBadges = async () => {
+        const newData = await dataPrivateRoom?.badges.map((item: any) => { return item });
+        setDataBadges(newData);
+        setModalBadges(true);
     }
 
-    const handleDeleteSettings = (key: number) => {
-        const updatedSettings = settings.filter((_, index) => index !== key);
-        if (categoriaInput === settings[key]) {
-            if (categoriaInput === categoria) {
-                setCategoria("all");
-                setCategoriaInput(undefined);
-            } else {
-                setCategoriaInput(undefined);
-            }
-        }
-        setSettings(updatedSettings);
+    if (!roomDataLoaded) {
+        return null;
     }
-
-    const handleFilter = (e: string) => {
-        setCategoria(e);
-        setDataFiltered(e === "all" ? data : data.filter(filter => filter.categoria === e));
-    }
-
-    const handleEditOk = async () => {
-        const newItem = {
-            id: editData?.id,
-            completed: editData?.completed,
-            text: editInput ? editInput : editData?.text,
-            categoria: editCategoria ? editCategoria : editData?.categoria ? editData?.categoria : null
-        }
-
-        await todoService.updateTodo(editData?.id, newItem);
-        setEditInput(undefined);
-        setEditCategoria(undefined);
-        setModalEdit(false);
-    }
-
-    const handleEditCancel = () => {
-        setModalEdit(false);
-        setEditInput(undefined);
-        setEditCategoria(undefined);
-    }
-
 
     return (
         <Layout hasChildren={true}>
 
             {
                 isPrivateRoom ?
-
-                    <Card className='card' bordered={theme === "light" ? true : false} style={{ width: 350 }}>
-                        <div className='title'>
-                            Room Privada
-                        </div>
-                        <div className="passw">
-                            <Input.Password placeholder='Digite sua senha aqui...' onKeyDown={handleKeyEntrar} status={error} value={passwordInput} onChange={(e) => setPasswordInput(e.currentTarget.value)}/>
-                        </div>
-                        <div className="check">
-                            <Checkbox onChange={(e) => handleAlwaysLoggedIn(e)} />
-                            <p>Me manter logado</p>
-                        </div>
-                        <Button type="primary" onClick={(e) => handleEntrar()}>Entrar</Button>
-                    </Card>
-
+                    <CardIsPrivateRoom data={dataPrivateRoom} setIsPrivateRoom={setIsPrivateRoom} />
                     :
 
                     <div className="container">
-                        <Modal
-                            open={isModalOpen}
-                            title="Nova categoria"
-                            onOk={handleOk}
-                            onCancel={handleCancel}
-                        >
-                            <Input className='input-categoria' placeholder='Nova categoria' value={inputCategoria} onChange={(e) => setInputCategoria(e.currentTarget.value)} />
-                        </Modal>
-                        <Modal
+                        <ModalNewBadge open={modalNewBadge} setOpen={setModalNewBadge} data={dataPrivateRoom} />
+                        <ModalNewCategoria open={modalNewCategoria} setOpen={setModalNewCategoria} data={dataPrivateRoom} setCategoriaInput={setCategoriaInput} />
+                        <ModalCategoriaSettings
                             open={modalCategoriaSettings}
-                            title="Configuração Categorias"
-                            onOk={handleCategoriaOk}
-                            onCancel={hanleCategoriaCancel}
-                        >
-                            <List
-                                itemLayout="horizontal"
-                                dataSource={settings}
-                                renderItem={(item, key) => {
-                                    return (
-                                        <List.Item
-                                            actions={[<Button type="text" icon={<DeleteOutlined />} onClick={() => handleDeleteSettings(key)}>
-                                            </Button>]}
-                                        >
-                                            <Input value={item} key={key} onChange={(e) => handleChangeSettings(e, key)} />
-                                        </List.Item>
-                                    )
-                                }}
-                            />
-                        </Modal>
+                            setOpen={setModalCategoriaSettings}
+                            dataSettings={settings}
+                            setDataSettings={setSettings}
+                            categoriaInput={categoriaInput}
+                            setCategoriaInput={setCategoriaInput}
+                            setCategoria={setCategoria}
+                            categoria={categoria}
+                        />
+                        <ModalEditTodo open={modalEdit} setOpen={setModalEdit} data={dataPrivateRoom} dataEdit={editData} />
+                        <ModalBadges open={modalBagdes} setOpen={setModalBadges} data={dataPrivateRoom} setBadge={setBadge} dataBadges={dataBadges} setDataBadges={setDataBadges} />
                         <div className="head">
                             <div className="select">
-                                <Select
-                                    className='select-head'
-                                    placeholder="Categorias"
-                                    onChange={(e) => setCategoriaInput(e)}
-                                    value={categoriaInput}
-                                    dropdownRender={(menu) => {
-                                        return (
-                                            <>
-                                                {menu}
-                                                <Button type="text" icon={<PlusOutlined />} onClick={() => setIsModalOpen(true)}>
-                                                    Nova categoria
-                                                </Button>
-                                            </>
-                                        )
-
-                                    }}
+                                <Tooltip
+                                    title="Categorias"
                                 >
-                                    {
-                                        dataPrivateRoom?.categoria ? dataPrivateRoom?.categoria.map((item: string) => {
-                                            return (
-                                                <Option value={item} label={item}>
-                                                    <Space>
-                                                        {item}
-                                                    </Space>
-
-                                                </Option>
-                                            )
-                                        })
-                                            :
-                                            (
-                                                null
-                                            )
-                                    }
-                                </Select>
-                                <SettingOutlined onClick={() => handleSettings()} />
+                                    <SelectCategoria
+                                        setModalNewCategoria={setModalNewCategoria}
+                                        setCategoriaInput={setCategoriaInput}
+                                        categoriaInput={categoriaInput}
+                                        data={dataPrivateRoom}
+                                    />
+                                </Tooltip>
+                                <Tooltip title="Configuração das Categorias">
+                                    <SettingOutlined onClick={() => handleSettings()} />
+                                </Tooltip>
+                                <Tooltip title="Badges">
+                                    <SelectBadge data={dataPrivateRoom} badge={badge} setBadge={setBadge} setModalNewBadge={setModalNewBadge} />
+                                </Tooltip>
+                                <Tooltip title="Configuração das Badges">
+                                    <SettingOutlined onClick={() => handleSettingsBadges()} />
+                                </Tooltip>
                             </div>
                             <input className='input-head' type="text" placeholder='Digite aqui...' value={dataInput} onChange={onChange} onKeyDown={handleKeyDown} />
                             <span className='conter' style={{ color: dataInput && dataInput.length > 150 ? "red" : "black" }}>{dataInput ? dataInput.length : "0"}</span>
                         </div>
                         <div className="list-todo">
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: "space-between" }}>
-                                <div className="left" style={{ display: 'flex', alignItems: 'center', gap: "30px" }}>
+                                <div className="left">
                                     <span>Lista de Todo's</span>
-                                    <img className='theme' src={theme === 'dark' ? light : dark} onClick={toggleTheme} />
+                                    <Tooltip title="Mudar tema">
+                                        <img className='theme' src={theme === 'dark' ? light : dark} onClick={toggleTheme} />
+                                    </Tooltip>
                                 </div>
                                 <div className="filter">
-                                    <Select
-                                        className='select-head'
-                                        placeholder="Filtrar Categoria"
-                                        onChange={(e) => handleFilter(e)}
-                                        defaultValue={categoria}
-                                        value={categoria}
-                                    >
-                                        <Option value="all" label="Todos">
-                                            <Space>
-                                                Todos
-                                            </Space>
-                                        </Option>
-                                        {dataPrivateRoom?.categoria ? dataPrivateRoom?.categoria.map((item: string) => {
-                                            return (
-                                                <Option value={item} label={item}>
-                                                    <Space>
-                                                        {item}
-                                                    </Space>
-                                                </Option>
-                                            )
-                                        }) : null}
-                                    </Select>
+                                    <Tooltip title="Filtrar Categorias">
+                                        <SelectFilter
+                                            dataRoom={dataPrivateRoom}
+                                            dataTodo={data}
+                                            categoria={categoria}
+                                            setCategoria={setCategoria}
+                                            setDataFiltered={setDataFiltered}
+                                        />
+                                    </Tooltip>
                                 </div>
                             </div>
                             <Divider className='divider' style={{ margin: "0px" }} />
                             <div className="list">
-                                {dataFiltered?.length ? (
-                                    dataFiltered?.map((item, key) =>
-                                        <>
-                                            <div className="check-list" key={key}>
-                                                <div className="check">
-                                                    <Checkbox className='checkbox' checked={item.completed} onChange={(e) => onChangeCheckBox(e, item)} key={item.id} />
-                                                    <span>{item.text}</span>
-                                                </div>
-                                                <div className="more">
-                                                    <Dropdown
-                                                        overlay={
-                                                            <Menu>
-                                                                <Menu.Item onClick={() => {
-                                                                    setModalEdit(true);
-                                                                    setEditData(item);
-                                                                    console.log(item);
-                                                                }}>
-                                                                    Editar
-                                                                </Menu.Item>
-                                                                <Menu.Item onClick={() => handleDelete(item.id)}>
-                                                                    Deletar
-                                                                </Menu.Item>
-                                                            </Menu>
-                                                        }
-                                                        trigger={["click"]}
-                                                        placement="bottomRight"
-                                                    >
-                                                        <EllipsisOutlined className='more' />
-                                                    </Dropdown>
-                                                </div>
-
-                                            </div>
-                                            <Divider className='divider' style={{ margin: "0px" }} />
-                                        </>
-                                    )
-                                ) : (
-                                    <div style={{ textAlign: 'center' }}>
-                                        <SmileOutlined style={{ fontSize: 20 }} />
-                                        <p>Sem todo's</p>
-                                    </div>
-                                )}
+                                <ListTodos data={dataFiltered} setEditData={setEditData} setModalEdit={setModalEdit} handleDelete={handleDelete} onChangeCheckBox={onChangeCheckBox} />
                             </div>
                         </div>
-                        <Modal
-                            open={modalEdit}
-                            title="Editar Todo"
-                            onOk={handleEditOk}
-                            onCancel={handleEditCancel}
-                        >
-                            <Space
-                                direction='vertical'
-                                size="large"
-                                style={{width: "100%", paddingTop: "10px"}}
-                            >
-                                <Input placeholder='Digite todo aqui...' defaultValue={editData?.text} value={editInput ? editInput : editData?.text} onChange={(e) => setEditInput(e.currentTarget.value)} style={{width: "100%"}}/>
-                                <Select
-                                    placeholder="Categoria"
-                                    onChange={(e) => setEditCategoria(e)}
-                                    defaultValue={editData?.categoria ? editData.categoria : null}
-                                    value={editCategoria ? editCategoria : editData?.categoria}
-                                    style={{width: "100px"}}
-                                >
-                                    {
-                                        dataPrivateRoom?.categoria ? dataPrivateRoom?.categoria.map((item: string) => {
-                                            return (
-                                                <Option value={item} label={item}>
-                                                    <Space>
-                                                        {item}
-                                                    </Space>
-
-                                                </Option>
-                                            )
-                                        }) : null
-                                    }
-                                </Select>
-                            </Space>
-                        </Modal>
                     </div>
-
             }
-
         </Layout>
     )
-
 }
 
 export default Slug;

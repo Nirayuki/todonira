@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 import { LeftCircleOutlined, RightCircleOutlined } from '@ant-design/icons';
 
-import '../style/cardHomeFancy.css';
+import '../../style/cardHomeFancy.css';
 
 export const CardHomeFancy = ({ handleOpen }) => {
     const [width, setWidth] = useState(window.innerWidth);

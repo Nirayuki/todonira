@@ -36,6 +36,12 @@
     height: 35px;
 }
 
+.left{
+    display: flex; 
+    align-items: center; 
+    gap: 30px;
+}
+
 .conter {
     position: absolute;
     right: 10px;
@@ -43,6 +49,10 @@
 }
 
 .select-head{
+    width: 150px;
+}
+
+.select-filter{
     width: 150px;
 }
 
@@ -121,6 +131,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    color: var(--font);
 }
 
 
@@ -173,7 +185,14 @@
 }
 
 .check{
+    width: 80%;
+    padding: 0px 5px;
     margin-bottom: 10px;
+    word-wrap: break-word;
+}
+
+.check span{
+    width: 95%;
 }
 
 .icon{
@@ -183,4 +202,52 @@
     top: 7px;
 
     cursor: pointer;
+}
+
+.tag{
+    width: 30%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+@media screen and (max-width: 670px){
+    .check{
+        width: 70%;
+    }
+}
+
+
+@media screen and (max-width: 537px){
+    .check{
+        width: 60%;
+    }
+}
+
+@media screen and (max-width: 433px){
+    .check{
+        width: 50%;
+    }
+
+    .select-head{
+        width: 100px;
+    }
+}
+
+
+@media screen and (max-width: 377px) {
+
+    .select-filter{
+        width: 100px;
+    }
+
+    .select-head{
+        width: 80px;
+    }
+
+    .left span{
+        font-size: 0.75rem;
+    }
+    .left{
+        gap: 10px;
+    }
 }
