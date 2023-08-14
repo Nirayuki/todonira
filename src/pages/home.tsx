@@ -17,7 +17,21 @@ import '../style/home.css';
 interface RoomData {
     isPrivate: boolean,
     isPublica: boolean,
-    password?: string
+    password?: string,
+    badges: [
+        {
+            title: "Normal",
+            color: "#008000"
+        },
+        {
+            title: "Atenção",
+            color: "#ffff00"
+        },
+        {
+            title: "Urgente",
+            color: "#ff0000"
+        }
+    ]
 }
 
 interface Checks {
@@ -66,6 +80,20 @@ function Home() {
                 isPrivate: checks.private,
                 isPublica: checks.publica,
                 password: dataInput.trim(),
+                badges: [
+                    {
+                        title: "Normal",
+                        color: "#008000"
+                    },
+                    {
+                        title: "Atenção",
+                        color: "#ffff00"
+                    },
+                    {
+                        title: "Urgente",
+                        color: "#ff0000"
+                    }
+                ]
             }
             const roomId = await roomService.createRoom(roomData);
             navigate(`/${roomId}`);

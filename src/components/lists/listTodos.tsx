@@ -71,9 +71,9 @@ export const ListTodos = ({ data, setEditData, setModalEdit, handleDelete, onCha
                             </div>
                             <div className="tag">
                                 {item.badge ? (
-                                    <Tag color={item.badge.color}>{item.badge.title}</Tag>
+                                    <Tag color={item.badge.color} style={{color: "rgba(0, 0, 0, 0.8)", fontWeight: "500"}}>{item.badge.title}</Tag>
                                 ) : (
-                                    <Tag color="#d3d3d3" style={{ color: "black" }}>Sem Badge</Tag>
+                                    <Tag color="#d3d3d3" style={{ color: "black", fontWeight: "500" }}>Sem Badge</Tag>
                                 )}
                             </div>
                         </List.Item>
