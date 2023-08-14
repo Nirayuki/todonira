@@ -1,8 +1,8 @@
 import React, { Dispatch, SetStateAction } from "react";
-import { List, Dropdown, Menu, Input, Checkbox, Tag, Tooltip } from "antd";
+import { List, Dropdown, Menu, Checkbox, Tag, Tooltip, ConfigProvider } from "antd";
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 
-import { EllipsisOutlined } from '@ant-design/icons';
+import { EllipsisOutlined, SmileOutlined } from '@ant-design/icons';
 
 interface TodoItem {
     id?: string | null | number;
@@ -25,51 +25,62 @@ interface Props {
 
 export const ListTodos = ({ data, setEditData, setModalEdit, handleDelete, onChangeCheckBox }: Props) => {
     return (
-        <List
-            dataSource={data}
-            itemLayout="horizontal"
-            renderItem={(item: TodoItem, key) => {
-                return (
-                    <List.Item
-                        actions={[
-                            <Dropdown
-                                overlay={
-                                    <Menu>
-                                        <Menu.Item onClick={() => {
-                                            setModalEdit(true);
-                                            setEditData(item);
-                                        }}>
-                                            Editar
-                                        </Menu.Item>
-                                        <Menu.Item onClick={() => handleDelete(item.id)}>
-                                            Deletar
-                                        </Menu.Item>
-                                    </Menu>
-                                }
-                                trigger={["click"]}
-                                placement="bottomRight"
-                            >
-                                <Tooltip title="Mostrar mais">
-                                    <EllipsisOutlined className='more' />
-                                </Tooltip>
-                            </Dropdown>
-                        ]}
-                    >
-                        <div className="check">
-                            <Checkbox className='checkbox' checked={item.completed} onChange={(e) => onChangeCheckBox(e, item)} key={item.id} />
-                            <span>{item.text}</span>
-                        </div>
-                        <div className="tag">
-                            {item.badge ? (
-                                <Tag color={item.badge.color}>{item.badge.title}</Tag>
-                            ) : (
-                                <Tag color="#d3d3d3" style={{color: "black"}}>Sem Badge</Tag>
-                            )}
-                        </div>
-                    </List.Item>
+        <ConfigProvider
+            renderEmpty={() => {
+                return(
+                    <div className="no-data">
+                        <SmileOutlined style={{ fontSize: 20 }} />
+                        <p>Sem Todos</p>
+                    </div>
                 )
             }}
         >
-        </List>
+            <List
+                dataSource={data}
+                itemLayout="horizontal"
+                renderItem={(item: TodoItem, key) => {
+                    return (
+                        <List.Item
+                            actions={[
+                                <Dropdown
+                                    overlay={
+                                        <Menu>
+                                            <Menu.Item onClick={() => {
+                                                setModalEdit(true);
+                                                setEditData(item);
+                                            }}>
+                                                Editar
+                                            </Menu.Item>
+                                            <Menu.Item onClick={() => handleDelete(item.id)}>
+                                                Deletar
+                                            </Menu.Item>
+                                        </Menu>
+                                    }
+                                    trigger={["click"]}
+                                    placement="bottomRight"
+                                >
+                                    <Tooltip title="Mostrar mais">
+                                        <EllipsisOutlined className='more' />
+                                    </Tooltip>
+                                </Dropdown>
+                            ]}
+                        >
+                            <div className="check">
+                                <Checkbox className='checkbox' checked={item.completed} onChange={(e) => onChangeCheckBox(e, item)} key={item.id} />
+                                <span>{item.text}</span>
+                            </div>
+                            <div className="tag">
+                                {item.badge ? (
+                                    <Tag color={item.badge.color}>{item.badge.title}</Tag>
+                                ) : (
+                                    <Tag color="#d3d3d3" style={{ color: "black" }}>Sem Badge</Tag>
+                                )}
+                            </div>
+                        </List.Item>
+                    )
+                }}
+            >
+            </List>
+        </ConfigProvider>
     )
 }

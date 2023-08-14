@@ -29,7 +29,7 @@ export const SelectBadge = ({data, badge, setBadge, setModalNewBadge}: Props) =>
             placeholder="Badge"
             defaultValue={data?.badges ? data?.badges[0].title : undefined}
             onChange={(e) => setBadge(e)}
-            value={badge ? badge : data?.badges[0].title}
+            value={badge ? badge : data?.badges ? data?.badges[0].title : undefined}
             dropdownRender={(menu) => {
                 return (
                     <>

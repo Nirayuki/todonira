@@ -100,6 +100,9 @@
     gap: 5px;
 }
 
+.no-data{
+    color: var(--font);
+}
 
 .check-list {
     width: 100%;
