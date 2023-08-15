@@ -1,12 +1,12 @@
-import { Dropdown, MenuProps } from "antd";
+import { Select, Space, Dropdown, Menu, MenuProps } from "antd";
 import { DocumentData } from "firebase/firestore";
 import { Dispatch, SetStateAction } from "react";
 
 import { FilterOutlined } from '@ant-design/icons';
 
 interface Props {
-    dataRoom: RoomData | DocumentData | undefined,
-    setFilterCategoria: Dispatch<SetStateAction<string>>,
+    dataRoom: RoomData | DocumentData | undefined
+    setFilterBadge: Dispatch<SetStateAction<string>>
 }
 
 interface RoomData {
@@ -27,12 +27,15 @@ interface TodoItem {
     } | null
 }
 
+interface ItemBadge {
+    title: string,
+    color: string
+}
 
-
-export const SelectFilter = ({ dataRoom, setFilterCategoria}: Props) => {
+export const SelectFilterBadge = ({ dataRoom,  setFilterBadge}: Props) => {
 
     const onClick: MenuProps['onClick'] = ({ key }) => {
-        setFilterCategoria(key);
+        setFilterBadge(key);
     };
 
     const items: MenuProps['items'] = [
@@ -40,10 +43,10 @@ export const SelectFilter = ({ dataRoom, setFilterCategoria}: Props) => {
             label: 'Todos',
             key: 'all',
         },
-        ...(dataRoom?.categoria
-            ? dataRoom?.categoria.map((item: string) => ({
-                label: item,
-                key: item,
+        ...(dataRoom?.badges
+            ? dataRoom?.badges.map((item: ItemBadge) => ({
+                label: item.title,
+                key: item.title,
             }))
             : []),
     ];
@@ -53,7 +56,7 @@ export const SelectFilter = ({ dataRoom, setFilterCategoria}: Props) => {
             className='select-filter'
             menu={{ items, onClick, selectable: true, defaultSelectedKeys: ["all"] }}
         >
-            <p style={{ fontSize: "0.95rem", display: "flex", gap: "10px", cursor: "pointer", justifyContent: "flex-end" }}>Categorias <FilterOutlined /></p>
+            <p style={{ fontSize: "0.95rem", display: "flex", gap: "10px", cursor: "pointer", justifyContent: "flex-end"}}>Badge <FilterOutlined /></p>
         </Dropdown>
     )
 }

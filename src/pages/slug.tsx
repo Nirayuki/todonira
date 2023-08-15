@@ -31,6 +31,7 @@ import { ModalEditTodo } from '../components/modals/modalEditTodo';
 import { SelectCategoria } from '../components/selects/selectCategoria';
 import { SelectBadge } from '../components/selects/selectBadge';
 import { SelectFilter } from '../components/selects/selectFilter';
+import { SelectFilterBadge } from '../components/selects/selectFilterBadge';
 
 interface TodoItem {
     id?: string | null | number;
@@ -89,6 +90,10 @@ function Slug() {
     // Badge states ----------------------------------------------------------------------------
     const [badge, setBadge] = useState<string | undefined>(dataPrivateRoom?.badges ? dataPrivateRoom?.badges[0].title : undefined);
     const [dataBadges, setDataBadges] = useState<ItemBadge[]>([]);
+
+    // Filter states --------------------------------------------------------------------------
+    const [filterBadge, setFilterBadge] = useState("all");
+    const [filterCategoria, setFilterCategoria] = useState("all");
 
     useEffect(() => {
         const path = window.location.pathname.substring(1);
@@ -228,7 +233,7 @@ function Slug() {
                             <span className='conter' style={{ color: dataInput && dataInput.length > 150 ? "red" : "black" }}>{dataInput ? dataInput.length : "0"}</span>
                         </div>
                         <div className="list-todo">
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: "space-between" }}>
+                            <div className='header-filter-theme' style={{ }}>
                                 <div className="left">
                                     <span>Lista de Todo's</span>
                                     <Tooltip title="Mudar tema">
@@ -236,20 +241,23 @@ function Slug() {
                                     </Tooltip>
                                 </div>
                                 <div className="filter">
+                                    <Tooltip title="Filtrar Badges">
+                                        <SelectFilterBadge
+                                            dataRoom={dataPrivateRoom}
+                                            setFilterBadge={setFilterBadge}
+                                        />
+                                    </Tooltip>
                                     <Tooltip title="Filtrar Categorias">
                                         <SelectFilter
                                             dataRoom={dataPrivateRoom}
-                                            dataTodo={data}
-                                            categoria={categoria}
-                                            setCategoria={setCategoria}
-                                            setDataFiltered={setDataFiltered}
+                                            setFilterCategoria={setFilterCategoria}
                                         />
                                     </Tooltip>
                                 </div>
                             </div>
                             <Divider className='divider' style={{ margin: "0px" }} />
                             <div className="list">
-                                <ListTodos data={dataFiltered} setEditData={setEditData} setModalEdit={setModalEdit} handleDelete={handleDelete} onChangeCheckBox={onChangeCheckBox} />
+                                <ListTodos data={data} dataFiltered={dataFiltered} setDataFiltered={setDataFiltered} setEditData={setEditData} filterBadge={filterBadge} filterCategoria={filterCategoria} setModalEdit={setModalEdit} handleDelete={handleDelete} onChangeCheckBox={onChangeCheckBox} />
                             </div>
                         </div>
                     </div>

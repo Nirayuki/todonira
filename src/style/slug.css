@@ -52,6 +52,16 @@
     width: 150px;
 }
 
+.header-filter-theme{
+    display: flex; 
+    align-items: center;
+    justify-content: space-between;
+}
+
+.filter{
+    display: flex;
+}
+
 .select-filter{
     width: 150px;
 }
@@ -224,6 +234,17 @@
     .check{
         width: 60%;
     }
+
+    .header-filter-theme{
+        flex-direction: column;
+        align-items: start;
+    }
+
+    .filter{
+        width: 100%;
+        
+        justify-content: flex-end;
+    }
 }
 
 @media screen and (max-width: 433px){
@@ -238,11 +259,6 @@
 
 
 @media screen and (max-width: 377px) {
-
-    .select-filter{
-        width: 100px;
-    }
-
     .select-head{
         width: 80px;
     }

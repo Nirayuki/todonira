@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { List, Dropdown, Menu, Checkbox, Tag, Tooltip, ConfigProvider } from "antd";
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 
@@ -16,18 +16,36 @@ interface TodoItem {
 }
 
 interface Props {
-    data: TodoItem[] | undefined,
+    data: TodoItem[],
+    dataFiltered: TodoItem[] | undefined,
+    setDataFiltered: Dispatch<SetStateAction<TodoItem[]>>,
     setEditData: Dispatch<SetStateAction<TodoItem | undefined>>,
     setModalEdit: Dispatch<SetStateAction<boolean>>,
     handleDelete: (itemId: string | number | null | undefined) => {},
-    onChangeCheckBox: (e: CheckboxChangeEvent, todo: TodoItem) => {}
+    onChangeCheckBox: (e: CheckboxChangeEvent, todo: TodoItem) => {},
+    filterBadge: string,
+    filterCategoria: string
 }
 
-export const ListTodos = ({ data, setEditData, setModalEdit, handleDelete, onChangeCheckBox }: Props) => {
+export const ListTodos = ({ data, dataFiltered, setDataFiltered, setEditData, setModalEdit, handleDelete, onChangeCheckBox, filterBadge, filterCategoria }: Props) => {
+
+    useEffect(() => {
+        if (filterBadge === "all" && filterCategoria === "all") {
+            setDataFiltered(data);
+        } else {
+            setDataFiltered(
+                data?.filter(filter =>
+                    (filterBadge === "all" || filter.badge?.title === filterBadge) &&
+                    (filterCategoria === "all" || filter.categoria === filterCategoria)
+                )
+            );
+        }
+    }, [filterBadge, filterCategoria, data]);
+
     return (
         <ConfigProvider
             renderEmpty={() => {
-                return(
+                return (
                     <div className="no-data">
                         <SmileOutlined style={{ fontSize: 20 }} />
                         <p>Sem Todos</p>
@@ -36,7 +54,7 @@ export const ListTodos = ({ data, setEditData, setModalEdit, handleDelete, onCha
             }}
         >
             <List
-                dataSource={data}
+                dataSource={dataFiltered}
                 itemLayout="horizontal"
                 renderItem={(item: TodoItem, key) => {
                     return (
@@ -67,11 +85,11 @@ export const ListTodos = ({ data, setEditData, setModalEdit, handleDelete, onCha
                         >
                             <div className="check">
                                 <Checkbox className='checkbox' checked={item.completed} onChange={(e) => onChangeCheckBox(e, item)} key={item.id} />
-                                <span>{item.text}</span>
+                                <span style={{textDecoration: item.completed ? "line-through" : ""}}>{item.text}</span>
                             </div>
                             <div className="tag">
                                 {item.badge ? (
-                                    <Tag color={item.badge.color} style={{color: "rgba(0, 0, 0, 0.8)", fontWeight: "500"}}>{item.badge.title}</Tag>
+                                    <Tag color={item.badge.color} style={{ color: "rgba(0, 0, 0, 0.8)", fontWeight: "500" }}>{item.badge.title}</Tag>
                                 ) : (
                                     <Tag color="#d3d3d3" style={{ color: "black", fontWeight: "500" }}>Sem Badge</Tag>
                                 )}
