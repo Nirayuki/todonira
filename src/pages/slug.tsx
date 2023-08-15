@@ -33,6 +33,9 @@ import { SelectBadge } from '../components/selects/selectBadge';
 import { SelectFilter } from '../components/selects/selectFilter';
 import { SelectFilterBadge } from '../components/selects/selectFilterBadge';
 
+import database from '../lib/client';
+import { serverTimestamp, doc, collection } from 'firebase/firestore';
+
 interface TodoItem {
     id?: string | null | number;
     text: string;
@@ -116,9 +119,9 @@ function Slug() {
         };
 
         fetchData();
+    
         const unsubscribe = todoService.subscribeToTodos((todos: TodoItem[]) => {
             setData(todos);
-            setDataFiltered(categoria === "all" ? todos : todos.filter(filter => filter.categoria === categoria));
         });
 
         const unsubscribeRoom = roomService.subscribeRoom((room: RoomData) => {
@@ -147,7 +150,7 @@ function Slug() {
                     badge: badge ? {
                         title: badgeObject[0].title,
                         color: badgeObject[0].color
-                    } : null
+                    } : null,
                 };
 
                 await todoService.addTodo(newItem);
@@ -233,7 +236,7 @@ function Slug() {
                             <span className='conter' style={{ color: dataInput && dataInput.length > 150 ? "red" : "black" }}>{dataInput ? dataInput.length : "0"}</span>
                         </div>
                         <div className="list-todo">
-                            <div className='header-filter-theme' style={{ }}>
+                            <div className='header-filter-theme' style={{}}>
                                 <div className="left">
                                     <span>Lista de Todo's</span>
                                     <Tooltip title="Mudar tema">

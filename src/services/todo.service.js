@@ -9,7 +9,8 @@ import {
   orderBy,
   query,
   updateDoc,
-  onSnapshot
+  onSnapshot,
+  serverTimestamp
 } from "firebase/firestore";
 
 const roomCollectionRef = collection(database, "rooms");
@@ -42,7 +43,7 @@ class todoService {
     const roomDocRef = doc(database, "rooms", currentPath);
     const todoCollectionRef = collection(roomDocRef, "todos");
 
-    const todos = await getDocs(todoCollectionRef, orderBy("date", "desc"));
+    const todos = await getDocs(todoCollectionRef, orderBy("createdAt", "desc"));
 
     return todos;
   };
@@ -53,7 +54,10 @@ class todoService {
     const roomDocRef = doc(database, "rooms", currentPath);
     const todoCollectionRef = collection(roomDocRef, "todos");
 
-    return await addDoc(todoCollectionRef, todo);
+    return await addDoc(todoCollectionRef, {
+      ...todo,
+      createdAt: serverTimestamp()
+    });
   };
 
   deleteTodo = async (todoId) => {
@@ -84,6 +88,10 @@ class todoService {
 
     return onSnapshot(todoCollectionRef, (querySnapshot) => {
       const todos = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+
+      // Ordenar os todos pelo campo createdAt
+      todos.sort((a, b) => b.createdAt - a.createdAt);
+
       callback(todos);
     });
   };

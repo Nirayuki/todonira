@@ -89,9 +89,9 @@ export const ListTodos = ({ data, dataFiltered, setDataFiltered, setEditData, se
                             </div>
                             <div className="tag">
                                 {item.badge ? (
-                                    <Tag color={item.badge.color} style={{ color: "rgba(0, 0, 0, 0.8)", fontWeight: "500" }}>{item.badge.title}</Tag>
+                                    <Tag color={item.badge.color} style={{ color: "rgba(0, 0, 0, 0.8)", fontWeight: "700", textShadow: "2px 2px 4px #fffff" }}>{item.badge.title}</Tag>
                                 ) : (
-                                    <Tag color="#d3d3d3" style={{ color: "black", fontWeight: "500" }}>Sem Badge</Tag>
+                                    <Tag color="#d3d3d3" style={{ color: "black", fontWeight: "700" }}>Sem Badge</Tag>
                                 )}
                             </div>
                         </List.Item>
