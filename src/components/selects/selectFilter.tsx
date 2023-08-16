@@ -24,8 +24,6 @@ interface ItemBadge {
 
 
 export const SelectFilter = ({ dataRoom, setFilterCategoria, setFilterBadge}: Props) => {
-    const [selectedCategories, setSelectedCategories] = useState<string>();
-    const [selectedBadges, setSelectedBadges] = useState<string>();
 
     const handleCategoryChange = (selectedValue: string) => {
         setFilterCategoria(selectedValue);
@@ -47,7 +45,7 @@ export const SelectFilter = ({ dataRoom, setFilterCategoria, setFilterBadge}: Pr
                 <Select.Option key="all" value="all">
                     Todos
                 </Select.Option>
-                {dataRoom?.categoria.map((item: string) => (
+                {dataRoom?.categoria?.map((item: string) => (
                     <Select.Option key={item} value={item}>
                         {item}
                     </Select.Option>
@@ -63,7 +61,7 @@ export const SelectFilter = ({ dataRoom, setFilterCategoria, setFilterBadge}: Pr
                 <Select.Option key="all" value="all">
                     Todos
                 </Select.Option>
-                {dataRoom?.badges.map((item: ItemBadge) => (
+                {dataRoom?.badges?.map((item: ItemBadge) => (
                    
                     <Select.Option key={item.title} value={item.title}>
                         {item.title}

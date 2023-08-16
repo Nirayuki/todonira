@@ -108,12 +108,6 @@ function Slug() {
 
 
     // Ref for tour ----------------------------------------------------------------------------
-    const refInput = useRef(null);
-    const refCategoria = useRef(null);
-    const refBadge = useRef(null);
-    const refList = useRef(null);
-    const refFilterCategoria = useRef(null);
-    const refFilterBadge = useRef(null);
     const [openTour, setOpenTour] = useState(false);
 
     const steps: TourProps['steps'] = [
@@ -234,13 +228,13 @@ function Slug() {
                             <SelectBadge setBadge={setBadge} badge={badge} data={dataPrivateRoom} />
                         </ModalAddTodo>
                         <div className="head">
-                            <input ref={refInput} className='input-head' type="text" placeholder='Digite sua tarefa aqui...' value={dataInput} onChange={onChange} onKeyDown={handleKeyDown} />
+                            <input className='input-head' type="text" placeholder='Digite sua tarefa aqui...' value={dataInput} onChange={onChange} onKeyDown={handleKeyDown} />
                             <span className='conter' style={{ color: dataInput && dataInput.length > 150 ? "red" : "black" }}>{dataInput ? dataInput.length : "0"}</span>
                         </div>
                         <div className="list-todo">
                             <div className="list">
                                 <div className="filter">
-                                    <div ref={refFilterCategoria}>
+                                    <div>
                                         <SelectFilter
                                             dataRoom={dataPrivateRoom}
                                             setFilterCategoria={setFilterCategoria}
@@ -252,7 +246,7 @@ function Slug() {
                                     </Tooltip>
                                 </div>
                                 <Divider className='divider-list' style={{ margin: "5px" }} />
-                                <div ref={refList}>
+                                <div>
                                     <ListTodos data={data} dataFiltered={dataFiltered} setDataFiltered={setDataFiltered} setEditData={setEditData} filterBadge={filterBadge} filterCategoria={filterCategoria} setModalEdit={setModalEdit} handleDelete={handleDelete} onChangeCheckBox={onChangeCheckBox} />
                                 </div>
                             </div>
