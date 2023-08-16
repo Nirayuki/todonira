@@ -16,6 +16,19 @@
     gap: 10px;
 }
 
+.clear-input{
+    font-size: 8px;
+    position: absolute;
+    right: 10px;
+    bottom: 11px;
+
+    color: rgba(0, 0, 0, 0.88);
+    background-color: lightgray;
+    border-radius: 50%;
+    padding: 5px;
+
+    cursor: pointer;
+}
 
 .theme-container{
     width: 100%;
@@ -33,7 +46,6 @@
     border: 1px solid #58585a;
 
     padding: 10px 10px;
-    padding-right: 37px;
     border-radius: 6px;
     height: 40px;
 }
@@ -43,13 +55,6 @@
     align-items: center; 
     gap: 30px;
 }
-
-.conter {
-    position: absolute;
-    right: 10px;
-    bottom: 11px;
-}
-
 
 .divider::before {
     border-block-start-color: var(--bg_divider) !important;
@@ -102,14 +107,14 @@
     color: var(--font) !important;
 }
 
-.ant-select-selection-item{
+.select-filter .ant-select-selection-item{
     color: var(--font);
 }
-.ant-select-selection-placeholder{
+.select-filter .ant-select-selection-placeholder{
     color: var(--font) !important;
 }
 
-.ant-select-arrow svg{
+.select-filter .ant-select-arrow svg{
     color: var(--font) !important;
 }
 

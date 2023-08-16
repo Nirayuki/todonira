@@ -42,6 +42,14 @@ export const ListTodos = ({ data, dataFiltered, setDataFiltered, setEditData, se
         }
     }, [filterBadge, filterCategoria, data]);
 
+    function getBrightness(color: string) {
+        const rgb = parseInt(color.slice(1), 16);
+        const r = (rgb >> 16) & 0xff;
+        const g = (rgb >>  8) & 0xff;
+        const b = (rgb >>  0) & 0xff;
+        return (r * 299 + g * 587 + b * 114) / 1000;
+    }
+
     return (
         <ConfigProvider
             renderEmpty={() => {
@@ -89,7 +97,7 @@ export const ListTodos = ({ data, dataFiltered, setDataFiltered, setEditData, se
                             </div>
                             <div className="tag">
                                 {item.badge ? (
-                                    <Tag color={item.badge.color} style={{ color: "rgba(0, 0, 0, 0.8)", fontWeight: "700", textShadow: "2px 2px 4px #fffff" }}>{item.badge.title}</Tag>
+                                    <Tag color={item.badge.color} style={{ color: getBrightness(item.badge.color) > 128 ? 'black' : 'white', fontWeight: "700", textShadow: "2px 2px 4px #fffff" }}>{item.badge.title}</Tag>
                                 ) : null}
                             </div>
                         </List.Item>

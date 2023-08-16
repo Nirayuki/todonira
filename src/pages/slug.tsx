@@ -10,12 +10,12 @@ import { CardIsPrivateRoom } from '../components/cards/cardIsPrivateRoom';
 import { ModalNewCategoria } from '../components/modals/modalNewCategoria';
 
 // Antd Components -------------------------------------------------------------------
-import { Divider, Tooltip, Tour } from 'antd';
+import { Divider, Input, Tooltip, Tour } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import type { TourProps } from 'antd';
 
 // Antd Icons ----------------------------------------------------------------------
-import { SettingOutlined } from '@ant-design/icons';
+import { CloseOutlined } from '@ant-design/icons';
 
 // Services --------------------------------------------
 import todoService from '../services/todo.service';
@@ -32,14 +32,7 @@ import { ModalEditTodo } from '../components/modals/modalEditTodo';
 import { SelectCategoria } from '../components/selects/selectCategoria';
 import { SelectBadge } from '../components/selects/selectBadge';
 import { SelectFilter } from '../components/selects/selectFilter';
-import { SelectFilterBadge } from '../components/selects/selectFilterBadge';
 
-import img_nova_tarefa from '../assets/nova tarefa.png';
-import img_categoria from '../assets/categoria.png';
-import img_marcacao from '../assets/marcação.png';
-import img_tarefa_list from '../assets/tarefalista.png';
-import img_filtrar_categoria from '../assets/filtrar categoria.png';
-import img_filtrar_marcacao from '../assets/filtrar marcacao.png';
 import { ModalAddTodo } from '../components/modals/modalAddTodo';
 
 
@@ -228,8 +221,15 @@ function Slug() {
                             <SelectBadge setBadge={setBadge} badge={badge} data={dataPrivateRoom} />
                         </ModalAddTodo>
                         <div className="head">
-                            <input className='input-head' type="text" placeholder='Digite sua tarefa aqui...' value={dataInput} onChange={onChange} onKeyDown={handleKeyDown} />
-                            <span className='conter' style={{ color: dataInput && dataInput.length > 150 ? "red" : "black" }}>{dataInput ? dataInput.length : "0"}</span>
+                            <Input 
+                                className='input-head' 
+                                type="text" 
+                                placeholder='Digite sua tarefa aqui...' 
+                                value={dataInput} 
+                                onChange={onChange} 
+                                onKeyDown={handleKeyDown} 
+                                allowClear
+                            />
                         </div>
                         <div className="list-todo">
                             <div className="list">

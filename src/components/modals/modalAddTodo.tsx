@@ -1,4 +1,4 @@
-import {Dispatch, SetStateAction} from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { Button, Input, Modal } from "antd";
 
 import '../../style/modalAddTodo.css';
@@ -6,7 +6,7 @@ import { DocumentData } from 'firebase/firestore';
 
 import todoService from '../../services/todo.service';
 
-interface Props{
+interface Props {
     open: boolean,
     setOpen: Dispatch<SetStateAction<boolean>>,
     dataInput: string,
@@ -42,33 +42,42 @@ interface ItemBadge {
     color: string
 }
 
-export const ModalAddTodo = ({open, setOpen, dataInput, setDataInput, children, dataPrivateRoom, setCategoriaInput, categoriaInput, setBadge, badge}: Props) => {
+export const ModalAddTodo = ({ open, setOpen, dataInput, setDataInput, children, dataPrivateRoom, setCategoriaInput, categoriaInput, setBadge, badge }: Props) => {
+    
+    const [error, setError] = useState<boolean>(false);
 
     const handleOk = async () => {
-        const badgeObject: ItemBadge[] = dataPrivateRoom?.badges.filter((filter: { title: string }) => filter.title === badge);
-        const newItem: TodoItem = {
-            text: dataInput,
-            completed: false,
-            categoria: categoriaInput ? categoriaInput : [],
-            badge: badge ? {
-                title: badgeObject[0].title,
-                color: badgeObject[0].color
-            } : null,
-        };
+        if (error) {
+            return
+        } else {
+            const badgeObject: ItemBadge[] = dataPrivateRoom?.badges.filter((filter: { title: string }) => filter.title === badge);
+            const newItem: TodoItem = {
+                text: dataInput,
+                completed: false,
+                categoria: categoriaInput ? categoriaInput : [],
+                badge: badge ? {
+                    title: badgeObject[0].title,
+                    color: badgeObject[0].color
+                } : null,
+            };
 
-        await todoService.addTodo(newItem);
-        setDataInput("");
-        setCategoriaInput("");
-        setBadge("");
-        setOpen(false);
+            await todoService.addTodo(newItem);
+            setDataInput("");
+            setCategoriaInput("");
+            setBadge("");
+            setOpen(false);
+        }
     }
 
     const handleCancel = () => {
         setOpen(false);
+        setCategoriaInput("0");
+        setBadge("");
     }
 
-    return(
+    return (
         <Modal
+            className='modal'
             title="Adicionar Tarefa"
             open={open}
             onOk={handleOk}
@@ -82,7 +91,14 @@ export const ModalAddTodo = ({open, setOpen, dataInput, setDataInput, children, 
                 </Button>
             ]}
         >
-            <Input.TextArea value={dataInput} onChange={(e) => setDataInput(e.currentTarget.value)} bordered={false} style={{resize: "none", fontSize: "1.2rem", padding: "0", borderBottom: "2px solid rgba(0, 0, 0, 0.4)", borderRadius: "0"}} maxLength={150} autoSize/>
+            <Input.TextArea value={dataInput} onChange={(e) => {
+                setDataInput(e.currentTarget.value) 
+                if(e.currentTarget.value === ""){
+                    setError(true);
+                }else{
+                    setError(false);
+                }
+                }} bordered={false} style={{ resize: "none", fontSize: "1.2rem", padding: "0", borderBottom: error ? "2px solid rgba(255, 0, 0, 0.4)" : "2px solid rgba(0, 0, 0, 0.4)", borderRadius: "0" }} maxLength={150} autoSize />
             <div className="others">
                 {children}
             </div>
