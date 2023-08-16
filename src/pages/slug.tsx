@@ -40,6 +40,7 @@ import img_marcacao from '../assets/marcação.png';
 import img_tarefa_list from '../assets/tarefalista.png';
 import img_filtrar_categoria from '../assets/filtrar categoria.png';
 import img_filtrar_marcacao from '../assets/filtrar marcacao.png';
+import { ModalAddTodo } from '../components/modals/modalAddTodo';
 
 
 interface TodoItem {
@@ -87,6 +88,7 @@ function Slug() {
     const [modalEdit, setModalEdit] = useState<boolean>(false);
     const [modalBagdes, setModalBadges] = useState<boolean>(false);
     const [modalNewBadge, setModalNewBadge] = useState<boolean>(false);
+    const [modalAddTodo, setModalAddTodo] = useState<boolean>(false);
 
     // Settings categoria States ---------------------------------------------------------------
     const [settings, setSettings] = useState<string[]>([]);
@@ -116,71 +118,9 @@ function Slug() {
 
     const steps: TourProps['steps'] = [
         {
-            title: 'Criar uma nova tarefa',
-            description: 'Nesse campo você deverá digitar a sua tarefa',
-            cover: (
-                <img
-                    alt="tour.png"
-                    src={img_nova_tarefa}
-                />
-            ),
-            target: () => refInput.current,
-        },
-        {
-            title: 'Adicionar uma categoria',
-            description: 'Após escrever sua tarefa, nesse campo você escolherá a categoria de sua tarefa',
-            cover: (
-                <img
-                    alt="tour.png"
-                    src={img_categoria}
-                />
-            ),
-            target: () => refCategoria.current,
-        },
-        {
-            title: 'Adicionar uma marcação a tarefa',
-            description: 'Após escolhar a categoria de sua tarefa, nesse campo você escolherá a marcação de sua tarefa',
-            cover: (
-                <img
-                    alt="tour.png"
-                    src={img_marcacao}
-                />
-            ),
-            target: () => refBadge.current,
-        },
-        {
-            title: 'Visualização de sua tarefa',
-            description: 'Após você adicionar uma tarefa, você poderá visualizar ela nesse campo',
-            cover: (
-                <img
-                    alt="tour.png"
-                    src={img_tarefa_list}
-                />
-            ),
-            target: () => refList.current,
-        },
-        {
-            title: 'Filtrar tarefas por categorias',
-            description: 'Para você poder visualizar tarefas de categorias especificas, basta você selecionar o filtro de categoria que deseja nesse campo.',
-            cover: (
-                <img
-                    alt="tour.png"
-                    src={img_filtrar_categoria}
-                />
-            ),
-            target: () => refFilterCategoria.current,
-        },
-        {
-            title: 'Filtrar tarefas por marcação',
-            description: 'Para você poder visualizar tarefas de marcações especificas, basta você selecionar o filtro de marcações que deseja nesse campo.',
-            cover: (
-                <img
-                    alt="tour.png"
-                    src={img_filtrar_marcacao}
-                />
-            ),
-            target: () => refFilterBadge.current,
-        },
+            title: "Como eu acesso minha lista novamente?",
+            description: "Copie o link da URL(https://todonira.vercel.app/sualista) da sua Lista de tarefa e guarde ela para poder acessa-la novamente"
+        }
     ];
 
 
@@ -230,23 +170,12 @@ function Slug() {
     }, [categoria]);
 
     const handleKeyDown = async (e: React.KeyboardEvent<HTMLDivElement>) => {
-        const badgeObject: ItemBadge[] = dataPrivateRoom?.badges.filter((filter: { title: string }) => filter.title === badge);
+
         if (e.key === 'Enter' && dataInput.trim() !== "") {
             if (dataInput.length > 150) {
                 return
             } else {
-                const newItem: TodoItem = {
-                    text: dataInput,
-                    completed: false,
-                    categoria: categoriaInput ? categoriaInput : [],
-                    badge: badge ? {
-                        title: badgeObject[0].title,
-                        color: badgeObject[0].color
-                    } : null,
-                };
-
-                await todoService.addTodo(newItem);
-                setDataInput("");
+                setModalAddTodo(true);
             }
         }
     }
@@ -262,18 +191,6 @@ function Slug() {
     const handleDelete = async (itemId: string | number | null | undefined) => {
         await todoService.deleteTodo(itemId);
     };
-
-    const handleSettings = async () => {
-        const newItem = await dataPrivateRoom?.categoria.map((item: any) => { return item });
-        setSettings(newItem);
-        setModalCategoriaSettings(true);
-    }
-
-    const handleSettingsBadges = async () => {
-        const newData = await dataPrivateRoom?.badges.map((item: any) => { return item });
-        setDataBadges(newData);
-        setModalBadges(true);
-    }
 
     if (!roomDataLoaded) {
         return null;
@@ -302,61 +219,41 @@ function Slug() {
                         />
                         <ModalEditTodo open={modalEdit} setOpen={setModalEdit} data={dataPrivateRoom} dataEdit={editData} />
                         <ModalBadges open={modalBagdes} setOpen={setModalBadges} data={dataPrivateRoom} setBadge={setBadge} dataBadges={dataBadges} setDataBadges={setDataBadges} />
+                        <ModalAddTodo
+                            open={modalAddTodo}
+                            setOpen={setModalAddTodo}
+                            dataInput={dataInput}
+                            setDataInput={setDataInput}
+                            dataPrivateRoom={dataPrivateRoom}
+                            categoriaInput={categoriaInput}
+                            setCategoriaInput={setCategoriaInput}
+                            badge={badge}
+                            setBadge={setBadge}
+                        >
+                            <SelectCategoria setCategoriaInput={setCategoriaInput} categoriaInput={categoriaInput} data={dataPrivateRoom} />
+                            <SelectBadge setBadge={setBadge} badge={badge} data={dataPrivateRoom} />
+                        </ModalAddTodo>
                         <div className="head">
-                            <div className="select">
-                                <div
-                                    ref={refCategoria}
-                                >
-                                    <SelectCategoria
-                                        setModalNewCategoria={setModalNewCategoria}
-                                        setCategoriaInput={setCategoriaInput}
-                                        categoriaInput={categoriaInput}
-                                        data={dataPrivateRoom}
-                                    />
-                                </div>
-                                <Tooltip title="Configuração das Categorias">
-                                    <SettingOutlined onClick={() => handleSettings()} />
-                                </Tooltip>
-                                <div
-                                    ref={refBadge}
-                                >
-                                    <SelectBadge data={dataPrivateRoom} badge={badge} setBadge={setBadge} setModalNewBadge={setModalNewBadge} />
-                                </div>
-                                <Tooltip title="Configuração das Marcações">
-                                    <SettingOutlined onClick={() => handleSettingsBadges()} />
-                                </Tooltip>
-                            </div>
                             <input ref={refInput} className='input-head' type="text" placeholder='Digite sua tarefa aqui...' value={dataInput} onChange={onChange} onKeyDown={handleKeyDown} />
                             <span className='conter' style={{ color: dataInput && dataInput.length > 150 ? "red" : "black" }}>{dataInput ? dataInput.length : "0"}</span>
                         </div>
                         <div className="list-todo">
-                            <div className='header-filter-theme' style={{}}>
-                                <div className="left">
-                                    <span>Lista de Todo's</span>
-                                    <Tooltip title="Mudar tema">
-                                        <img className='theme' src={theme === 'dark' ? light : dark} onClick={toggleTheme} />
-                                    </Tooltip>
-                                </div>
-                            </div>
-                            <Divider className='divider' style={{ margin: "0px" }} orientation='left'>Filtros</Divider>
                             <div className="list">
                                 <div className="filter">
-                                    <div ref={refFilterBadge}>
-                                        <SelectFilterBadge
-                                            dataRoom={dataPrivateRoom}
-                                            setFilterBadge={setFilterBadge}
-                                        />
-                                    </div>
                                     <div ref={refFilterCategoria}>
                                         <SelectFilter
                                             dataRoom={dataPrivateRoom}
                                             setFilterCategoria={setFilterCategoria}
+                                            setFilterBadge={setFilterBadge}
                                         />
                                     </div>
+                                    <Tooltip title="Mudar tema">
+                                        <img className='theme' src={theme === 'dark' ? light : dark} onClick={toggleTheme} />
+                                    </Tooltip>
                                 </div>
                                 <Divider className='divider-list' style={{ margin: "5px" }} />
                                 <div ref={refList}>
-                                <ListTodos data={data} dataFiltered={dataFiltered} setDataFiltered={setDataFiltered} setEditData={setEditData} filterBadge={filterBadge} filterCategoria={filterCategoria} setModalEdit={setModalEdit} handleDelete={handleDelete} onChangeCheckBox={onChangeCheckBox} />
+                                    <ListTodos data={data} dataFiltered={dataFiltered} setDataFiltered={setDataFiltered} setEditData={setEditData} filterBadge={filterBadge} filterCategoria={filterCategoria} setModalEdit={setModalEdit} handleDelete={handleDelete} onChangeCheckBox={onChangeCheckBox} />
                                 </div>
                             </div>
                         </div>

@@ -1,12 +1,13 @@
-import { Dropdown, MenuProps } from "antd";
+import { Select, MenuProps } from "antd";
 import { DocumentData } from "firebase/firestore";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 import { FilterOutlined } from '@ant-design/icons';
 
 interface Props {
     dataRoom: RoomData | DocumentData | undefined,
     setFilterCategoria: Dispatch<SetStateAction<string>>,
+    setFilterBadge: Dispatch<SetStateAction<string>>
 }
 
 interface RoomData {
@@ -16,51 +17,59 @@ interface RoomData {
     badges: []
 }
 
-interface TodoItem {
-    id?: string | null | number;
-    text: string;
-    completed: boolean;
-    categoria?: string | [],
-    badge?: {
-        title: string,
-        color: string
-    } | null
+interface ItemBadge {
+    title: string,
+    color: string
 }
 
 
+export const SelectFilter = ({ dataRoom, setFilterCategoria, setFilterBadge}: Props) => {
+    const [selectedCategories, setSelectedCategories] = useState<string>();
+    const [selectedBadges, setSelectedBadges] = useState<string>();
 
-export const SelectFilter = ({ dataRoom, setFilterCategoria}: Props) => {
-
-    const onClick: MenuProps['onClick'] = ({ key }) => {
-        setFilterCategoria(key);
+    const handleCategoryChange = (selectedValue: string) => {
+        setFilterCategoria(selectedValue);
     };
 
-    const items: MenuProps['items'] = [
-        {
-            key: "categoria",
-            type: 'group',
-            label: "Categoria",
-            children: [
-                {
-                    label: 'Todos',
-                    key: 'all',
-                },
-                ...(dataRoom?.categoria
-                    ? dataRoom?.categoria.map((item: string) => ({
-                        label: item,
-                        key: item,
-                    }))
-                    : []),
-            ]
-        }
-    ];
-
+    const handleBadgeChange = (selectedValue: string) => {
+        setFilterBadge(selectedValue);
+    };
+    
     return (
-        <Dropdown
-            className='select-filter'
-            menu={{ items, onClick, selectable: true, defaultSelectedKeys: ["all"] }}
-        >
-            <p className="p-filter">Categorias <FilterOutlined /></p>
-        </Dropdown>
+        <div>
+            <Select
+                className='select-filter'
+                placeholder="Filtrar Tarefas"
+                suffixIcon={<FilterOutlined/>}
+                bordered={false}
+                onChange={handleCategoryChange}
+            >
+                <Select.Option key="all" value="all">
+                    Todos
+                </Select.Option>
+                {dataRoom?.categoria.map((item: string) => (
+                    <Select.Option key={item} value={item}>
+                        {item}
+                    </Select.Option>
+                ))}
+            </Select>
+            <Select
+                className='select-filter'
+                placeholder="Filtrar Marcações"
+                suffixIcon={<FilterOutlined/>}
+                bordered={false}
+                onChange={handleBadgeChange}
+            >
+                <Select.Option key="all" value="all">
+                    Todos
+                </Select.Option>
+                {dataRoom?.badges.map((item: ItemBadge) => (
+                   
+                    <Select.Option key={item.title} value={item.title}>
+                        {item.title}
+                    </Select.Option>
+                ))}
+            </Select>
+        </div>
     )
 }
