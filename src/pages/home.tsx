@@ -115,7 +115,7 @@ function Home() {
                 onCancel={handleCancel}
                 footer={[
                     <Button type='primary' onClick={() => handleOk()}>
-                        Criar sala
+                        Criar Lista
                     </Button>
                 ]}
                 width="400px"

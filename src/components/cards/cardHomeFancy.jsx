@@ -96,7 +96,7 @@ export const CardHomeFancy = ({ handleOpen }) => {
 
                         }}
                     >
-                        <button className='button-cardfancy' onClick={() => handleOpen()}>Criar uma sala</button>
+                        <button className='button-cardfancy' onClick={() => handleOpen()}>Criar uma lista</button>
                     </motion.div>
                 </motion.div>
             </motion.div>
