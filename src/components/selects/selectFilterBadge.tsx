@@ -40,15 +40,22 @@ export const SelectFilterBadge = ({ dataRoom,  setFilterBadge}: Props) => {
 
     const items: MenuProps['items'] = [
         {
-            label: 'Todos',
-            key: 'all',
-        },
-        ...(dataRoom?.badges
-            ? dataRoom?.badges.map((item: ItemBadge) => ({
-                label: item.title,
-                key: item.title,
-            }))
-            : []),
+            key: "badge",
+            label: "Marcações",
+            type: "group",
+            children: [
+                {
+                    label: 'Todos',
+                    key: 'all',
+                },
+                ...(dataRoom?.badges
+                    ? dataRoom?.badges.map((item: ItemBadge) => ({
+                        label: item.title,
+                        key: item.title,
+                    }))
+                    : []),
+            ]
+        }
     ];
 
     return (
@@ -56,7 +63,7 @@ export const SelectFilterBadge = ({ dataRoom,  setFilterBadge}: Props) => {
             className='select-filter'
             menu={{ items, onClick, selectable: true, defaultSelectedKeys: ["all"] }}
         >
-            <p style={{ fontSize: "0.95rem", display: "flex", gap: "10px", cursor: "pointer", justifyContent: "flex-end"}}>Badge <FilterOutlined /></p>
+            <p className="p-filter">Marcações <FilterOutlined /></p>
         </Dropdown>
     )
 }

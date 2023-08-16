@@ -26,10 +26,9 @@ export const SelectBadge = ({data, badge, setBadge, setModalNewBadge}: Props) =>
     return (
         <Select
             className='select-head'
-            placeholder="Badge"
-            defaultValue={data?.badges ? data?.badges[0].title : undefined}
+            placeholder="Marcação"
             onChange={(e) => setBadge(e)}
-            value={badge ? badge : data?.badges ? data?.badges[0].title : undefined}
+            value={badge}
             dropdownRender={(menu) => {
                 return (
                     <>

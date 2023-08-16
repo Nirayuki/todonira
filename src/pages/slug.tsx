@@ -119,7 +119,7 @@ function Slug() {
         };
 
         fetchData();
-    
+
         const unsubscribe = todoService.subscribeToTodos((todos: TodoItem[]) => {
             setData(todos);
         });
@@ -243,6 +243,9 @@ function Slug() {
                                         <img className='theme' src={theme === 'dark' ? light : dark} onClick={toggleTheme} />
                                     </Tooltip>
                                 </div>
+                            </div>
+                            <Divider className='divider' style={{ margin: "0px"}} orientation='left'>Filtros</Divider>
+                            <div className="list">
                                 <div className="filter">
                                     <Tooltip title="Filtrar Badges">
                                         <SelectFilterBadge
@@ -257,9 +260,7 @@ function Slug() {
                                         />
                                     </Tooltip>
                                 </div>
-                            </div>
-                            <Divider className='divider' style={{ margin: "0px" }} />
-                            <div className="list">
+                                <Divider className='divider-list' style={{margin: "5px"}}/>
                                 <ListTodos data={data} dataFiltered={dataFiltered} setDataFiltered={setDataFiltered} setEditData={setEditData} filterBadge={filterBadge} filterCategoria={filterCategoria} setModalEdit={setModalEdit} handleDelete={handleDelete} onChangeCheckBox={onChangeCheckBox} />
                             </div>
                         </div>

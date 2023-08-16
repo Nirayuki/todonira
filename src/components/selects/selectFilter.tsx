@@ -37,15 +37,22 @@ export const SelectFilter = ({ dataRoom, setFilterCategoria}: Props) => {
 
     const items: MenuProps['items'] = [
         {
-            label: 'Todos',
-            key: 'all',
-        },
-        ...(dataRoom?.categoria
-            ? dataRoom?.categoria.map((item: string) => ({
-                label: item,
-                key: item,
-            }))
-            : []),
+            key: "categoria",
+            type: 'group',
+            label: "Categoria",
+            children: [
+                {
+                    label: 'Todos',
+                    key: 'all',
+                },
+                ...(dataRoom?.categoria
+                    ? dataRoom?.categoria.map((item: string) => ({
+                        label: item,
+                        key: item,
+                    }))
+                    : []),
+            ]
+        }
     ];
 
     return (
@@ -53,7 +60,7 @@ export const SelectFilter = ({ dataRoom, setFilterCategoria}: Props) => {
             className='select-filter'
             menu={{ items, onClick, selectable: true, defaultSelectedKeys: ["all"] }}
         >
-            <p style={{ fontSize: "0.95rem", display: "flex", gap: "10px", cursor: "pointer", justifyContent: "flex-end" }}>Categorias <FilterOutlined /></p>
+            <p className="p-filter">Categorias <FilterOutlined /></p>
         </Dropdown>
     )
 }
