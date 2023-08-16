@@ -232,7 +232,7 @@ function Slug() {
                                     <SettingOutlined onClick={() => handleSettingsBadges()} />
                                 </Tooltip>
                             </div>
-                            <input className='input-head' type="text" placeholder='Digite aqui...' value={dataInput} onChange={onChange} onKeyDown={handleKeyDown} />
+                            <input className='input-head' type="text" placeholder='Digite sua tarefa aqui...' value={dataInput} onChange={onChange} onKeyDown={handleKeyDown} />
                             <span className='conter' style={{ color: dataInput && dataInput.length > 150 ? "red" : "black" }}>{dataInput ? dataInput.length : "0"}</span>
                         </div>
                         <div className="list-todo">
