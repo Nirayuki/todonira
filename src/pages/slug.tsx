@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import usePersistedState from '../components/usePersistedState';
 import { Layout } from '../components/layout';
 import { ListTodos } from '../components/lists/listTodos';
@@ -10,8 +10,9 @@ import { CardIsPrivateRoom } from '../components/cards/cardIsPrivateRoom';
 import { ModalNewCategoria } from '../components/modals/modalNewCategoria';
 
 // Antd Components -------------------------------------------------------------------
-import { Divider, Tooltip } from 'antd';
+import { Divider, Tooltip, Tour } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
+import type { TourProps } from 'antd';
 
 // Antd Icons ----------------------------------------------------------------------
 import { SettingOutlined } from '@ant-design/icons';
@@ -33,8 +34,13 @@ import { SelectBadge } from '../components/selects/selectBadge';
 import { SelectFilter } from '../components/selects/selectFilter';
 import { SelectFilterBadge } from '../components/selects/selectFilterBadge';
 
-import database from '../lib/client';
-import { serverTimestamp, doc, collection } from 'firebase/firestore';
+import img_nova_tarefa from '../assets/nova tarefa.png';
+import img_categoria from '../assets/categoria.png';
+import img_marcacao from '../assets/marcação.png';
+import img_tarefa_list from '../assets/tarefalista.png';
+import img_filtrar_categoria from '../assets/filtrar categoria.png';
+import img_filtrar_marcacao from '../assets/filtrar marcacao.png';
+
 
 interface TodoItem {
     id?: string | null | number;
@@ -98,8 +104,89 @@ function Slug() {
     const [filterBadge, setFilterBadge] = useState("all");
     const [filterCategoria, setFilterCategoria] = useState("all");
 
+
+    // Ref for tour ----------------------------------------------------------------------------
+    const refInput = useRef(null);
+    const refCategoria = useRef(null);
+    const refBadge = useRef(null);
+    const refList = useRef(null);
+    const refFilterCategoria = useRef(null);
+    const refFilterBadge = useRef(null);
+    const [openTour, setOpenTour] = useState(false);
+
+    const steps: TourProps['steps'] = [
+        {
+            title: 'Criar uma nova tarefa',
+            description: 'Nesse campo você deverá digitar a sua tarefa',
+            cover: (
+                <img
+                    alt="tour.png"
+                    src={img_nova_tarefa}
+                />
+            ),
+            target: () => refInput.current,
+        },
+        {
+            title: 'Adicionar uma categoria',
+            description: 'Após escrever sua tarefa, nesse campo você escolherá a categoria de sua tarefa',
+            cover: (
+                <img
+                    alt="tour.png"
+                    src={img_categoria}
+                />
+            ),
+            target: () => refCategoria.current,
+        },
+        {
+            title: 'Adicionar uma marcação a tarefa',
+            description: 'Após escolhar a categoria de sua tarefa, nesse campo você escolherá a marcação de sua tarefa',
+            cover: (
+                <img
+                    alt="tour.png"
+                    src={img_marcacao}
+                />
+            ),
+            target: () => refBadge.current,
+        },
+        {
+            title: 'Visualização de sua tarefa',
+            description: 'Após você adicionar uma tarefa, você poderá visualizar ela nesse campo',
+            cover: (
+                <img
+                    alt="tour.png"
+                    src={img_tarefa_list}
+                />
+            ),
+            target: () => refList.current,
+        },
+        {
+            title: 'Filtrar tarefas por categorias',
+            description: 'Para você poder visualizar tarefas de categorias especificas, basta você selecionar o filtro de categoria que deseja nesse campo.',
+            cover: (
+                <img
+                    alt="tour.png"
+                    src={img_filtrar_categoria}
+                />
+            ),
+            target: () => refFilterCategoria.current,
+        },
+        {
+            title: 'Filtrar tarefas por marcação',
+            description: 'Para você poder visualizar tarefas de marcações especificas, basta você selecionar o filtro de marcações que deseja nesse campo.',
+            cover: (
+                <img
+                    alt="tour.png"
+                    src={img_filtrar_marcacao}
+                />
+            ),
+            target: () => refFilterBadge.current,
+        },
+    ];
+
+
     useEffect(() => {
         const path = window.location.pathname.substring(1);
+        const storageTour = localStorage.getItem('tour');
         const fetchData = async () => {
             try {
                 const dataRoom = await todoService.getRoomData();
@@ -119,6 +206,11 @@ function Slug() {
         };
 
         fetchData();
+
+        if (storageTour === "false" || window.innerWidth < 730) {
+        } else {
+            setOpenTour(true);
+        }
 
         const unsubscribe = todoService.subscribeToTodos((todos: TodoItem[]) => {
             setData(todos);
@@ -212,8 +304,8 @@ function Slug() {
                         <ModalBadges open={modalBagdes} setOpen={setModalBadges} data={dataPrivateRoom} setBadge={setBadge} dataBadges={dataBadges} setDataBadges={setDataBadges} />
                         <div className="head">
                             <div className="select">
-                                <Tooltip
-                                    title="Categorias"
+                                <div
+                                    ref={refCategoria}
                                 >
                                     <SelectCategoria
                                         setModalNewCategoria={setModalNewCategoria}
@@ -221,18 +313,20 @@ function Slug() {
                                         categoriaInput={categoriaInput}
                                         data={dataPrivateRoom}
                                     />
-                                </Tooltip>
+                                </div>
                                 <Tooltip title="Configuração das Categorias">
                                     <SettingOutlined onClick={() => handleSettings()} />
                                 </Tooltip>
-                                <Tooltip title="Badges">
+                                <div
+                                    ref={refBadge}
+                                >
                                     <SelectBadge data={dataPrivateRoom} badge={badge} setBadge={setBadge} setModalNewBadge={setModalNewBadge} />
-                                </Tooltip>
-                                <Tooltip title="Configuração das Badges">
+                                </div>
+                                <Tooltip title="Configuração das Marcações">
                                     <SettingOutlined onClick={() => handleSettingsBadges()} />
                                 </Tooltip>
                             </div>
-                            <input className='input-head' type="text" placeholder='Digite sua tarefa aqui...' value={dataInput} onChange={onChange} onKeyDown={handleKeyDown} />
+                            <input ref={refInput} className='input-head' type="text" placeholder='Digite sua tarefa aqui...' value={dataInput} onChange={onChange} onKeyDown={handleKeyDown} />
                             <span className='conter' style={{ color: dataInput && dataInput.length > 150 ? "red" : "black" }}>{dataInput ? dataInput.length : "0"}</span>
                         </div>
                         <div className="list-todo">
@@ -244,26 +338,32 @@ function Slug() {
                                     </Tooltip>
                                 </div>
                             </div>
-                            <Divider className='divider' style={{ margin: "0px"}} orientation='left'>Filtros</Divider>
+                            <Divider className='divider' style={{ margin: "0px" }} orientation='left'>Filtros</Divider>
                             <div className="list">
                                 <div className="filter">
-                                    <Tooltip title="Filtrar Badges">
+                                    <div ref={refFilterBadge}>
                                         <SelectFilterBadge
                                             dataRoom={dataPrivateRoom}
                                             setFilterBadge={setFilterBadge}
                                         />
-                                    </Tooltip>
-                                    <Tooltip title="Filtrar Categorias">
+                                    </div>
+                                    <div ref={refFilterCategoria}>
                                         <SelectFilter
                                             dataRoom={dataPrivateRoom}
                                             setFilterCategoria={setFilterCategoria}
                                         />
-                                    </Tooltip>
+                                    </div>
                                 </div>
-                                <Divider className='divider-list' style={{margin: "5px"}}/>
+                                <Divider className='divider-list' style={{ margin: "5px" }} />
+                                <div ref={refList}>
                                 <ListTodos data={data} dataFiltered={dataFiltered} setDataFiltered={setDataFiltered} setEditData={setEditData} filterBadge={filterBadge} filterCategoria={filterCategoria} setModalEdit={setModalEdit} handleDelete={handleDelete} onChangeCheckBox={onChangeCheckBox} />
+                                </div>
                             </div>
                         </div>
+                        <Tour open={openTour} onClose={() => setOpenTour(false)} onFinish={() => {
+                            setOpenTour(false);
+                            localStorage.setItem('tour', "false")
+                        }} steps={steps} />
                     </div>
             }
         </Layout>

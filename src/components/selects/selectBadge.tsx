@@ -1,7 +1,7 @@
 import { Select, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { DocumentData } from "firebase/firestore";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, MutableRefObject, forwardRef } from "react";
 
 interface Props{
     data: RoomData | DocumentData | undefined,
@@ -23,6 +23,7 @@ interface RoomData {
 }
 
 export const SelectBadge = ({data, badge, setBadge, setModalNewBadge}: Props) => {
+    
     return (
         <Select
             className='select-head'

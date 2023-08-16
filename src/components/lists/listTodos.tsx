@@ -48,7 +48,7 @@ export const ListTodos = ({ data, dataFiltered, setDataFiltered, setEditData, se
                 return (
                     <div className="no-data">
                         <SmileOutlined style={{ fontSize: 20 }} />
-                        <p>Sem Todos</p>
+                        <p>Sem tarefas</p>
                     </div>
                 )
             }}

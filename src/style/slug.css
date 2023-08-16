@@ -138,6 +138,9 @@
 
 .no-data{
     color: var(--font);
+    margin-top: 20px;
+
+    text-align: center;
 }
 
 .check-list {
