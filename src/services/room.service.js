@@ -44,18 +44,11 @@ class roomService {
     }
   }
 
-  updateCategoria = async (categoriaData) => {
+  updateRoomCategoriaBadge = async (dataCategoria, dataBadge) => {
     const currentPath = this.getCurrentPath();
     const roomRef = doc(database, "rooms", currentPath);
 
-    await updateDoc(roomRef, {categoria: categoriaData});
-  }
-
-  updateBadge = async (badgeData) => {
-    const currentPath = this.getCurrentPath();
-    const roomRef = doc(database, "rooms", currentPath);
-
-    await updateDoc(roomRef, {badges: badgeData});
+    await updateDoc(roomRef, {categoria: dataCategoria, badges: dataBadge});
   }
 
   subscribeRoom = (callback) => {

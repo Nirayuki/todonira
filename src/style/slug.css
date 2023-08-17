@@ -102,6 +102,22 @@
     padding-bottom: 10px;
 }
 
+.container-right{
+    display: flex;
+    gap: 20px;
+
+    align-items: center;
+    font-size: 1.2rem;
+}
+
+.container-right svg{
+    cursor: pointer;
+}
+
+.container-right svg:hover{
+    opacity: 0.8;
+}
+
 .select-filter{
     width: 150px;
     color: var(--font) !important;

@@ -13,9 +13,10 @@ import { ModalNewCategoria } from '../components/modals/modalNewCategoria';
 import { Divider, Input, Tooltip, Tour } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import type { TourProps } from 'antd';
+import type { Color } from 'antd/es/color-picker';
 
 // Antd Icons ----------------------------------------------------------------------
-import { CloseOutlined } from '@ant-design/icons';
+import { SettingOutlined } from '@ant-design/icons';
 
 // Services --------------------------------------------
 import todoService from '../services/todo.service';
@@ -34,6 +35,7 @@ import { SelectBadge } from '../components/selects/selectBadge';
 import { SelectFilter } from '../components/selects/selectFilter';
 
 import { ModalAddTodo } from '../components/modals/modalAddTodo';
+import { ModalSettings } from '../components/modals/modalSettings';
 
 
 interface TodoItem {
@@ -56,7 +58,7 @@ interface RoomData {
 
 interface ItemBadge {
     title: string,
-    color: string
+    color: Color | string
 }
 
 function Slug() {
@@ -76,17 +78,14 @@ function Slug() {
     const [roomDataLoaded, setRoomDataLoaded] = useState(false);
 
     // Modals states --------------------------------------------------------------------
-    const [modalNewCategoria, setModalNewCategoria] = useState(false);
-    const [modalCategoriaSettings, setModalCategoriaSettings] = useState<boolean>(false);
     const [modalEdit, setModalEdit] = useState<boolean>(false);
-    const [modalBagdes, setModalBadges] = useState<boolean>(false);
-    const [modalNewBadge, setModalNewBadge] = useState<boolean>(false);
+    const [modalSettings, setModalSettings] = useState<boolean>(false);
     const [modalAddTodo, setModalAddTodo] = useState<boolean>(false);
 
     // Settings categoria States ---------------------------------------------------------------
-    const [settings, setSettings] = useState<string[]>([]);
     const [categoria, setCategoria] = useState("all");
     const [categoriaInput, setCategoriaInput] = useState<string>("");
+    const [dataCategoria, setDataCategoria] = useState<string[]>([]);
 
     // Edit categoria states -------------------------------------------------------------------
     const [editData, setEditData] = useState<TodoItem>();
@@ -179,6 +178,12 @@ function Slug() {
         await todoService.deleteTodo(itemId);
     };
 
+    const handleSettings = () => {
+        setDataCategoria(dataPrivateRoom?.categoria);
+        setDataBadges(dataPrivateRoom?.badges);
+        setModalSettings(true);
+    }
+
     if (!roomDataLoaded) {
         return null;
     }
@@ -192,20 +197,18 @@ function Slug() {
                     :
 
                     <div className="container">
-                        <ModalNewBadge open={modalNewBadge} setOpen={setModalNewBadge} data={dataPrivateRoom} />
-                        <ModalNewCategoria open={modalNewCategoria} setOpen={setModalNewCategoria} data={dataPrivateRoom} setCategoriaInput={setCategoriaInput} />
-                        <ModalCategoriaSettings
-                            open={modalCategoriaSettings}
-                            setOpen={setModalCategoriaSettings}
-                            dataSettings={settings}
-                            setDataSettings={setSettings}
-                            categoriaInput={categoriaInput}
-                            setCategoriaInput={setCategoriaInput}
-                            setCategoria={setCategoria}
-                            categoria={categoria}
+                        <ModalSettings
+                            open={modalSettings}
+                            setOpen={setModalSettings}
+                            data={dataPrivateRoom}
+                            setData={setDataPrivateRoom}
+                            dataCategoria={dataCategoria}
+                            setDataCategoria={setDataCategoria}
+                            dataBadges={dataBadges}
+                            setDataBadges={setDataBadges}
                         />
+                        
                         <ModalEditTodo open={modalEdit} setOpen={setModalEdit} data={dataPrivateRoom} dataEdit={editData} />
-                        <ModalBadges open={modalBagdes} setOpen={setModalBadges} data={dataPrivateRoom} setBadge={setBadge} dataBadges={dataBadges} setDataBadges={setDataBadges} />
                         <ModalAddTodo
                             open={modalAddTodo}
                             setOpen={setModalAddTodo}
@@ -241,9 +244,12 @@ function Slug() {
                                             setFilterBadge={setFilterBadge}
                                         />
                                     </div>
-                                    <Tooltip title="Mudar tema">
-                                        <img className='theme' src={theme === 'dark' ? light : dark} onClick={toggleTheme} />
-                                    </Tooltip>
+                                    <div className="container-right">
+                                        <Tooltip title="Mudar tema">
+                                            <img className='theme' src={theme === 'dark' ? light : dark} onClick={toggleTheme} />
+                                        </Tooltip>
+                                        <SettingOutlined onClick={() => handleSettings()}/>
+                                    </div>
                                 </div>
                                 <Divider className='divider-list' style={{ margin: "5px" }} />
                                 <div>

@@ -36,7 +36,7 @@ export const ModalCategoriaSettings = ({
                 setCategoriaInput("");
             }
         }
-        await roomService.updateCategoria(dataSettings);
+        // await roomService.updateCategoria(dataSettings);
         setOpen(false);
     }
 

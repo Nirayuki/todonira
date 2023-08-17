@@ -38,7 +38,7 @@ export const ModalBadges = ({ open, setOpen, data, setBadge, dataBadges, setData
     const [formatHex, setFormatHex] = useState<ColorPickerProps['format']>('hex');
 
     const handleOk = async () => {
-        await roomService.updateBadge(dataBadges);
+        // await roomService.updateBadge(dataBadges);
         setOpen(false);
         setBadge(undefined);
     }
