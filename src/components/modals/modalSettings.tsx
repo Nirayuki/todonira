@@ -93,7 +93,7 @@ export const ModalSettings = ({ open, setOpen, data, setData, dataCategoria, dat
                         <Button onClick={() => setOpen(false)}>
                             Cancelar
                         </Button>
-                        <Button type='primary' icon={loading ? <LoadingOutlined/> : undefined} onClick={() => handleSubmit()}>
+                        <Button type='primary' icon={loading ? <LoadingOutlined/> : undefined} disabled={loading} onClick={() => handleSubmit()}>
                             Salvar
                         </Button>
                     </div>
