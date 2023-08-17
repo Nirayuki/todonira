@@ -58,6 +58,12 @@ export const ListBadges = ({ data, setData, isCreate, setIsCreate }: Props) => {
         }
     }
 
+    const handleDelete = (key: number) => {
+        const updatedSettings = data.filter((_, index) => index !== key);
+
+        setData(updatedSettings);
+    }
+
     return (
         <div className="list-content">
             {isCreate ? (
@@ -102,7 +108,7 @@ export const ListBadges = ({ data, setData, isCreate, setIsCreate }: Props) => {
                                             onChange={(e) => handleChangePicker(e, key)}
                                             onFormatChange={setFormatHex}
                                         />
-                                        <Button type="text" icon={<DeleteOutlined />} onClick={() => console.log(key)}>
+                                        <Button type="text" icon={<DeleteOutlined />} onClick={() => handleDelete(key)}>
                                         </Button>
                                     </div>
                                 )
