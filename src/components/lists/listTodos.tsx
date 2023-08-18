@@ -45,8 +45,8 @@ export const ListTodos = ({ data, dataFiltered, setDataFiltered, setEditData, se
     function getBrightness(color: string) {
         const rgb = parseInt(color.slice(1), 16);
         const r = (rgb >> 16) & 0xff;
-        const g = (rgb >>  8) & 0xff;
-        const b = (rgb >>  0) & 0xff;
+        const g = (rgb >> 8) & 0xff;
+        const b = (rgb >> 0) & 0xff;
         return (r * 299 + g * 587 + b * 114) / 1000;
     }
 
@@ -91,15 +91,20 @@ export const ListTodos = ({ data, dataFiltered, setDataFiltered, setEditData, se
                                 </Dropdown>
                             ]}
                         >
+                           
+
                             <div className="check">
                                 <Checkbox className='checkbox' checked={item.completed} onChange={(e) => onChangeCheckBox(e, item)} key={item.id} />
-                                <span style={{textDecoration: item.completed ? "line-through" : ""}}>{item.text}</span>
+                                <span style={{ textDecoration: item.completed ? "line-through" : "" }}>
+                                <div className="tag">
+                                        {item.badge ? (
+                                            <Tag color={item.badge.color} style={{ color: getBrightness(item.badge.color) > 128 ? 'black' : 'white', fontWeight: "700", textShadow: "2px 2px 4px #fffff", width: "auto" }}>{item.badge.title}</Tag>
+                                        ) : null}
+                                    </div>
+                                    {item.text}
+                                </span>
                             </div>
-                            <div className="tag">
-                                {item.badge ? (
-                                    <Tag color={item.badge.color} style={{ color: getBrightness(item.badge.color) > 128 ? 'black' : 'white', fontWeight: "700", textShadow: "2px 2px 4px #fffff" }}>{item.badge.title}</Tag>
-                                ) : null}
-                            </div>
+
                         </List.Item>
                     )
                 }}
