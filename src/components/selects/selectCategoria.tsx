@@ -6,8 +6,8 @@ import { AppstoreOutlined } from "@ant-design/icons";
 import { DocumentData } from "firebase/firestore";
 
 interface Props {
-    setCategoriaInput: Dispatch<SetStateAction<string>>,
-    categoriaInput: string,
+    setCategoriaInput: Dispatch<SetStateAction<string | undefined>>,
+    categoriaInput: string | undefined,
     data: RoomData | DocumentData | undefined
 }
 
@@ -26,9 +26,10 @@ export const SelectCategoria = ({ setCategoriaInput, categoriaInput, data }: Pro
             <Select
                 className='select-head'
                 placeholder="Categoria"
-                onChange={(e) => setCategoriaInput(e)}
-                value={categoriaInput ? categoriaInput : undefined}
+                onChange={(e) => setCategoriaInput(e !== null ? e : undefined)}
+                value={categoriaInput}
                 bordered={false}
+                allowClear
             >
                 {
                     data?.categoria ? data?.categoria.map((item: string) => {

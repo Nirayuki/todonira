@@ -13,8 +13,8 @@ interface Props {
     children: JSX.Element[] | JSX.Element | string,
     setDataInput: Dispatch<SetStateAction<string>>,
     dataPrivateRoom: RoomData | undefined | DocumentData,
-    categoriaInput: string,
-    setCategoriaInput: Dispatch<SetStateAction<string>>,
+    categoriaInput: string | undefined,
+    setCategoriaInput: Dispatch<SetStateAction<string | undefined>>,
     badge: string | undefined,
     setBadge: Dispatch<SetStateAction<string | undefined>>
 }

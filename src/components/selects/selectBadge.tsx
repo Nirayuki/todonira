@@ -25,13 +25,15 @@ export const SelectBadge = ({ data, badge, setBadge }: Props) => {
 
     return (
         <div style={{fontSize: "1.2rem"}}>
-            <TagOutlined style={{color: badge ? "black" : "lightgray"}}/>
+            <TagOutlined style={{color: badge !== undefined ? "black" : "lightgray"}}/>
             <Select
                 className='select-head'
                 placeholder="Marcação"
-                onChange={(e) => setBadge(e)}
-                value={badge ? badge : undefined}
+                onChange={(e) => setBadge(e !== null ? e : undefined)}
+                defaultValue={undefined}
+                value={badge}
                 bordered={false}
+                allowClear
             >
                 {data?.badges ? data?.badges.map((item: ItemBadge, key: number) => {
                     return (

@@ -74,10 +74,12 @@ export const ListTodos = ({ data, dataFiltered, setDataFiltered, setEditData, se
                                             <Menu.Item onClick={() => {
                                                 setModalEdit(true);
                                                 setEditData(item);
-                                            }}>
+                                            }}
+                                            key={1}
+                                            >
                                                 Editar
                                             </Menu.Item>
-                                            <Menu.Item onClick={() => handleDelete(item.id)}>
+                                            <Menu.Item onClick={() => handleDelete(item.id)} key={2}>
                                                 Deletar
                                             </Menu.Item>
                                         </Menu>

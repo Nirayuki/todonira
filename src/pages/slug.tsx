@@ -84,7 +84,7 @@ function Slug() {
 
     // Settings categoria States ---------------------------------------------------------------
     const [categoria, setCategoria] = useState("all");
-    const [categoriaInput, setCategoriaInput] = useState<string>("");
+    const [categoriaInput, setCategoriaInput] = useState<string | undefined>(undefined);
     const [dataCategoria, setDataCategoria] = useState<string[]>([]);
 
     // Edit categoria states -------------------------------------------------------------------

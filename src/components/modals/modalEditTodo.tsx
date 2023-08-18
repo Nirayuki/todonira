@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import { Modal, Space, Input, Select } from "antd";
 import { DocumentData } from "firebase/firestore";
@@ -30,7 +30,7 @@ interface RoomData {
     badges: []
 }
 
-interface ItemBadge{
+interface ItemBadge {
     title: string,
     color: string
 }
@@ -38,8 +38,14 @@ interface ItemBadge{
 export const ModalEditTodo = ({ open, setOpen, data, dataEdit }: Props) => {
 
     const [input, setInput] = useState<string | undefined>("");
-    const [select, setSelect] = useState<string | undefined | []>();
-    const [selectBadge, setSelectBadge] = useState<string | undefined>();
+    const [select, setSelect] = useState<string | [] | null>();
+    const [selectBadge, setSelectBadge] = useState<string | null>();
+    
+
+    useEffect(() => {
+        setSelectBadge(dataEdit?.badge ? dataEdit.badge.title : null);
+        setSelect(dataEdit?.categoria ? dataEdit.categoria : null);
+    }, [dataEdit]);
 
     const handleOk = async () => {
         const badgeObject = data?.badges.filter((filter: { title: string }) => filter.title === selectBadge);
@@ -53,13 +59,11 @@ export const ModalEditTodo = ({ open, setOpen, data, dataEdit }: Props) => {
 
         await todoService.updateTodo(dataEdit?.id, newItem);
         setInput(undefined);
-        setSelect(undefined);
         setOpen(false);
     }
 
     const handleCancel = () => {
         setInput(undefined);
-        setSelect(undefined);
         setOpen(false);
     }
 
@@ -80,9 +84,9 @@ export const ModalEditTodo = ({ open, setOpen, data, dataEdit }: Props) => {
                     <Select
                         placeholder="Categoria"
                         onChange={(e) => setSelect(e)}
-                        defaultValue={dataEdit?.categoria ? dataEdit.categoria : null}
-                        value={select ? select : dataEdit?.categoria}
-                        style={{ width: "100px" }}
+                        defaultValue={dataEdit?.categoria}
+                        value={select}
+                        allowClear
                     >
                         {
                             data?.categoria ? data?.categoria.map((item: string) => {
@@ -98,10 +102,12 @@ export const ModalEditTodo = ({ open, setOpen, data, dataEdit }: Props) => {
                     </Select>
                     <Select
                         placeholder="Badge"
-                        onChange={(e) => setSelectBadge(e)}
-                        defaultValue={dataEdit?.badge ? dataEdit.badge.title : null}
-                        value={selectBadge ? selectBadge : dataEdit?.badge?.title}
-                        style={{ width: "100px" }}
+                        onChange={(e) => {
+                            setSelectBadge(e);
+                        }}
+                        defaultValue={dataEdit?.badge?.title}
+                        value={selectBadge}
+                        allowClear
                     >
                         {
                             data?.badges ? data?.badges.map((item: ItemBadge) => {
