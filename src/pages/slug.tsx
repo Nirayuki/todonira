@@ -126,7 +126,7 @@ function Slug() {
                 
                 const dataTodo = await todoService.getDocs();
                 setData(dataTodo);
-
+                setRoomDataLoaded(true);
             } catch (error) {
                 console.error("Error getting room data:", error);
                 setIsPrivateRoom(false);
@@ -187,6 +187,10 @@ function Slug() {
         setDataCategoria(dataPrivateRoom?.categoria);
         setDataBadges(dataPrivateRoom?.badges);
         setModalSettings(true);
+    }
+
+    if(!roomDataLoaded){
+        return
     }
 
     return (
