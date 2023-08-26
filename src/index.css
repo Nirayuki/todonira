@@ -49,3 +49,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.ant-pagination-item-link span{
+  color: var(--font);
+}
+
+.ant-pagination-item a{
+  color: var(--font) !important;
+}
+
+.ant-pagination-item-active a{
+  color: blue !important;
+}

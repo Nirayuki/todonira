@@ -45,7 +45,7 @@ class todoService {
 
     const todos = await getDocs(todoCollectionRef, orderBy("createdAt", "desc"));
 
-    return todos;
+    return todos.data();
   };
 
   addTodo = async (todo) => {

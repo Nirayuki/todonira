@@ -66,7 +66,7 @@ function Slug() {
     const { theme, toggleTheme } = useContext(ThemeContext);
 
     // Private Room state -------------------------------------------------------------------------
-    const [isPrivateRoom, setIsPrivateRoom] = usePersistedState('isPrivateRoom', false);
+    const [isPrivateRoom, setIsPrivateRoom] = useState(false);
 
     // Datas states --------------------------------------------------------------------------------
     const [dataPrivateRoom, setDataPrivateRoom] = useState<RoomData | DocumentData | undefined>([]);
@@ -76,6 +76,7 @@ function Slug() {
 
     // Loaders state -------------------------------------------------------------------------------
     const [roomDataLoaded, setRoomDataLoaded] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     // Modals states --------------------------------------------------------------------
     const [modalEdit, setModalEdit] = useState<boolean>(false);
@@ -115,19 +116,23 @@ function Slug() {
         const storageTour = localStorage.getItem('tour');
         const fetchData = async () => {
             try {
+                setLoading(true);
                 const dataRoom = await todoService.getRoomData();
 
                 const alwaysLoggedIn = localStorage.getItem(path);
                 setIsPrivateRoom(alwaysLoggedIn ? false : dataRoom?.isPrivate ?? false);
 
-
                 setDataPrivateRoom(dataRoom);
+                
+                const dataTodo = await todoService.getDocs();
+                setData(dataTodo);
 
-                setRoomDataLoaded(true);
             } catch (error) {
                 console.error("Error getting room data:", error);
                 setIsPrivateRoom(false);
                 setRoomDataLoaded(true);
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -150,8 +155,8 @@ function Slug() {
         return () => {
             unsubscribe()
             unsubscribeRoom()
+           
         };
-
 
     }, [categoria]);
 
@@ -184,13 +189,8 @@ function Slug() {
         setModalSettings(true);
     }
 
-    if (!roomDataLoaded) {
-        return null;
-    }
-
     return (
         <Layout hasChildren={true}>
-
             {
                 isPrivateRoom ?
                     <CardIsPrivateRoom data={dataPrivateRoom} setIsPrivateRoom={setIsPrivateRoom} />
@@ -207,7 +207,7 @@ function Slug() {
                             dataBadges={dataBadges}
                             setDataBadges={setDataBadges}
                         />
-                        
+
                         <ModalEditTodo open={modalEdit} setOpen={setModalEdit} data={dataPrivateRoom} dataEdit={editData} />
                         <ModalAddTodo
                             open={modalAddTodo}
@@ -224,13 +224,13 @@ function Slug() {
                             <SelectBadge setBadge={setBadge} badge={badge} data={dataPrivateRoom} />
                         </ModalAddTodo>
                         <div className="head">
-                            <Input 
-                                className='input-head' 
-                                type="text" 
-                                placeholder='Digite sua tarefa aqui...' 
-                                value={dataInput} 
-                                onChange={onChange} 
-                                onKeyDown={handleKeyDown} 
+                            <Input
+                                className='input-head'
+                                type="text"
+                                placeholder='Digite sua tarefa aqui...'
+                                value={dataInput}
+                                onChange={onChange}
+                                onKeyDown={handleKeyDown}
                                 allowClear
                             />
                         </div>
@@ -248,12 +248,12 @@ function Slug() {
                                         <Tooltip title="Mudar tema">
                                             <img className='theme' src={theme === 'dark' ? light : dark} onClick={toggleTheme} />
                                         </Tooltip>
-                                        <SettingOutlined onClick={() => handleSettings()}/>
+                                        <SettingOutlined onClick={() => handleSettings()} />
                                     </div>
                                 </div>
                                 <Divider className='divider-list' style={{ margin: "5px" }} />
                                 <div>
-                                    <ListTodos data={data} dataFiltered={dataFiltered} setDataFiltered={setDataFiltered} setEditData={setEditData} filterBadge={filterBadge} filterCategoria={filterCategoria} setModalEdit={setModalEdit} handleDelete={handleDelete} onChangeCheckBox={onChangeCheckBox} />
+                                <ListTodos loading={loading} data={data} dataFiltered={dataFiltered} setDataFiltered={setDataFiltered} setEditData={setEditData} filterBadge={filterBadge} filterCategoria={filterCategoria} setModalEdit={setModalEdit} handleDelete={handleDelete} onChangeCheckBox={onChangeCheckBox} />
                                 </div>
                             </div>
                         </div>

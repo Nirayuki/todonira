@@ -1,8 +1,10 @@
 import React, { Dispatch, SetStateAction, useEffect } from "react";
-import { List, Dropdown, Menu, Checkbox, Tag, Tooltip, ConfigProvider } from "antd";
+import { Dropdown, Menu, Checkbox, Tag, Tooltip, ConfigProvider } from "antd";
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 
-import { EllipsisOutlined, SmileOutlined } from '@ant-design/icons';
+import { EllipsisOutlined, SmileOutlined, LoadingOutlined } from '@ant-design/icons';
+
+import '../../style/list.css'
 
 interface TodoItem {
     id?: string | null | number;
@@ -24,10 +26,11 @@ interface Props {
     handleDelete: (itemId: string | number | null | undefined) => {},
     onChangeCheckBox: (e: CheckboxChangeEvent, todo: TodoItem) => {},
     filterBadge: string,
-    filterCategoria: string
+    filterCategoria: string,
+    loading: boolean
 }
 
-export const ListTodos = ({ data, dataFiltered, setDataFiltered, setEditData, setModalEdit, handleDelete, onChangeCheckBox, filterBadge, filterCategoria }: Props) => {
+export const ListTodos = ({ loading, data, dataFiltered, setDataFiltered, setEditData, setModalEdit, handleDelete, onChangeCheckBox, filterBadge, filterCategoria }: Props) => {
 
     useEffect(() => {
         if (filterBadge === "all" && filterCategoria === "all") {
@@ -61,13 +64,24 @@ export const ListTodos = ({ data, dataFiltered, setDataFiltered, setEditData, se
                 )
             }}
         >
-            <List
-                dataSource={dataFiltered}
-                itemLayout="horizontal"
-                renderItem={(item: TodoItem, key) => {
-                    return (
-                        <List.Item
-                            actions={[
+            {loading ? (
+                <div className="loading"><LoadingOutlined /></div>
+            ) : (
+                <div className="list-container">
+                    {data ? data.map((item, key) => {
+                        return (
+                            <div className="list-item">
+                                <div className="check">
+                                    <Checkbox className='checkbox' checked={item.completed} onChange={(e) => onChangeCheckBox(e, item)} key={item.id} />
+                                    <span style={{ textDecoration: item.completed ? "line-through" : "" }}>
+                                        <div className="tag">
+                                            {item.badge ? (
+                                                <Tag color={item.badge.color} style={{ color: getBrightness(item.badge.color) > 128 ? 'black' : 'white', fontWeight: "700", textShadow: "2px 2px 4px #fffff", width: "auto" }}>{item.badge.title}</Tag>
+                                            ) : null}
+                                        </div>
+                                        {item.text}
+                                    </span>
+                                </div>
                                 <Dropdown
                                     overlay={
                                         <Menu>
@@ -75,7 +89,7 @@ export const ListTodos = ({ data, dataFiltered, setDataFiltered, setEditData, se
                                                 setModalEdit(true);
                                                 setEditData(item);
                                             }}
-                                            key={1}
+                                                key={1}
                                             >
                                                 Editar
                                             </Menu.Item>
@@ -91,27 +105,13 @@ export const ListTodos = ({ data, dataFiltered, setDataFiltered, setEditData, se
                                         <EllipsisOutlined className='more' />
                                     </Tooltip>
                                 </Dropdown>
-                            ]}
-                        >
-                           
-
-                            <div className="check">
-                                <Checkbox className='checkbox' checked={item.completed} onChange={(e) => onChangeCheckBox(e, item)} key={item.id} />
-                                <span style={{ textDecoration: item.completed ? "line-through" : "" }}>
-                                <div className="tag">
-                                        {item.badge ? (
-                                            <Tag color={item.badge.color} style={{ color: getBrightness(item.badge.color) > 128 ? 'black' : 'white', fontWeight: "700", textShadow: "2px 2px 4px #fffff", width: "auto" }}>{item.badge.title}</Tag>
-                                        ) : null}
-                                    </div>
-                                    {item.text}
-                                </span>
                             </div>
+                        )
+                    }) : null}
+                </div>
 
-                        </List.Item>
-                    )
-                }}
-            >
-            </List>
+
+            )}
         </ConfigProvider>
     )
 }

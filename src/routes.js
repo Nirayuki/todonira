@@ -1,15 +1,22 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
-import Home from "./pages/home";
-import Slug from "./pages/slug";
+
+import { LoadingOutlined } from '@ant-design/icons'
+
+const Home = lazy(() => import("./pages/home"));
+const Slug = lazy(() => import("./pages/slug"));
 
 const Rotas = () => {
 
     return (
-        <Routes>
-            <Route path="/" element={<Home/>} />
-            <Route path="/:slug" element={<Slug/>}/>
-        </Routes>
+        <Suspense fallback={
+            <div className="loading"><LoadingOutlined /></div>
+        }>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/:slug" element={<Slug />} />
+            </Routes>
+        </Suspense>
     )
 }
 
