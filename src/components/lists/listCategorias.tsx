@@ -2,7 +2,6 @@ import React, { useState, Dispatch, SetStateAction, ChangeEvent } from 'react';
 
 import { Button, Input } from 'antd';
 import { DeleteOutlined, PlusOutlined, SmileOutlined } from '@ant-design/icons';
-import { DocumentData } from 'firebase/firestore';
 
 interface Props {
     data: string[],
@@ -10,14 +9,6 @@ interface Props {
     isCreate: boolean,
     setIsCreate: Dispatch<SetStateAction<boolean>>
 }
-
-interface RoomData {
-    isPrivate: boolean,
-    password: string,
-    categoria: [],
-    badges: []
-}
-
 
 export const ListCategorias = ({ data, setData, isCreate, setIsCreate }: Props) => {
     const [createInput, setCreateInput] = useState<string>("");

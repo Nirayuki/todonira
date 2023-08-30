@@ -5,6 +5,7 @@ import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { EllipsisOutlined, SmileOutlined, LoadingOutlined } from '@ant-design/icons';
 
 import '../../style/list.css'
+import { DocumentData } from "firebase/firestore";
 
 interface TodoItem {
     id?: string | null | number;
@@ -17,7 +18,16 @@ interface TodoItem {
     } | null
 }
 
+
+interface RoomData {
+    isPrivate: boolean,
+    password: string,
+    categoria: [],
+    badges: []
+}
+
 interface Props {
+    dataRoom: RoomData | undefined | DocumentData,
     data: TodoItem[],
     dataFiltered: TodoItem[] | undefined,
     setDataFiltered: Dispatch<SetStateAction<TodoItem[]>>,
@@ -30,7 +40,7 @@ interface Props {
     loading: boolean
 }
 
-export const ListTodos = ({ loading, data, dataFiltered, setDataFiltered, setEditData, setModalEdit, handleDelete, onChangeCheckBox, filterBadge, filterCategoria }: Props) => {
+export const ListTodos = ({ loading, data, dataRoom,dataFiltered, setDataFiltered, setEditData, setModalEdit, handleDelete, onChangeCheckBox, filterBadge, filterCategoria }: Props) => {
 
     useEffect(() => {
         if (filterBadge === "all" && filterCategoria === "all") {
@@ -53,6 +63,8 @@ export const ListTodos = ({ loading, data, dataFiltered, setDataFiltered, setEdi
         return (r * 299 + g * 587 + b * 114) / 1000;
     }
 
+    console.log();
+
     return (
         <ConfigProvider
             renderEmpty={() => {
@@ -69,6 +81,7 @@ export const ListTodos = ({ loading, data, dataFiltered, setDataFiltered, setEdi
             ) : (
                 <div className="list-container">
                     {dataFiltered ? dataFiltered.map((item, key) => {
+                        const colorData = dataRoom?.badges.filter((prevBadge: {title: string, color: string}) => prevBadge.title === item.badge?.title);
                         return (
                             <div className="list-item">
                                 <div className="check">
@@ -76,7 +89,7 @@ export const ListTodos = ({ loading, data, dataFiltered, setDataFiltered, setEdi
                                     <span style={{ textDecoration: item.completed ? "line-through" : "" }}>
                                         <div className="tag">
                                             {item.badge ? (
-                                                <Tag color={item.badge.color} style={{ color: getBrightness(item.badge.color) > 128 ? 'black' : 'white', fontWeight: "700", textShadow: "2px 2px 4px #fffff", width: "auto" }}>{item.badge.title}</Tag>
+                                                <Tag color={colorData[0].color} style={{ color: getBrightness(item.badge.color) > 128 ? 'black' : 'white', fontWeight: "700", textShadow: "2px 2px 4px #fffff", width: "auto" }}>{item.badge.title}</Tag>
                                             ) : null}
                                         </div>
                                         {item.text}

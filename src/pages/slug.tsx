@@ -257,7 +257,7 @@ function Slug() {
                                 </div>
                                 <Divider className='divider-list' style={{ margin: "5px" }} />
                                 <div>
-                                <ListTodos loading={loading} data={data} dataFiltered={dataFiltered} setDataFiltered={setDataFiltered} setEditData={setEditData} filterBadge={filterBadge} filterCategoria={filterCategoria} setModalEdit={setModalEdit} handleDelete={handleDelete} onChangeCheckBox={onChangeCheckBox} />
+                                <ListTodos dataRoom={dataPrivateRoom} loading={loading} data={data} dataFiltered={dataFiltered} setDataFiltered={setDataFiltered} setEditData={setEditData} filterBadge={filterBadge} filterCategoria={filterCategoria} setModalEdit={setModalEdit} handleDelete={handleDelete} onChangeCheckBox={onChangeCheckBox} />
                                 </div>
                             </div>
                         </div>
