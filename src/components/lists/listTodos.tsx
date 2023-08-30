@@ -68,7 +68,7 @@ export const ListTodos = ({ loading, data, dataFiltered, setDataFiltered, setEdi
                 <div className="loading"><LoadingOutlined /></div>
             ) : (
                 <div className="list-container">
-                    {data ? data.map((item, key) => {
+                    {dataFiltered ? dataFiltered.map((item, key) => {
                         return (
                             <div className="list-item">
                                 <div className="check">
