@@ -101,7 +101,7 @@ export const ModalEditTodo = ({ open, setOpen, data, dataEdit }: Props) => {
                         }
                     </Select>
                     <Select
-                        placeholder="Badge"
+                        placeholder="Marcação"
                         onChange={(e) => {
                             setSelectBadge(e);
                         }}
