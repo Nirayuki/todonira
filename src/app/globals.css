@@ -1,5 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 *{
   margin: 0;
 
   box-sizing: border-box;
+  font-weight: 500;
+}
+
+body{
+  font-family: 'Rubik', sans-serif;
+
+  background-color: #fafafa;
+}
+
+
+header{
+  width: 100%;
+  display: flex;
+  padding: 16px 8px;
+  
+  font-size: 14px;
+  line-height: 1.5;
+
+  background-color: rgb(36, 41, 47);
+
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.boasvindas{
+    padding: 20px 0px;
+}
+
+.boasvindas span{
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.boasvindas h4{
+  margin: 0;
+}
+
+.children{
+  padding: 0px 20px;
+  width: 100%;
+  max-width: 1020px;
+
+  margin: 0 auto;
+}
+
+.logo{
+  margin-left: 6px;
+
+  display: flex;
+  align-items: center;
+  -webkit-box-align: center;
+
+  color: white;
+
+  gap: 10px;
+
+  cursor: pointer;
+}
+
+.logo:hover{
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.icon{
+  font-size: 1.7rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-name{
+  margin: 0;
+}
+
+.navigation{
+  width: 100%;
+  margin-right: 16px;
+  color: white;
+
+  display: flex;
+  justify-content: flex-end;
+}
+
+.nav{
+  margin-left: 20px;
+}
+
+.navigation a {
+  margin-right: 16px;
+}
+
+.navigation a:hover{
+  color: rgba(255, 255, 255, 0.7);
+}
+
+a{
+  text-decoration: none;
+  cursor: pointer;
+  color: white;
+}
+
+.user-nav{
+  display: flex;
+  align-items: center;
+}
+
+.add{
+  font-size: 16px;
+  margin-right: 20px;
+  cursor: pointer;
+
+  width: 35px;
+  height: 35px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add:hover{
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+}
+
+.avatar{
+  width: 30px;
+  height: 30px;
+  font-size: 1rem;
+  background-color: #fff;
+  border-radius: 6px;
+
+  color: black;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  position: relative;
+}
+
+.menu{
+  position: absolute;
+
+  right: 0;
+  top: 120%;
+
+  background-color: #fff;
+
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+
+  width: 200px;
+
+  display: none;
+}
+
+.open-menu{
+  animation: open .2s ease;
+  display: flex;
+}
+
+.close-menu{
+  animation: close .1s ease;
+}
+
+@keyframes open {
+  0%{
+    top: 100%;
+    opacity: 0;
+    display: flex;
+  }
+  100%{
+    top: 120%;
+    opacity: 1;
+    display: flex;
+  }
+}
+
+@keyframes close {
+  0%{
+    top: 120%;
+    opacity: 1;
+    display: flex;
+  }
+  100%{
+    opacity: 0;
+    display: none;
+  }
+}
+
+.content-menu{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.icon-menu:first-child{
+  padding: 3px 0px 0px 0px;
+}
+
+.content-menu a{
+  width: 100%;
+  color: black;
+
+  
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.content-menu a:hover{
+  opacity: 0.7;
+  color: black;
+}
+
+.home{
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nav-menu{
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.sair{
+  padding: 10px 20px;
+
+  color: red;
+  font-weight: 400;
+}
+
+.sair:hover{
+  opacity: 0.7;
 }
