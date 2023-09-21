@@ -34,8 +34,10 @@ export default function ListSlug(){
         fetchData();
     }, [])
 
-    const onCheck = (e: any, item: any) => {
-        console.log(`E: ${e.target.checked} | Item: ${item}`)
+    const onCheck = async (e: any, item: any) => {
+        console.log(`E: ${e.target.checked} | Item: ${item}`);
+
+        
     }
 
     return(
