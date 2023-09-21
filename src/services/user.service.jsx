@@ -33,7 +33,12 @@ class userService {
             const docRef = doc(Collection, id);
             const res = await getDoc(docRef);
 
-            return res.data();
+            return {
+                id: res.data().id,
+                name: res.data().name,
+                listas: res.data().listas,
+                email: res.data().email
+            };
 
         } catch (err) {
             return err;

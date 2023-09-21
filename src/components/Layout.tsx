@@ -6,6 +6,9 @@ import { AiOutlineUser, AiOutlineHome, AiOutlinePlus } from 'react-icons/ai';
 import { useAuthContext } from "./authContext";
 import { useState, useEffect, useRef } from "react";
 
+import { LoadingOutlined } from "@ant-design/icons";
+import Skeleton from "./Skeleton";
+
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
     const [open, setOpen] = useState(false);
@@ -15,11 +18,11 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
-           if(open === true){
+            if (open === true) {
                 if (dropdownref.current && !dropdownref.current.contains(event.target as Node)) {
                     setOpen(false);
                 }
-           }
+            }
         }
 
         document.addEventListener('click', handleClickOutside);
@@ -43,13 +46,22 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
                     <p className='logo-name'>Todonira</p>
                 </a>
                 <div className="navigation">
-                    {auth?.user ? (
+                    {
+                        !auth?.loading && !auth?.user && (
+                            <div className="login-cadastro">
+                                <a href="/login">Login</a>
+                                <a href="/cadastro">Cadastrar</a>
+                            </div>
+                        )
+                    }
+
+                    {auth?.user && (
                         <div className="user-nav">
                             <div className="add">
-                                <AiOutlinePlus/>
+                                <AiOutlinePlus />
                             </div>
                             <div className="avatar">
-                                <AiOutlineUser onClick={() => setOpen(!open)}/>
+                                <AiOutlineUser onClick={() => setOpen(!open)} />
                                 <div className={`menu ${open ? "open-menu" : "close-menu"}`} ref={dropdownref}>
                                     <div className="content-menu">
                                         <a className="home">
@@ -72,17 +84,10 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
                                 </div>
                             </div>
                         </div>
-                    ) : (
-                        <div className="login-cadastro">
-                            <a href="/login">Login</a>
-                            <a href="/cadastro">Cadastrar</a>
-                        </div>
                     )}
                 </div>
             </header>
-            <div className="children">
-                {children}
-            </div>
+            <div className="children">{children}</div>
         </>
     )
 }

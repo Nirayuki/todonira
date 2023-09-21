@@ -1,31 +1,40 @@
 'use client'
+import { useEffect, useState } from 'react';
 import '../styles/home.css';
 import { useAuthContext } from '@/components/authContext';
+import userService from '@/services/user.service';
+
+import { useRouter } from 'next/navigation';
+import { HomeNoUser } from '@/components/homeNoUser';
+import { HomeHasUser } from '@/components/homeHasUser';
+import { LoadingOutlined } from '@ant-design/icons';
+import { HomeLoadingSkeleton } from '@/components/homeLoadingSkeleton';
 
 export default function Home() {
 
   const auth = useAuthContext();
+  const [data, setData] = useState<any[]>();
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    async function fetchData() {
+      if (auth?.user) {
+        const res: any = await userService.getUser(auth?.user.id);
+
+        setData(res.listas);
+
+      }
+    }
+
+    fetchData()
+  }, [])
 
   return (
-    <div className="container">
-      <div className="boasvindas">
-        {auth?.user ? (
-          <>
-            <p><span>{auth.user.name}</span>, boas vindas</p>
-          </>
-        ) : <h1>Boas vindas!</h1>}
-      </div>
-      <div className="line"></div>
-      <h4>Suas listas</h4>
-      {!auth?.user ? (
-        <div className="no-user">
-          <p>Faça o login para acessar suas listas.</p>
-        </div>
-      ) : (
-        <div className='list'>
-          Listagem
-        </div>
-      )}
-    </div>
+    <>
+      {auth?.loading && (<HomeLoadingSkeleton />)}
+      {!auth?.user && !auth?.loading && (<HomeNoUser />)}
+      {auth?.user && (<HomeHasUser />)}
+    </>
   )
 }

@@ -1,4 +1,5 @@
-import {database} from "../lib/client";
+'use client'
+import { database } from '../lib/cliente'
 import {
   addDoc,
   collection,
@@ -79,23 +80,6 @@ class todoService {
     const todoDocRef = doc(todoCollectionRef, todoId);
     await updateDoc(todoDocRef, updatedData);
   };
-
-  subscribeToTodos = (callback) => {
-
-    const currentPath = this.getCurrentPath();
-    const roomDocRef = doc(database, "rooms", currentPath);
-    const todoCollectionRef = collection(roomDocRef, "todos");
-
-    return onSnapshot(todoCollectionRef, (querySnapshot) => {
-      const todos = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-
-      // Ordenar os todos pelo campo createdAt
-      todos.sort((a, b) => b.createdAt - a.createdAt);
-
-      callback(todos);
-    });
-  };
-
 }
 
 export default new todoService();

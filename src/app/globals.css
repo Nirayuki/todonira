@@ -1,23 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-*{
+
+* {
   margin: 0;
 
   box-sizing: border-box;
   font-weight: 500;
 }
 
-body{
+body {
   font-family: 'Rubik', sans-serif;
 
   background-color: #fafafa;
 }
 
 
-header{
+header {
   width: 100%;
   display: flex;
   padding: 16px 8px;
-  
+
   font-size: 14px;
   line-height: 1.5;
 
@@ -27,20 +28,20 @@ header{
   align-items: center;
 }
 
-.boasvindas{
-    padding: 20px 0px;
+.boasvindas {
+  padding: 20px 0px;
 }
 
-.boasvindas span{
+.boasvindas span {
   font-size: 20px;
   font-weight: 400;
 }
 
-.boasvindas h4{
+.boasvindas h4 {
   margin: 0;
 }
 
-.children{
+.children {
   padding: 0px 20px;
   width: 100%;
   max-width: 1020px;
@@ -48,7 +49,7 @@ header{
   margin: 0 auto;
 }
 
-.logo{
+.logo {
   margin-left: 6px;
 
   display: flex;
@@ -62,11 +63,11 @@ header{
   cursor: pointer;
 }
 
-.logo:hover{
+.logo:hover {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.icon{
+.icon {
   font-size: 1.7rem;
 
   display: flex;
@@ -74,11 +75,11 @@ header{
   justify-content: center;
 }
 
-.logo-name{
+.logo-name {
   margin: 0;
 }
 
-.navigation{
+.navigation {
   width: 100%;
   margin-right: 16px;
   color: white;
@@ -87,7 +88,7 @@ header{
   justify-content: flex-end;
 }
 
-.nav{
+.nav {
   margin-left: 20px;
 }
 
@@ -95,22 +96,22 @@ header{
   margin-right: 16px;
 }
 
-.navigation a:hover{
+.navigation a:hover {
   color: rgba(255, 255, 255, 0.7);
 }
 
-a{
+a {
   text-decoration: none;
   cursor: pointer;
   color: white;
 }
 
-.user-nav{
+.user-nav {
   display: flex;
   align-items: center;
 }
 
-.add{
+.add {
   font-size: 16px;
   margin-right: 20px;
   cursor: pointer;
@@ -123,12 +124,12 @@ a{
   justify-content: center;
 }
 
-.add:hover{
+.add:hover {
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 6px;
 }
 
-.avatar{
+.avatar {
   width: 30px;
   height: 30px;
   font-size: 1rem;
@@ -146,7 +147,7 @@ a{
   position: relative;
 }
 
-.menu{
+.menu {
   position: absolute;
 
   right: 0;
@@ -162,22 +163,23 @@ a{
   display: none;
 }
 
-.open-menu{
+.open-menu {
   animation: open .2s ease;
   display: flex;
 }
 
-.close-menu{
+.close-menu {
   animation: close .1s ease;
 }
 
 @keyframes open {
-  0%{
+  0% {
     top: 100%;
     opacity: 0;
     display: flex;
   }
-  100%{
+
+  100% {
     top: 120%;
     opacity: 1;
     display: flex;
@@ -185,42 +187,43 @@ a{
 }
 
 @keyframes close {
-  0%{
+  0% {
     top: 120%;
     opacity: 1;
     display: flex;
   }
-  100%{
+
+  100% {
     opacity: 0;
     display: none;
   }
 }
 
-.content-menu{
+.content-menu {
   width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.icon-menu:first-child{
+.icon-menu:first-child {
   padding: 3px 0px 0px 0px;
 }
 
-.content-menu a{
+.content-menu a {
   width: 100%;
   color: black;
 
-  
+
   font-size: 16px;
   font-weight: 400;
 }
 
-.content-menu a:hover{
+.content-menu a:hover {
   opacity: 0.7;
   color: black;
 }
 
-.home{
+.home {
   padding: 10px 20px;
   display: flex;
   align-items: center;
@@ -228,7 +231,7 @@ a{
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.nav-menu{
+.nav-menu {
   padding: 10px 20px;
   display: flex;
   flex-direction: column;
@@ -237,13 +240,29 @@ a{
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.sair{
+.sair {
   padding: 10px 20px;
 
   color: red;
   font-weight: 400;
 }
 
-.sair:hover{
+.sair:hover {
   opacity: 0.7;
+}
+
+
+.skeleton {
+  animation: skeleton-loading 1s linear infinite alternate;
+  border-radius: 6px;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: hsl(200, 20%, 70%);
+  }
+
+  100% {
+    background-color: hsl(200, 20%, 95%);
+  }
 }
