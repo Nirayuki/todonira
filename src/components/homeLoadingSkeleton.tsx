@@ -2,8 +2,8 @@ import '../styles/loading.css'
 
 export const HomeLoadingSkeleton = () => {
     return (
-        <div className="container-loading">
-            <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
+        <div className="center" style={{marginTop: "30px"}}>
+            <span className="loader"></span>
         </div>
     )
 }

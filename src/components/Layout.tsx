@@ -5,14 +5,13 @@ import { AiOutlineUser, AiOutlineHome, AiOutlinePlus } from 'react-icons/ai';
 
 import { useAuthContext } from "./authContext";
 import { useState, useEffect, useRef } from "react";
-
-import { LoadingOutlined } from "@ant-design/icons";
-import Skeleton from "./Skeleton";
+import { useRouter } from "next/navigation";
 
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
     const [open, setOpen] = useState(false);
     const dropdownref = useRef<HTMLDivElement | null>(null);
+    const router = useRouter();
 
     const auth = useAuthContext();
 
@@ -57,11 +56,11 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 
                     {auth?.user && (
                         <div className="user-nav">
-                            <div className="add">
+                            <div className="add" onClick={() => router.push("/lista/nova")}>
                                 <AiOutlinePlus />
                             </div>
-                            <div className="avatar">
-                                <AiOutlineUser onClick={() => setOpen(!open)} />
+                            <div className="avatar" onClick={() => setOpen(!open)}>
+                                <AiOutlineUser />
                                 <div className={`menu ${open ? "open-menu" : "close-menu"}`} ref={dropdownref}>
                                     <div className="content-menu">
                                         <a className="home">
@@ -70,8 +69,9 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
                                             {auth.user.name}
                                         </a>
                                         <div className="nav-menu">
-                                            <a href="/nova-lista">Nova Lista</a>
+                                            <a href="/lista/nova">Nova Lista</a>
                                             <a href="/">Suas Listas</a>
+                                            <a href="/lista/gerenciar">Gerenciar Listas</a>
                                             <a href="/perfil/editar">Editar Perfil</a>
                                         </div>
                                         <div className="sair" onClick={() => {

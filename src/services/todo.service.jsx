@@ -19,40 +19,48 @@ const roomCollectionRef = collection(database, "rooms");
 
 class todoService {
 
-  getCurrentPath() {
-    // Obtem o caminho da URL em tempo de execução
-    return window.location.pathname.substring(1);
-  }
+  getDocs = async (roomId) => {
+    try{
+      const roomDocRef = doc(database, "rooms", roomId);
+      const todoCollectionRef = collection(roomDocRef, "todos");
 
-  getRoomData = async () => {
-    const currentPath = this.getCurrentPath();
-    const roomDocRef = doc(database, "rooms", currentPath);
+      const todos = await getDocs(todoCollectionRef, orderBy("createdAt", "desc"));
 
-    const docSnap = await getDoc(roomDocRef);
-
-    if (docSnap.exists()) {
-      return docSnap.data();
-    } else {
-      // docSnap.data() will be undefined in this case
-      console.log("No such document!");
+      if(todos){
+        return todos.docs.map((item) => item.data());
+      }else{
+        return false
+      }
+    }catch(err){
+      return false
     }
-  }
-
-  getDocs = async () => {
-
-    const currentPath = this.getCurrentPath();
-    const roomDocRef = doc(database, "rooms", currentPath);
-    const todoCollectionRef = collection(roomDocRef, "todos");
-
-    const todos = await getDocs(todoCollectionRef, orderBy("createdAt", "desc"));
-
-    return todos.data();
   };
 
-  addTodo = async (todo) => {
+  addTodo = async (id, todo) => {
+    try{
+      const todoRef = doc(database, "listas", id);
 
-    const currentPath = this.getCurrentPath();
-    const roomDocRef = doc(database, "rooms", currentPath);
+      const todoDoc = await getDoc(todoRef);
+      let todos = todoDoc.data().todos;
+      todos.push({
+        ...todo,
+        createdAt: new Date()
+      });
+
+      await updateDoc(todoRef, {
+        todos: todos
+      })
+
+      return true
+    }catch(err){
+      console.error(err);
+      return false
+    }
+
+  }
+
+  addTodoOld = async (id, todo) => {
+    const roomDocRef = doc(database, "rooms", id);
     const todoCollectionRef = collection(roomDocRef, "todos");
 
     return await addDoc(todoCollectionRef, {

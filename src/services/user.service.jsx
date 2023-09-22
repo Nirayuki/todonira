@@ -68,6 +68,14 @@ class userService {
             return "error"
         }
     }
+
+    updateUserListas = async (id, data) => {
+        const docRef = doc(Collection, id);
+
+        await updateDoc(docRef, {
+            listas: data
+        })
+    }
 }
 
 export default new userService();

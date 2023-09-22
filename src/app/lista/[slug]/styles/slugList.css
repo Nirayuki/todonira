@@ -4,6 +4,12 @@
     margin-top: 30px;
 }
 
+.title{
+    white-space: nowrap; /* Impede a quebra de texto em várias linhas */
+    overflow: hidden;    /* Esconde o texto que não cabe na caixa */
+    text-overflow: ellipsis;
+}
+
 .addTarefa{
     margin-top: 20px;
 
@@ -14,7 +20,7 @@
     border: 1px solid rgba(0, 0, 0, 0.3);
     background-color: rgb(247, 247, 247);
 
-    outline: none;
+    outline-color: rgb(10, 10, 221);
 
     border-radius: 6px;
     font-weight: 400;
@@ -31,9 +37,18 @@
 .list-todo{
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     gap: 15px;
 
     margin-top: 20px;
+    height: 100%;
+    min-height: 360px;
+}
+
+.items{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .item-list{
@@ -48,6 +63,7 @@
 
 .title-todo{
     width: 100%;
+    
 }
 
 .more{

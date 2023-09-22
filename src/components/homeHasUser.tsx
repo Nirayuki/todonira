@@ -36,13 +36,13 @@ export const HomeHasUser = () => {
             <h4>Suas listas</h4>
             <div className='list'>
                 {loading && (
-                    <div style={{display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr", gap: "10px"}}>
-                        <Skeleton width='200px' height='58px' />
-                        <Skeleton width='200px' height='58px' />
-                        <Skeleton width='200px' height='58px' />
-                        <Skeleton width='200px' height='58px' />
-                        <Skeleton width='200px' height='58px' />
-                    </div>
+                    <>
+                        <Skeleton width='100%' height='58px' />
+                        <Skeleton width='100%' height='58px' />
+                        <Skeleton width='100%' height='58px' />
+                        <Skeleton width='100%' height='58px' />
+                        <Skeleton width='100%' height='58px' />
+                    </>
                 )}
                 {!loading && data?.map((item, key) => {
                     return (
@@ -52,7 +52,7 @@ export const HomeHasUser = () => {
                             {item.title}
                         </div>
                     )
-                })}
+                }).reverse()}
             </div>
         </div>
     )

@@ -1,0 +1,20 @@
+.pagination{
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.item-pag{
+    width: 30px;
+    height: 30px;
+
+    font-size: 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgba(37, 37, 37, 0.1);
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border-radius: 6px;
+}
