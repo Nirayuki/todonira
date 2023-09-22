@@ -18,6 +18,7 @@ export default function Gerenciar() {
     const [modal, setModal] = useState(false);
 
     const [idItem, setIdItem] = useState("");
+    const [loadDelete, setLoadDelete] = useState(false);
 
     useEffect(() => {
         async function fetchData() {
@@ -39,7 +40,7 @@ export default function Gerenciar() {
     }
 
     const onOk = () => {
-
+        setLoadDelete(true);
         setModal(false);
     }
 
