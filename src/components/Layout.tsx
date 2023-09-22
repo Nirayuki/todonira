@@ -63,7 +63,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
                                 <AiOutlineUser />
                                 <div className={`menu ${open ? "open-menu" : "close-menu"}`} ref={dropdownref}>
                                     <div className="content-menu">
-                                        <a className="home">
+                                        <a className="home" href="/">
                                             <span className="icon-menu">
                                                 <AiOutlineHome /></span>
                                             {auth.user.name}
@@ -72,11 +72,14 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
                                             <a href="/lista/nova">Nova Lista</a>
                                             <a href="/">Suas Listas</a>
                                             <a href="/lista/gerenciar">Gerenciar Listas</a>
-                                            <a href="/perfil/editar">Editar Perfil</a>
+                                        </div>
+                                        <div className="nav-menu">
+                                            <a href="https://github.com/Nirayuki/todonira/issues" target="_blank">Reportar Bug</a>
                                         </div>
                                         <div className="sair" onClick={() => {
                                             auth.handleLogout();
                                             setOpen(false);
+                                            router.push("/");
                                         }}>
                                             Deslogar
                                         </div>

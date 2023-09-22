@@ -6,6 +6,7 @@
 
     position: absolute;
     background-color: rgba(0, 0, 0, 0.1);
+    z-index: 1000;
 }
 
 .modal{
@@ -23,7 +24,7 @@
     left: 50%;
     transform: translateX(-50%);
 
-    z-index: 999;
+    z-index: 1001;
 }
 
 .content-modal{
@@ -70,6 +71,10 @@
 
     border-radius: 6px;
     cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .ok:hover, .back:hover{

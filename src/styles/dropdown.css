@@ -1,0 +1,70 @@
+.dropdown{
+    position: relative;
+}
+
+.item-drop{
+    display: none;
+    position: absolute;
+    top: 105%;
+    right: 0;
+
+    flex-direction: column;
+    gap: 10px;
+
+    background-color: #fff;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+
+    padding: 5px 10px;
+
+    z-index: 999;
+}
+
+.drop-item{
+    width: 100%;
+
+    padding: 5px 10px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+}
+
+.drop-item:hover{
+    opacity: 0.9;
+}
+
+.open{
+    animation: open .1s ease;
+    display: flex;
+}
+
+.close{
+    animation: close .1s ease;
+}
+
+@keyframes open {
+    0%{
+        top: 80%;
+        opacity: 0;
+    }
+    100%{
+        top: 105%;
+        opacity: 1;
+        display: flex;
+    }
+}
+
+@keyframes close {
+    0%{
+        top: 105%;
+        opacity: 1;
+        display: flex;
+    }
+    100%{
+        top: 80%;
+        opacity: 0;
+        display: none;
+    }
+}

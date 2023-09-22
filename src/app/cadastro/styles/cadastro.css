@@ -1,0 +1,154 @@
+.container-login{
+    width: 100%;
+    max-width: 500px;
+
+    margin: 50px auto;
+}
+
+.form{
+    margin-top: 30px;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.item-form{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.item-form input{
+    padding: 13px 20px;
+
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    background-color: rgb(247, 247, 247);
+
+    outline: none;
+
+    border-radius: 6px;
+    font-weight: 400;
+}
+
+.input-pass{
+    padding: 7px 10px;
+
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    background-color: rgb(247, 247, 247);
+
+    border-radius: 6px;
+    font-weight: 400;
+
+    cursor: text;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.input-pass input{
+    width: 100%;
+    padding: 6px 10px;
+
+    border: none;
+    background: none;
+    outline: none;
+}
+
+.show{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+
+.error{
+    font-size: 13px;
+    color: red;
+    display: flex;
+    align-items: center;
+    -webkit-box-align: center;
+
+    gap: 5px;
+}
+
+.item-form label{
+    font-size: 14px;
+}
+
+.form button{
+    border: none;
+
+    border-radius: 6px;
+
+    background-color: green;
+
+    color: white;
+
+    padding: 10px 20px;
+
+    cursor: pointer;
+}
+
+.form button:hover{
+    background-color: rgb(1, 116, 1);
+}
+
+.others{
+    width: 100%;
+    padding: 20px 0px;
+    margin-top: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.others p {
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.others a{
+    color: rgb(9, 105, 218);
+}
+
+.others a:hover{
+    opacity: 0.7;
+}
+
+
+.line{
+    width: 100%;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.1);
+
+    margin: 20px 0px;
+}
+
+footer{
+    width: 100%;
+}
+
+footer p{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    font-weight: 400;
+
+    color: rgb(110, 119, 129);
+}
+
+footer p .icon{
+    font-size: 25px;
+}

@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
 
+import { MdOutlineDataObject } from 'react-icons/md';
+
 import '../styles/pagination.css';
 
 interface Props<T> {
@@ -40,20 +42,26 @@ export function Pagination<T>({ children, data, render, perPage }: Props<T>) {
     return (
         <>
             <div className="items">
-                {renderItems()}
+                {data.length === 0 ? (
+                    <div className="no-data"><MdOutlineDataObject /> Sem todos</div>
+                ) : (
+                    renderItems()
+                )}
             </div>
-            <div className="pagination">
-                <div className="item-pag" style={{ cursor: currentPage === 1 ? "not-allowed" : "pointer" }}
-                    onClick={() => prevPage()}
-                >
-                    <BiChevronLeft />
+            {data.length >= 8 ? (
+                <div className="pagination">
+                    <div className="item-pag" style={{ cursor: currentPage === 1 ? "not-allowed" : "pointer" }}
+                        onClick={() => prevPage()}
+                    >
+                        <BiChevronLeft />
+                    </div>
+                    <div className="item-pag" style={{ cursor: currentPage >= totalPages ? "not-allowed" : "pointer" }}
+                        onClick={() => nextPage()}
+                    >
+                        <BiChevronRight />
+                    </div>
                 </div>
-                <div className="item-pag" style={{ cursor: currentPage >= totalPages ? "not-allowed" : "pointer" }}
-                    onClick={() => nextPage()}
-                >
-                    <BiChevronRight />
-                </div>
-            </div>
+            ) : null}
         </>
     )
 }

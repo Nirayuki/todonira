@@ -6,7 +6,9 @@ import {
     updateDoc,
     doc,
     getDoc,
-    onSnapshot
+    onSnapshot,
+    serverTimestamp,
+    setDoc
 } from "firebase/firestore";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 
@@ -15,17 +17,37 @@ const Collection = collection(database, "users");
 
 class userService {
     createUser = async (props) => {
-        await createUserWithEmailAndPassword(auth, props.email, props.senha)
+        try{
+           const res = await createUserWithEmailAndPassword(auth, props.email, props.senha)
             .then(async (user) => {
-                await setDoc(doc(database, Collection, user.uid), {
-                    id: user.uid,
+                console.log(user);
+                const docRef = doc(Collection, user.user.uid)
+                await setDoc(docRef, {
+                    id: user.user.uid,
                     email: props.email,
-                    listas: []
+                    name: props.nome,
+                    listas: [],
+                    createdAt: serverTimestamp()
                 })
+
+                localStorage.setItem("user", JSON.stringify({
+                    id: user.user.uid,
+                    name: props.nome
+                }))
+
+                return "success"
             })
             .catch((err) => {
                 console.error(err);
+                return err.message
             })
+
+
+            return res
+        }catch(err){
+            console.error(err);
+            return err.message
+        }
     }
 
     getUser = async (id) => {

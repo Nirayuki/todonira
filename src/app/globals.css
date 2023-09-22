@@ -164,7 +164,7 @@ a {
 }
 
 .open-menu {
-  animation: open .2s ease;
+  animation: open .1s ease;
   display: flex;
 }
 
@@ -176,7 +176,6 @@ a {
   0% {
     top: 100%;
     opacity: 0;
-    display: flex;
   }
 
   100% {
@@ -194,6 +193,7 @@ a {
   }
 
   100% {
+    top: 100%;
     opacity: 0;
     display: none;
   }

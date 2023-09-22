@@ -9,10 +9,11 @@ interface Props {
     open: boolean,
     footer?: React.ReactNode,
     onCancel: () => void,
-    onOk: () => void
+    onOk: () => void,
+    width?: number
 }
 
-export const Modal = ({ children, open, footer, onCancel, onOk }: Props) => {
+export const Modal = ({ children, open, footer, onCancel, onOk, width }: Props) => {
     const [modal, setModal] = useState(open);
 
     useEffect(() => {
@@ -27,7 +28,7 @@ export const Modal = ({ children, open, footer, onCancel, onOk }: Props) => {
     return (
         <>
             {modal && (<div className="mask" onClick={() => onCancel()}></div>)}
-            <div className={`modal ${modal ? "open-modal" : "close-modal"}`}>
+            <div className={`modal ${modal ? "open-modal" : "close-modal"}`} style={{width: "100%", maxWidth: width ? `${width}px` : "400px"}}>
                 <div className="content-modal">
                     {children}
                     <div className="footer">

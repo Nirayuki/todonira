@@ -6,6 +6,7 @@ import userService from '@/services/user.service';
 
 import { useRouter } from 'next/navigation';
 import Skeleton from './Skeleton';
+import { MdOutlineDataObject } from 'react-icons/md';
 
 export const HomeHasUser = () => {
     const auth = useAuthContext();
@@ -34,26 +35,31 @@ export const HomeHasUser = () => {
             </div>
             <div className="line-home"></div>
             <h4>Suas listas</h4>
-            <div className='list'>
-                {loading && (
-                    <>
-                        <Skeleton width='100%' height='58px' />
-                        <Skeleton width='100%' height='58px' />
-                        <Skeleton width='100%' height='58px' />
-                        <Skeleton width='100%' height='58px' />
-                        <Skeleton width='100%' height='58px' />
-                    </>
-                )}
-                {!loading && data?.map((item, key) => {
-                    return (
-                        <div className='card' key={key} onClick={() => {
-                            router.push(`/lista/${item.title.replace(/ /g, "-").toLocaleLowerCase()}?id=${item.id}`);
-                        }}>
-                            {item.title}
-                        </div>
-                    )
-                }).reverse()}
-            </div>
+            {loading && (
+                <div className='list'>
+                    <Skeleton width='100%' height='58px' />
+                    <Skeleton width='100%' height='58px' />
+                    <Skeleton width='100%' height='58px' />
+                    <Skeleton width='100%' height='58px' />
+                    <Skeleton width='100%' height='58px' />
+                </div>
+            )}
+            {data?.length === 0 ? (
+                <p className='no-data'><MdOutlineDataObject/> Sem Listas</p>
+            ) : (
+                <div className='list'>
+
+                    {!loading && data?.map((item, key) => {
+                        return (
+                            <div className='card' key={key} onClick={() => {
+                                router.push(`/lista/${item.title.replace(/ /g, "-").toLocaleLowerCase()}?id=${item.id}`);
+                            }}>
+                                {item.title}
+                            </div>
+                        )
+                    }).reverse()}
+                </div>
+            )}
         </div>
     )
 }

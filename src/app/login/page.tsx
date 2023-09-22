@@ -76,7 +76,16 @@ export default function Login() {
                     </div>
                     {error.password ? <p className='error'><AiOutlineWarning/> "senha" não pode estar em branco.</p> : undefined}
                 </div>
-                <button style={{ cursor: loading ? "not-allowed" : undefined }} disabled={loading ? true : false} onClick={() => onSubmit()}>Entrar</button>
+                <button style={{ cursor: loading ? "not-allowed" : undefined }} disabled={loading ? true : false} onClick={() => onSubmit()}>
+                    {loading ? (
+                        <span className="loader" style={{
+                            width: "15px",
+                            height: "15px",
+                            borderColor: "white",
+                            borderBottomColor: "transparent"
+                        }}></span>
+                    ) : "Entrar"}
+                </button>
             </div>
             <div className="others">
                 <p>Novo no Todonira? <a href="/cadastro">Crie sua conta aqui.</a></p>
