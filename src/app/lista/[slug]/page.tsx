@@ -18,7 +18,7 @@ import { Modal } from "@/components/Modal";
 
 export default function ListSlug() {
     const pathname = usePathname();
-    const auth = useAuthContext();
+    const auth: any = useAuthContext();
     const [title, setTitle] = useState("");
     const [id, setId] = useState("");
     const [loading, setLoading] = useState(false);
@@ -86,8 +86,6 @@ export default function ListSlug() {
             checked: e.target.checked
         });
 
-        console.log(res);
-
         if (res) {
             fetchData();
         }
@@ -146,7 +144,6 @@ export default function ListSlug() {
     const onOkDelete = async () => {
         setLoadingModal(true);
         const res = await listaService.deleteTodo(id, dataDelete);
-        console.log(res);
 
         if (res) {
             fetchData();
@@ -262,14 +259,14 @@ export default function ListSlug() {
                                             : (<p className="title-todo">{item.title ? item.title : item.text}</p>)}
                                             <Dropdown
                                                 item={[
-                                                    <div style={{ display: "flex", gap: "5px" }} onClick={() => {
+                                                    <div key={1} style={{ display: "flex", gap: "5px" }} onClick={() => {
                                                         setModalEdit(true);
                                                         setDataEdit({
                                                             id: item.id,
                                                             title: item.title ? item.title : item.text
                                                         });
                                                     }}><AiOutlineEdit /> Editar</div>,
-                                                    <div style={{ display: "flex", gap: "5px", color: "red" }} onClick={() => {
+                                                    <div key={2} style={{ display: "flex", gap: "5px", color: "red" }} onClick={() => {
                                                         setModalDelete(true);
                                                         setDataDelete(item.id);
                                                         setDataEdit({

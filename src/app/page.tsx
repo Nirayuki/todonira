@@ -12,7 +12,7 @@ import { HomeLoadingSkeleton } from '@/components/homeLoadingSkeleton';
 
 export default function Home() {
 
-  const auth = useAuthContext();
+  const auth: any = useAuthContext();
   const [data, setData] = useState<any[]>();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -20,21 +20,20 @@ export default function Home() {
   useEffect(() => {
     async function fetchData() {
       if (auth?.user) {
-        const res: any = await userService.getUser(auth?.user.id);
+        const res: any = await userService.getUser(auth.user.id);
 
         setData(res.listas);
-
       }
     }
 
     fetchData()
-  }, [])
+  }, [auth.user])
 
   return (
     <>
-      {auth?.loading && (<HomeLoadingSkeleton />)}
-      {!auth?.user && !auth?.loading && (<HomeNoUser />)}
-      {auth?.user && (<HomeHasUser />)}
+      {auth.loading && (<HomeLoadingSkeleton />)}
+      {!auth.user && !auth?.loading && (<HomeNoUser />)}
+      {auth.user && (<HomeHasUser />)}
     </>
   )
 }

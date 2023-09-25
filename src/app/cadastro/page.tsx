@@ -25,7 +25,7 @@ export default function Cadastro(){
     const [show, setShow] = useState(false);
     const [error, setError] = useState(initError);
     const router = useRouter();
-    const auth = useAuthContext();
+    const auth: any = useAuthContext();
 
     const onChange = (ev: any) => {
         setError(initError);
@@ -39,7 +39,7 @@ export default function Cadastro(){
             const res = await userService.createUser(form);
 
             if (res === "success") {
-                auth?.getUser();
+                auth.getUser();
                 router.push("/");
                 setLoading(false);
             } else {
@@ -70,12 +70,12 @@ export default function Cadastro(){
             <div className="item-form">
                     <label htmlFor="nome">Nome</label>
                     <input name="nome" autoCorrect='off' autoCapitalize='off' spellCheck="false" onChange={onChange} style={{borderColor: error.nome ? "red" : undefined}}/>
-                    {error.nome ? <p className='error'><AiOutlineWarning/> "nome" não pode estar em branco.</p> : undefined}
+                    {error.nome ? <p className='error'><AiOutlineWarning/> &quot;nome&quot; não pode estar em branco.</p> : undefined}
                 </div>
                 <div className="item-form">
                     <label htmlFor="email">Email</label>
                     <input name="email" autoCorrect='off' autoCapitalize='off' spellCheck="false" onChange={onChange} style={{borderColor: error.email ? "red" : undefined}}/>
-                    {error.email ? <p className='error'><AiOutlineWarning/> "email" não pode estar em branco.</p> : undefined}
+                    {error.email ? <p className='error'><AiOutlineWarning/>  &quot;email &quot; não pode estar em branco.</p> : undefined}
                 </div>
                 <div className="item-form">
                     <label htmlFor="senha">Senha</label>
@@ -85,7 +85,7 @@ export default function Cadastro(){
                             {!show ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
                         </div>
                     </div>
-                    {error.senha ? <p className='error'><AiOutlineWarning/> "senha" não pode estar em branco.</p> : undefined}
+                    {error.senha ? <p className='error'><AiOutlineWarning/>  &quot;senha&quot; não pode estar em branco.</p> : undefined}
                 </div>
                 <button style={{ cursor: loading ? "not-allowed" : undefined }} disabled={loading ? true : false} onClick={() => onSubmit()}>Entrar</button>
             </div>

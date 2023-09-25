@@ -1,8 +1,8 @@
 'use client'
-import { useState} from 'react';
+import { useState } from 'react';
 import './styles/novalista.css';
 
-import {AiOutlineWarning} from 'react-icons/ai';
+import { AiOutlineWarning } from 'react-icons/ai';
 import listaService from '@/services/lista.service';
 
 import { useRouter } from 'next/navigation';
@@ -32,13 +32,13 @@ export default function NovaLista() {
     const [notResImport, setNotResImport] = useState(false);
 
     const router = useRouter();
-    
-    return(
+
+    return (
         <div className="container-novalist">
             <h3 className="title">
                 Nova Lista
             </h3>
-            {notResNew && (<p className='error' style={{marginTop: "10px"}}><AiOutlineWarning/> Algo deu errado! Tente novamente.</p>)}
+            {notResNew && (<p className='error' style={{ marginTop: "10px" }}><AiOutlineWarning /> Algo deu errado! Tente novamente.</p>)}
             <div className="form-nova">
                 <div className="item-form">
                     <label htmlFor="nome">Nome da Lista</label>
@@ -46,24 +46,26 @@ export default function NovaLista() {
                         setNomeList(e.currentTarget.value);
                         setErrorNome(false);
                         setNotResNew(false);
-                    }}/>
-                    {errorNome && <p className='error'><AiOutlineWarning/> O campo "nome" não pode estar em branco</p>}
+                    }} />
+                    {errorNome && <p className='error'><AiOutlineWarning /> O campo &quot;nome&quot; não pode estar em branco</p>}
                 </div>
-                <button style={{cursor: submitting ? "not-allowed" : "pointer"}} disabled={submitting ? true : false} onClick={async () => {
-                    if(!nomeList){
+                <button style={{ cursor: submitting ? "not-allowed" : "pointer" }} disabled={submitting ? true : false} onClick={async () => {
+                    if (!nomeList) {
                         setErrorNome(true);
-                    } else{
+                    } else {
                         setSubmitting(true);
                         setLoadNew(true);
-                        
-                        const res: any = await listaService.addLista(nomeList);
 
-                        setSubmitting(false);
-                        setLoadNew(false);
-                        if(res){
-                            router.push(`/lista/${nomeList.replace(/ /g, "-").toLocaleLowerCase()}?id=${res}`);
-                        }else{
-                            setNotResNew(true);
+                        if (typeof window !== 'undefined') {
+                            const res: any = await listaService.addLista(nomeList);
+
+                            setSubmitting(false);
+                            setLoadNew(false);
+                            if (res) {
+                                router.push(`/lista/${nomeList.replace(/ /g, "-").toLocaleLowerCase()}?id=${res}`);
+                            } else {
+                                setNotResNew(true);
+                            }
                         }
                     }
                 }}>{submitting && loadNew ? (<span className="loader" style={{
@@ -81,46 +83,50 @@ export default function NovaLista() {
             </div>
 
             <h3 className="title">Importar Lista</h3>
-            {notResImport && (<p className='error' style={{marginTop: "10px"}}><AiOutlineWarning/> Algo deu errado! Tente novamente.</p>)}
+            {notResImport && (<p className='error' style={{ marginTop: "10px" }}><AiOutlineWarning /> Algo deu errado! Tente novamente.</p>)}
             <div className="form-nova">
                 <div className="item-form">
                     <label htmlFor="">Nome da Lista</label>
                     <input type="text" name="nome" onChange={(e) => {
-                        setForm({...form, [e.currentTarget.name]: e.currentTarget.value});
+                        setForm({ ...form, [e.currentTarget.name]: e.currentTarget.value });
                         setErrorForm(initError);
                         setNotResImport(false);
-                    }}/>
-                    {errorForm.nome && <p className='error'><AiOutlineWarning/> O campo "nome da lista" não pode estar em branco</p>}
+                    }} />
+                    {errorForm.nome && <p className='error'><AiOutlineWarning /> O campo &quot;nome da lista&quot; não pode estar em branco</p>}
                 </div>
                 <div className="item-form">
                     <label htmlFor="">Código da Lista</label>
                     <input type="text" name="codigo" onChange={(e) => {
-                        setForm({...form, [e.currentTarget.name]: e.currentTarget.value});
+                        setForm({ ...form, [e.currentTarget.name]: e.currentTarget.value });
                         setErrorForm(initError);
                         setNotResImport(false);
-                    }}/>
-                    {errorForm.codigo && <p className='error'><AiOutlineWarning/> O campo "código" não pode estar em branco</p>}
+                    }} />
+                    {errorForm.codigo && <p className='error'><AiOutlineWarning /> O campo &quot;código&quot; não pode estar em branco</p>}
                 </div>
-                <button style={{cursor: submitting ? "not-allowed" : "pointer"}} disabled={submitting ? true : false} onClick={async () => {
-                    if(form.codigo && form.nome){
+                <button style={{ cursor: submitting ? "not-allowed" : "pointer" }} disabled={submitting ? true : false} onClick={async () => {
+                    if (form.codigo && form.nome) {
                         setSubmitting(true);
                         setLoadImport(true);
-                        const res: any = await listaService.importarLista(form);
-                        if(res){
-                            router.push(`/lista/${form.nome.replace(/ /g, "-").toLocaleLowerCase()}?id=${res}`);
-                        }else{
-                            setNotResImport(true);
+
+                        if (typeof window !== 'undefined') {
+                            const res: any = await listaService.importarLista(form);
+                            if (res) {
+                                router.push(`/lista/${form.nome.replace(/ /g, "-").toLocaleLowerCase()}?id=${res}`);
+                            } else {
+                                setNotResImport(true);
+                            }
+
                         }
 
                         setSubmitting(false);
                         setLoadImport(false);
-                    }else{
-                        if(!form.codigo){
-                            setErrorForm({...errorForm, ["codigo"]: true});
+                    } else {
+                        if (!form.codigo) {
+                            setErrorForm({ ...errorForm, ["codigo"]: true });
                         }
 
-                        if(!form.nome){
-                            setErrorForm({...errorForm, ["nome"]: true});
+                        if (!form.nome) {
+                            setErrorForm({ ...errorForm, ["nome"]: true });
                         }
                     }
                 }}>{submitting && loadImport ? (<span className="loader" style={{

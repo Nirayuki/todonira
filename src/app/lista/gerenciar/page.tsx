@@ -12,7 +12,7 @@ import listaService from '@/services/lista.service';
 import { Pagination } from '@/components/Pagination';
 
 export default function Gerenciar() {
-    const auth = useAuthContext();
+    const auth: any = useAuthContext();
     const [data, setData] = useState<any>();
     const router = useRouter();
     const [loading, setLoading] = useState(false);
@@ -29,23 +29,22 @@ export default function Gerenciar() {
     useEffect(() => {
         async function fetchData() {
             setLoading(true);
-            if (auth?.user) {
-                console.log("caindo aq")
-                const res: any = await userService.getUser(auth?.user.id);
 
-                setData(res.listas);
-                setLoading(false);
-            }
+            const res: any = await userService.getUser(auth.user.id);
+
+            setData(res.listas);
+            setLoading(false);
         }
 
-        fetchData();
-    }, [auth?.user]);
+        
+        if(auth.user){
+            fetchData();
+        }
+    }, [auth.user]);
 
     async function fetchData() {
-        if (auth?.user) {
-            const res: any = await userService.getUser(auth?.user.id);
-            setData(res.listas);
-        }
+        const res: any = await userService.getUser(auth?.user.id);
+        setData(res.listas);
     }
 
     const onCancel = () => {
@@ -116,7 +115,7 @@ export default function Gerenciar() {
                             onEdit();
                         }
                     }} onChange={((e) => setEditInput(e.currentTarget.value))}/>
-                    {error && <p className='error'><AiOutlineWarning/> O campo "nome da lista" não pode estar em branco</p>}
+                    {error && <p className='error'><AiOutlineWarning/> O campo &quot;nome da lista&quot; não pode estar em branco</p>}
                 </div>
             </Modal>
             <Modal

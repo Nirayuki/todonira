@@ -34,7 +34,7 @@ class listaService {
   }
 
   deleteLista = async (id) => {
-    try{
+    try {
       const docRef = doc(Collection, id);
 
       await deleteDoc(docRef);
@@ -49,36 +49,36 @@ class listaService {
       await userService.updateUserListas(user.id, listas);
 
       return true
-    }catch(err){
+    } catch (err) {
       return false
     }
   }
 
   updateTodo = async (idLista, todo) => {
-    try{
+    try {
       const docRef = doc(Collection, idLista);
       const lista = await getDoc(docRef);
       let todos = lista.data().todos;
 
       let EditTodo = todos.find(item => item.id === todo.id);
 
-      if(todo.title){
-        if(EditTodo.title){
+      if (todo.title) {
+        if (EditTodo.title) {
           EditTodo.title = todo.title;
         }
-  
-        if(EditTodo.text){
-          EditTodo.text = todo.title; 
+
+        if (EditTodo.text) {
+          EditTodo.text = todo.title;
         }
       }
 
-      if(todo.hasOwnProperty("checked")){
-        if(EditTodo.hasOwnProperty("completed")){
+      if (todo.hasOwnProperty("checked")) {
+        if (EditTodo.hasOwnProperty("completed")) {
           EditTodo.completed = todo.checked;
         }
-  
-        if(EditTodo.hasOwnProperty("checked")){
-          EditTodo.checked = todo.checked; 
+
+        if (EditTodo.hasOwnProperty("checked")) {
+          EditTodo.checked = todo.checked;
         }
       }
 
@@ -87,13 +87,13 @@ class listaService {
       })
 
       return true
-    }catch(err){
+    } catch (err) {
       return false
     }
   }
 
   deleteTodo = async (idLista, idTodo) => {
-    try{
+    try {
       const docRef = doc(Collection, idLista);
       const lista = await getDoc(docRef);
 
@@ -106,14 +106,14 @@ class listaService {
       });
 
       return true
-    }catch(err){
+    } catch (err) {
       console.error(err);
       return false
     }
   }
 
   updateLista = async (lista) => {
-    try{
+    try {
       const localUser = JSON.parse(localStorage.getItem("user"));
 
       const user = await userService.getUser(localUser.id);
@@ -133,7 +133,7 @@ class listaService {
 
       return true
 
-    }catch(err){
+    } catch (err) {
       console.error(err);
       return false
     }
@@ -177,7 +177,6 @@ class listaService {
       const localUser = JSON.parse(localStorage.getItem("user"));
 
       if (!todos.length === 0) {
-        console.log(`Ciau aqui no todos: ${todos}`);
         const res = await addDoc(Collection, {
           title: props.nome,
           todos: todos,
@@ -201,7 +200,7 @@ class listaService {
         await userService.updateUserListas(user.id, listas);
 
         return res.id;
-      }else{
+      } else {
         return false
       }
     } catch (err) {

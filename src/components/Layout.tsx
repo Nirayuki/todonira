@@ -13,7 +13,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
     const dropdownref = useRef<HTMLDivElement | null>(null);
     const router = useRouter();
 
-    const auth = useAuthContext();
+    const auth: any = useAuthContext();
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -46,7 +46,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
                 </a>
                 <div className="navigation">
                     {
-                        !auth?.loading && !auth?.user && (
+                        !auth.loading && !auth.user && (
                             <div className="login-cadastro">
                                 <a href="/login">Login</a>
                                 <a href="/cadastro">Cadastrar</a>
@@ -54,7 +54,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
                         )
                     }
 
-                    {auth?.user && (
+                    {auth.user && (
                         <div className="user-nav">
                             <div className="add" onClick={() => router.push("/lista/nova")}>
                                 <AiOutlinePlus />

@@ -6,11 +6,8 @@ export const HomeNoUser = () => {
       <div className="boasvindas">
           <h1>Boas vindas!</h1>
       </div>
+      <p>Crie sua conta no TODOLIST mais incrível do mundo!</p>
       <div className="line"></div>
-      <h4>Suas listas</h4>
-        <div className="no-user">
-          <p>Faça o login para acessar suas listas.</p>
-        </div>
     </div>
     )
 }

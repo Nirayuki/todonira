@@ -9,7 +9,7 @@ import Skeleton from './Skeleton';
 import { MdOutlineDataObject } from 'react-icons/md';
 
 export const HomeHasUser = () => {
-    const auth = useAuthContext();
+    const auth: any = useAuthContext();
     const [data, setData] = useState<any[]>();
     const router = useRouter();
     const [loading, setLoading] = useState(false);
@@ -26,7 +26,7 @@ export const HomeHasUser = () => {
         }
 
         fetchData()
-    }, [])
+    }, [auth?.user])
 
     return (
         <div className="container">
