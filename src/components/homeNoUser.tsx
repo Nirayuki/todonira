@@ -1,9 +1,9 @@
 import '../styles/homenouser.css'
-import criarlista from '../assets/criar lista.PNG';
-import editarlista from '../assets/editar lista.PNG';
-import gerenciarlistas from '../assets/gerenciar listas.PNG';
-import listashow from '../assets/lista.PNG';
-import listas from '../assets/listas.PNG';
+import criarlista from '../assets/criar lista.png';
+import editarlista from '../assets/editar lista.png';
+import gerenciarlistas from '../assets/gerenciar listas.png';
+import listashow from '../assets/lista.png';
+import listas from '../assets/listas.png';
 import Image from 'next/image';
 
 export const HomeNoUser = () => {
