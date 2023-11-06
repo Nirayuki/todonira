@@ -26,6 +26,10 @@ header {
 
   -webkit-box-align: center;
   align-items: center;
+
+  z-index: 10;
+
+  position: relative;
 }
 
 .boasvindas {
@@ -40,6 +44,7 @@ header {
 .boasvindas h4 {
   margin: 0;
 }
+
 
 .children {
   padding: 0px 20px;
