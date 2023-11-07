@@ -1,10 +1,4 @@
 import '../styles/homenouser.css'
-import criarlista from '../assets/criar lista.png';
-import editarlista from '../assets/editar lista.png';
-import gerenciarlistas from '../assets/gerenciar listas.png';
-import listashow from '../assets/lista.png';
-import listas from '../assets/listas.png';
-import Image from 'next/image';
 
 export const HomeNoUser = () => {
     return (
@@ -18,23 +12,23 @@ export const HomeNoUser = () => {
             <div className="photos">
                 <div className="item_photo">
                     <p>Listas</p>
-                    <Image src={listas} alt="Lista" />
+                    <img src="/listas.png" alt="Lista" />
                 </div>
                 <div className="item_photo">
                     <p>Lista</p>
-                    <Image src={listashow} alt="Lista" />
+                    <img src="/lista.png" alt="Lista" />
                 </div>
                 <div className="item_photo">
                     <p>Criar lista</p>
-                    <Image src={criarlista} alt="Criar lista" />
+                    <img src="/criar_lista.png" alt="Criar lista" />
                 </div>
                 <div className="item_photo">
                     <p>Editar lista</p>
-                    <Image src={editarlista} alt="Editar lista" />
+                    <img src="/editar_lista.png" alt="Editar lista" />
                 </div>
                 <div className="item_photo">
                     <p>Gerenciar lista</p>
-                    <Image src={gerenciarlistas} alt="Gerenciar lista" />
+                    <img src="/gerenciar_listas.png" alt="Gerenciar lista" />
                 </div>
             </div>
         </div>
