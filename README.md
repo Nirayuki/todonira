@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<p align="center">
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/Nirayuki/todo-typescript?color=00acff">
+  <a href="https://github.com/Nirayuki/Portifolio/commits/master">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/Nirayuki/todo-typescript?color=00acff">
+  </a>
+  <img alt="License" src="https://img.shields.io/badge/license-MIT-00acff">
+  <img alt="GitHub Pull Requests" src="https://img.shields.io/github/issues-pr/Nirayuki/todo-typescript?color=00acff" />
+  <a href="https://github.com/Nirayuki/todo-typescript/stargazers">
+    <img alt="Stargazers" src="https://img.shields.io/github/stars/Nirayuki/todo-typescript?color=00acff&logo=github">
+  </a>
+</p>
 
-## Getting Started
+<div align="center">
+  <sub>Nirayuki Todo. Built with 💙 by
+    <a href="https://github.com/Nirayuki">Aron "Nirayuki" Kerkhoven</a> and
+    <a href="https://github.com/Nirayuki/Portifolio/graphs/contributors">
+      contributors
+    </a>
+  </sub>
+</div>
 
-First, run the development server:
+# 📌 Table of Contents
+
+- [📌 Table of Contents](#-table-of-contents)
+- [👀 Demo Website](#-demo-website)
+- [💻 Technologies](#-technologies)
+- [🚀 Features](#-features)
+- [🚧 How to run](#-how-to-run)
+- [🐛 Issues](#-issues)
+- [🎉 Contributing](#-contributing)
+- [📕 License](#-license)
+
+# 👀 Demo Website
+
+👉  Demo: https://todonira.vercel.app/
+
+# 💻 Technologies
+
+This project was made using the follow technologies:
+
+* ReactJS
+* Typescript
+* JSON
+* Styled Components
+* Firebase
+
+# 🚀 Features
+
+Website portifólio
+
+# 🚧 How to run
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Clone Repository
+$ git clone https://github.com/Nirayuki/todo-typescript
+$ Go to folder using terminal
+$ npm (needs npm installed)
+$ npm start (run the project)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+If you want something, wait for `npm build` to be obeyed, and after that open a little change decision!
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# 🐛 Issues
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Feel free to **file a new issue** with a respective title and description on the [NexBoard](https://github.com/Nirayuki/todo-typescript/issues) repository. If you already found a solution to your problem, **i would love to review your pull request**!
 
-## Learn More
+# 🎉 Contributing
 
-To learn more about Next.js, take a look at the following resources:
+First of all, thank you for being interested in helping out, your time is always appreciated in every way. :100:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Here's some tips:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+* Check the [issues page](https://github.com/Nirayuki/todo-typescript/issues) for already opened issues (or maybe even closed ones) that might already address your question/bug/feature request.
+* Feature requests are welcomed! Provide some details on why it would be helpful for you and others, explain how you're using bull-board and if possible even some screenshots if you are willing to mock something!
 
-## Deploy on Vercel
+# 📕 License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Released in 2013
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Made by [Aron Felippe](https://github.com/Nirayuki).
+This project is under the [MIT license](./LICENSE).
+
+
