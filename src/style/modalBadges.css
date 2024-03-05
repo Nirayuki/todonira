@@ -1,0 +1,21 @@
+.modal-badges{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.list-badges{
+    width: 100%;
+
+    display: flex;
+
+    justify-content: space-between;
+}
+
+.content-list{
+    width: 80%;
+
+    display: flex;
+
+    gap: 20px;
+}
